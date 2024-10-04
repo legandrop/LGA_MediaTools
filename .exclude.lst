@@ -1,0 +1,18 @@
+# Archivos comunes relacionados con Git
+.git/
+.gitignore
+.gitattributes
+__pycache__/
+*.pyc
++OLD/
+OLD/
+Building_Blocks/
++Building_Blocks/
++resources/
+Compilar/
++Backup/
++exclude.lst
++Release_Zip.bat
+.exclude.lst
+.DS_Store
+Thumbs.db

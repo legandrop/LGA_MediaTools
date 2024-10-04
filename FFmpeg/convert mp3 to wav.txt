@@ -1,0 +1,5 @@
+ffmpeg -i C:\Users\leg4-pc\Desktop\modulo1.mp3 C:\Users\leg4-pc\Desktop\modulo1.wav
+
+
+en 16bits para whisper:
+ffmpeg -i C:\Users\leg4-pc\Desktop\modulo1.mp3 -ar 16000 -ac 1 -c:a pcm_s16le C:\Users\leg4-pc\Desktop\modulo1_16bit_16kHz.wav

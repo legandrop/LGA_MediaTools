@@ -1,0 +1,17 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos específicos de lenguajes de programación
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+
+# Ignorar todas las carpetas o subcarpetas llamadas +OLD
+LGA_MediaTools.zip
