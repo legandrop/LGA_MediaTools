@@ -15,7 +15,7 @@ Verifica la integridad de archivos EXR en una carpeta y sus subcarpetas recursiv
   - Usa exrcheck (de OpenEXR) para verificar la integridad de cada archivo EXR.
   - Genera un reporte de archivos corruptos, si los hay.
 
-<br />
+
 ### EE_MOV+MXF
 
 Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos específicos.
@@ -31,7 +31,7 @@ Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos esp
   - Crea una versión MXF sin las barras 2.35:1.
   - Renombra los archivos de salida según reglas específicas.
 
-<br />
+
 ### EXR_to_DWAA
 
 Convierte archivos EXR de cualquier compresión a compresión DWAA.
@@ -41,7 +41,7 @@ Convierte archivos EXR de cualquier compresión a compresión DWAA.
   - Utiliza oiiotool para realizar la conversión.
   - La salida se guarda en una nueva carpeta con la compresión DWAA aplicada.
 
-<br />
+
 ### EXR_to_PXR24
 
 Convierte archivos EXR de cualquier compresión a compresión PXR24.
@@ -51,7 +51,7 @@ Convierte archivos EXR de cualquier compresión a compresión PXR24.
   - Utiliza oiiotool para realizar la conversión.
   - La salida se guarda en una nueva carpeta con la compresión PXR24 aplicada.
 
-<br />
+
 ### EXRmC_to_PXR24
 
 Convierte archivos EXR multicanal a archivos EXR individuales por canal, con compresión Pxr24.
@@ -62,7 +62,7 @@ Convierte archivos EXR multicanal a archivos EXR individuales por canal, con com
   - Corrige los nombres de los canales eliminando "FinalImageMovieRenderQueue_" y reemplazando ActorHitProxyMask por CryptoMatte.
   - La salida se guarda en nuevas subcarpetas con los archivos divididos por canal y con la compresión Pxr24 aplicada.
 
-<br />
+
 ### Versioning
 
 Script para versionar archivos .py antes de realizar cambios.
@@ -72,7 +72,7 @@ Script para versionar archivos .py antes de realizar cambios.
   - Copia el archivo a la carpeta +OLD.
   - Asigna un nuevo número de versión.
 
-<br />
+
 ### Release Generator
 
 Script para generar un archivo zip del proyecto, excluyendo ciertos archivos y carpetas.
@@ -82,7 +82,7 @@ Script para generar un archivo zip del proyecto, excluyendo ciertos archivos y c
   - Crea un archivo zip del proyecto LGA_MediaTools.
   - Excluye archivos y carpetas especificados en .exclude.lst.
 
-<br />
+
 ## Requisitos
 
 - FFmpeg, Oiio y OpenColorIO, que son parte de este repositorio.
@@ -90,7 +90,5 @@ Script para generar un archivo zip del proyecto, excluyendo ciertos archivos y c
 - 7-Zip debe estar instalado para el Release Generator.
 
 
-<br />
-<br />
 
 Lega Pugliese | 2024
