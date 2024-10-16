@@ -18,7 +18,7 @@
 #     - FFmpeg, Oiio y OpenColorIO deben estar instalados y configurados.
 #     - Estructura de carpetas específica con _input, FgPlate, y EditRef.
 #
-#   Lega - 2024
+#   Lega - 2024 - v1.6
 # ______________________________________________________________________________________________________________
 
 

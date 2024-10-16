@@ -9,7 +9,7 @@ REM       Arrastra una carpeta con archivos EXR sobre este archivo .bat.
 REM       Este archivo .bat ejecutará un script de PowerShell que se encargará de realizar la conversión.
 REM       Los archivos convertidos se guardarán en una nueva carpeta con la compresión DWAA aplicada.
 REM
-REM   Lega - 2024
+REM   Lega - 2024 - v1.2
 REM ______________________________________________________________________________________________________________
 
 
@@ -28,5 +28,4 @@ set scriptDir=%~dp0
 
 REM Ejecutar el script de PowerShell pasando la ruta de la carpeta
 powershell -ExecutionPolicy Bypass -File "%scriptDir%/LGA_Tools/EXR_to_DWAA.ps1" "%~1"
-
 

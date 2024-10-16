@@ -5,7 +5,7 @@ chcp 65001 >nul
 REM __________________________________________________________________________
 REM
 REM   Versioning.bat v1.4 - 2024 - Lega Pugliese
-REM   Script para versionar archivos .py antes de realizar cambios.
+REM   Script para versionar archivos antes de realizar cambios.
 REM   Copia el archivo a la carpeta +OLD y asigna un nuevo número de versión.
 REM __________________________________________________________________________
 
@@ -63,7 +63,17 @@ REM Verificar si no existe ninguna versión
 if "!version_exists!"=="false" (
     set "newver=1.0"
     echo No existía ninguna versión previa. Se ha creado la versión v!newver!
+    REM Renombrar el archivo directamente aquí
+    ren "%filename%%ext%" "%filename%_v!newver!!ext!"
+    if errorlevel 1 (
+        echo Error al renombrar el archivo.
+        echo Código de error: !errorlevel!
+        pause
+    )
     pause
+    popd
+    endlocal
+    exit /b
 ) else (
     REM Calcular el nuevo número de versión
     set /a newvernum=maxver+1

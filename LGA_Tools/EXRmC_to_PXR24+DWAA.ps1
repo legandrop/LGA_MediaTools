@@ -12,7 +12,7 @@
 #       La carpeta de origen con los archivos EXR se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en nuevas subcarpetas con los archivos divididos por canal y con la compresión correspondiente aplicada.
 #
-#   Lega - 2024
+#   Lega - 2024 - v1.3
 # ____________________________________________________________________________________________________________________________________
 
 

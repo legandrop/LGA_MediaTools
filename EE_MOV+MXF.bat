@@ -20,7 +20,7 @@ REM   Requisitos:
 REM     - FFmpeg, Oiio y OpenColorIO deben estar instalados y configurados.
 REM     - Estructura de carpetas específica con _input, FgPlate, y EditRef.
 REM
-REM   Lega - 2024
+REM   Lega - 2024 - v1.6
 REM ______________________________________________________________________________________________________________
 
 chcp 65001 >nul

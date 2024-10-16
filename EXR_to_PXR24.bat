@@ -9,7 +9,7 @@ REM       Arrastra una carpeta con archivos EXR sobre este archivo .bat.
 REM       Este archivo .bat ejecutará un script de PowerShell que se encargará de realizar la conversión.
 REM       Los archivos convertidos se guardarán en una nueva carpeta con la compresión PXR24 aplicada.
 REM
-REM   Lega - 2024
+REM   Lega - 2024 - v1.1
 REM ______________________________________________________________________________________________________________
 
 
