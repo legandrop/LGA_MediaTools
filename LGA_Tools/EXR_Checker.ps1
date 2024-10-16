@@ -6,47 +6,45 @@
 #     - Opción para verificar solo carpetas que contengan "input" en su nombre.
 #     - Escanea recursivamente todas las subcarpetas.
 #     - Utiliza exrcheck para verificar la integridad de cada archivo EXR encontrado.
-#     - Genera un reporte de archivos corruptos con sus rutas completas.
+#     - Genera un reporte RTF de archivos corruptos con sus rutas completas.
+#     - Permite cancelar la operación presionando la tecla ESC en cualquier momento.
 #   Uso:
 #     Este script es llamado por EXR_Checker.bat al arrastrar una carpeta sobre él.
 #   Requisitos:
 #     - exrcheck debe estar en la carpeta OpenEXR relativa a la ubicación del script.
-#   Lega - 2024 - v1.1
+#   Lega - 2024 - v3.0
 # ______________________________________________________________________________________________________________
 
-# Configurar la codificación de salida a UTF-8
+# Configurar la codificación de salida a UTF-8 para la consola
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-# Función para imprimir en color
-function Write-ColorOutput {
+# Función para escapar caracteres especiales en RTF
+function Escape-RtfString {
     param (
-        [string]$message,
-        [string]$color = "White",
-        [string]$path = "",
-        [string]$status = "",
-        [switch]$newLine = $false
+        [string]$text
     )
-    $validColors = [Enum]::GetNames([System.ConsoleColor])
-    if ($path -ne "") {
-        Write-Host "$path " -NoNewline  # Agregamos un espacio después de la ruta
-    }
-    if ($validColors -contains $color) {
-        if ($status -ne "") {
-            Write-Host "$status" -ForegroundColor $color -NoNewline
-        } else {
-            Write-Host $message -ForegroundColor $color -NoNewline
+    $text = $text -replace '\\', '\\\\'
+    $text = $text -replace '{', '\{'
+    $text = $text -replace '}', '\}'
+    return $text
+}
+
+# Función para verificar si un archivo está bloqueado
+function Test-FileLock {
+    param (
+        [string]$filePath
+    )
+    $locked = $false
+    try {
+        $fileStream = [System.IO.File]::Open($filePath, 'Open', 'ReadWrite', 'None')
+        if ($fileStream) {
+            $fileStream.Close()
         }
     }
-    else {
-        if ($status -ne "") {
-            Write-Host "$status" -NoNewline
-        } else {
-            Write-Host $message -NoNewline
-        }
+    catch {
+        $locked = $true
     }
-    if ($newLine) {
-        Write-Host  # Agregar un salto de línea solo si se especifica
-    }
+    return $locked
 }
 
 # Obtener la ruta del script
@@ -55,34 +53,149 @@ $exrcheckPath = Join-Path (Split-Path -Parent $scriptDir) "OpenEXR\exrcheck.exe"
 
 # Verificar que exrcheck está instalado
 if (-not (Test-Path $exrcheckPath)) {
-    Write-ColorOutput "Error: No se pudo encontrar exrcheck en $exrcheckPath" "Red"
-    Write-ColorOutput "Por favor, asegúrese de que exrcheck.exe está en la carpeta OpenEXR." "Red"
-    exit
+    Write-Host "Error: No se pudo encontrar exrcheck en $exrcheckPath" -ForegroundColor Red
+    Write-Host "Por favor, asegúrese de que exrcheck.exe está en la carpeta OpenEXR." -ForegroundColor Red
+    exit 1
 }
 
 # Verificar que se proporcionó un argumento (ruta de la carpeta)
 if ($args.Count -eq 0) {
-    Write-ColorOutput "Error: No se proporcionó ninguna carpeta como argumento." "Red"
-    exit
+    Write-Host "Error: No se proporcionó ninguna carpeta como argumento." -ForegroundColor Red
+    exit 1
 }
 
 $folderPath = $args[0]
 
 # Verificar que la carpeta existe
 if (-not (Test-Path $folderPath -PathType Container)) {
-    Write-ColorOutput "Error: La carpeta especificada no existe: $folderPath" "Red"
-    exit
+    Write-Host "Error: La carpeta especificada no existe: $folderPath" -ForegroundColor Red
+    exit 1
 }
 
+# Mensaje de inicio sobre cómo cancelar la operación
+Write-Host "Puedes presionar la tecla ESC en cualquier momento para cancelar la operación." -ForegroundColor Yellow
+
+# Crear una variable de sincronización para la cancelación
+$cancelRequested = $false
+
+# Función para escuchar la tecla ESC en segundo plano
+function Start-EscListener {
+    $scriptBlock = {
+        while ($true) {
+            if ([console]::KeyAvailable) {
+                $key = [console]::ReadKey($true)
+                if ($key.Key -eq 'Escape') {
+                    $global:cancelRequested = $true
+                    break
+                }
+            }
+            Start-Sleep -Milliseconds 100
+        }
+    }
+    Start-Job -ScriptBlock $scriptBlock | Out-Null
+}
+
+# Iniciar el listener de la tecla ESC
+Start-EscListener
+
 # Preguntar si se quiere verificar solo las carpetas de input
-$checkOnlyInput = Read-Host "¿Desea verificar solo archivos EXR en carpetas que contengan 'input'? (y/n)"
-$checkOnlyInput = $checkOnlyInput.ToLower() -eq 'y'
+$checkOnlyInput = Read-Host "¿Desea verificar solo archivos EXR en carpetas que contengan 'input'? (s/n)"
+$checkOnlyInput = $checkOnlyInput.ToLower() -eq 's'
+
+# Definir la ruta del reporte RTF
+$reportPath = Join-Path $folderPath "EXR_Checker_Report.rtf"
+
+# Verificar si el archivo RTF está siendo usado por otro proceso
+if (Test-Path $reportPath) {
+    if (Test-FileLock -filePath $reportPath) {
+        Write-Host "Error: El archivo RTF ya está siendo usado por otro proceso. Por favor, ciérrelo e intente de nuevo." -ForegroundColor Red
+        exit 1
+    }
+}
+
+# Función para escribir resúmenes por carpeta en el RTF
+function Write-RTFSummary {
+    param (
+        [string]$folderPath,
+        [array]$corruptFiles
+    )
+    if ($corruptFiles.Count -eq 0) {
+        # Escribir mensaje en verde
+        $escapedFolderPath = Escape-RtfString $folderPath
+        $message = "Todos los archivos en la carpeta: $escapedFolderPath son válidos."
+        $rtfLine = "{\cf2 $message}\par"
+    }
+    else {
+        # Escribir mensaje en dark red y listar archivos corruptos
+        $escapedFolderPath = Escape-RtfString $folderPath
+        $message = "Archivos corruptos encontrados en la carpeta: $escapedFolderPath"
+        $rtfLine = "{\cf6 $message}\par"
+        foreach ($file in $corruptFiles) {
+            $escapedFile = Escape-RtfString $file
+            $rtfLine += "{\cf6  - $escapedFile}\par"
+        }
+    }
+
+    try {
+        $global:rtfWriter.WriteLine($rtfLine)
+        $global:rtfWriter.Flush()
+    }
+    catch {
+        Write-Host "Error al escribir en el archivo RTF: $_" -ForegroundColor Red
+    }
+}
+
+# Función para escribir carpetas saltadas en el RTF
+function Write-RTFSkippedFolder {
+    param (
+        [string]$folderPath
+    )
+    $escapedFolderPath = Escape-RtfString $folderPath
+    $message = "Carpeta saltada (no contiene 'input'): $escapedFolderPath"
+    $rtfLine = "{\cf3 $message}\par"  # cf3 corresponde a Azul
+
+    try {
+        $global:rtfWriter.WriteLine($rtfLine)
+        $global:rtfWriter.Flush()
+    }
+    catch {
+        Write-Host "Error al escribir en el archivo RTF: $_" -ForegroundColor Red
+    }
+}
+
+# Función para imprimir en color en la consola
+function Write-ColorOutput {
+    param (
+        [string]$message,
+        [string]$color = "White",
+        [switch]$newLine = $false
+    )
+    if ($color -ne "White") {
+        if ([Enum]::IsDefined([System.ConsoleColor], $color)) {
+            Write-Host $message -ForegroundColor $color -NoNewline
+        }
+        else {
+            Write-Host $message -NoNewline
+        }
+    }
+    else {
+        Write-Host $message -NoNewline
+    }
+    if ($newLine) {
+        Write-Host
+    }
+}
 
 # Función para procesar carpetas recursivamente
 function Process-Folder {
     param (
         [string]$folderPath
     )
+
+    # Verificar si se ha solicitado cancelar
+    if ($cancelRequested) {
+        throw "Operación cancelada por el usuario."
+    }
 
     $corruptFiles = @()
     $processedFiles = 0
@@ -92,106 +205,187 @@ function Process-Folder {
     # Verificar si la ruta completa contiene "input" si se ha solicitado
     if ($checkOnlyInput) {
         if ($folderPath -notlike "*input*") {
-            Write-ColorOutput "Carpeta saltada (no contiene 'input'):" "Cyan" $folderPath -newLine
-            # Continuar procesando subcarpetas, ya que algunas subcarpetas podrían contener "input"
+            # Consola: imprimir carpeta sin color
+            Write-ColorOutput "$folderPath " "White" -NoNewline
+            # Consola: imprimir mensaje en cyan en la misma línea
+            Write-ColorOutput "Carpeta saltada (no contiene 'input'): $folderPath" "Cyan" -newLine
+            # RTF: escribir carpeta saltada
+            Write-RTFSkippedFolder -folderPath $folderPath
+            # Continuar procesando subcarpetas
             Get-ChildItem -Path $folderPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
                 $subFolderResults = Process-Folder -folderPath $_.FullName
                 $corruptFiles += $subFolderResults.CorruptFiles
                 $processedFiles += $subFolderResults.ProcessedFiles
             }
             return @{
-                CorruptFiles = $corruptFiles
+                CorruptFiles   = $corruptFiles
                 ProcessedFiles = $processedFiles
             }
         }
     }
 
     if ($exrFiles.Count -eq 0) {
-        Write-ColorOutput "Carpeta sin archivos EXR:" "Cyan" $folderPath -newLine
+        # Consola: imprimir carpeta sin archivos EXR en cyan
+        Write-ColorOutput "$folderPath " "White" -NoNewline
+        Write-ColorOutput "Carpeta sin archivos EXR: $folderPath" "Cyan" -newLine
+        # RTF: opcionalmente, podrías escribir esto en el RTF si lo deseas
+        # Write-RTFSkippedFolder -folderPath $folderPath
     }
     else {
         foreach ($file in $exrFiles) {
-            Write-Host "Verificando: " -NoNewline
+            # Verificar si se ha solicitado cancelar
+            if ($cancelRequested) {
+                throw "Operación cancelada por el usuario."
+            }
+
+            Write-Host "Verificando: $($file.FullName)" -NoNewline
             try {
                 $exrcheckOutput = & $exrcheckPath $file.FullName 2>&1
                 if ($LASTEXITCODE -ne 0) {
-                    Write-ColorOutput "" "Red" $file.FullName "Archivo corrupto o con problemas" -newLine
-                    Write-ColorOutput "  Detalles: $exrcheckOutput" "Red" -newLine
+                    Write-ColorOutput "  Archivo corrupto o con problemas" "Red" -newLine
                     $corruptFiles += $file.FullName
                 }
                 else {
-                    Write-ColorOutput "" "Green" $file.FullName "Archivo válido" -newLine
+                    Write-ColorOutput "  Archivo válido" "Green" -newLine
                 }
                 $processedFiles++
             }
             catch {
-                Write-ColorOutput "" "Red" $file.FullName "Error al procesar el archivo" -newLine
-                Write-ColorOutput "  $($_.Exception.Message)" "Red" -newLine
+                Write-ColorOutput "  Error al procesar el archivo" "Red" -newLine
                 $corruptFiles += $file.FullName
                 $processedFiles++
             }
         }
+
+        # Escribir resumen en RTF
+        Write-RTFSummary -folderPath $folderPath -corruptFiles $corruptFiles
     }
 
     # Procesar subcarpetas
     Get-ChildItem -Path $folderPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        # Verificar si se ha solicitado cancelar
+        if ($cancelRequested) {
+            throw "Operación cancelada por el usuario."
+        }
+
         $subFolderResults = Process-Folder -folderPath $_.FullName
         $corruptFiles += $subFolderResults.CorruptFiles
         $processedFiles += $subFolderResults.ProcessedFiles
     }
 
     return @{
-        CorruptFiles = $corruptFiles
+        CorruptFiles   = $corruptFiles
         ProcessedFiles = $processedFiles
     }
 }
 
-Write-Host "Verificando archivos EXR en $folderPath y sus subcarpetas"
-Write-Host ""
+# Inicio del proceso con manejo de interrupciones
+try {
+    # Inicializar el StreamWriter para el reporte RTF con codificación Windows-1252
+    $rtfWriter = New-Object System.IO.StreamWriter($reportPath, $false, [System.Text.Encoding]::GetEncoding(1252))
 
-$results = Process-Folder -folderPath $folderPath
+    # Escribir los encabezados de RTF con fuente Arial, tamaño 6, y colores más oscuros
+    $rtfWriter.WriteLine("{\rtf1\ansi\ansicpg1252\deff0")
+    $rtfWriter.WriteLine("{\fonttbl {\f0 Arial;}}")
+    $rtfWriter.WriteLine("{\colortbl ;\red255\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green100\blue0;\red255\green255\blue0;\red128\green0\blue0;}")
+    $rtfWriter.WriteLine("\f0\fs12\b Reporte de Verificación de Integridad de Archivos EXR\b0\par")
 
-Write-Host ""
+    $fecha = Escape-RtfString (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+    $rtfWriter.WriteLine("Fecha: $fecha\par")
 
-if ($results.ProcessedFiles -eq 0) {
-    Write-ColorOutput "No se encontraron archivos EXR para procesar." "Yellow"
+    $carpetaEscaneada = Escape-RtfString $folderPath
+    $rtfWriter.WriteLine("Carpeta escaneada: $carpetaEscaneada\par")
+
+    # Reemplazar el operador ternario por una estructura if-else
+    if ($checkOnlyInput) {
+        $verificacion = "Sí"
+    }
+    else {
+        $verificacion = "No"
+    }
+    $rtfWriter.WriteLine("Verificando solo carpetas de input: $verificacion\par\par")
+    $rtfWriter.Flush()
+
+    # Guardar el StreamWriter en una variable global para uso en funciones
+    $global:rtfWriter = $rtfWriter
+
+    Write-Host "Verificando archivos EXR en $folderPath y sus subcarpetas"
+    Write-Host "El reporte RTF se generará en: $reportPath"
+    Write-Host ""
+
+    # Escribir información inicial en el reporte RTF (opcional)
+    # Write-RTFSkippedFolder -folderPath "Inicio del reporte"
+
+    # Iniciar el proceso de verificación
+    $results = Process-Folder -folderPath $folderPath
+
+    Write-Host ""
+
+    if ($results.ProcessedFiles -eq 0) {
+        Write-ColorOutput "No se encontraron archivos EXR para procesar." "Yellow" -newLine
+    }
+    elseif ($results.CorruptFiles.Count -eq 0) {
+        Write-ColorOutput "Todos los archivos EXR están intactos." "Green" -newLine
+    }
+    else {
+        Write-ColorOutput "Se encontraron $($results.CorruptFiles.Count) archivos corruptos o con problemas:" "Red" -newLine
+        foreach ($corruptFile in $results.CorruptFiles) {
+            Write-ColorOutput "  $corruptFile" "Red" -newLine
+        }
+    }
+
+    Write-Host ""
+    Write-Host "Verificación completada. Total de archivos procesados: $($results.ProcessedFiles)"
+
+    # Finalizar y cerrar el reporte RTF
+    Write-ColorOutput "Se ha generado un reporte detallado en: $reportPath" "Blue" -newLine
+
 }
-elseif ($results.CorruptFiles.Count -eq 0) {
-    Write-ColorOutput "Todos los archivos EXR están intactos." "Green"
+catch {
+    Write-Host "Error durante el proceso: $_" -ForegroundColor Red
+}
+finally {
+    # Cerrar el documento RTF correctamente
+    if ($global:rtfWriter) {
+        try {
+            $global:rtfWriter.WriteLine("}")
+            $global:rtfWriter.Flush()
+            $global:rtfWriter.Close()
+        }
+        catch {
+            Write-Host "Error al cerrar el archivo RTF: $_" -ForegroundColor Red
+        }
+    }
+    # Detener el listener de ESC si está en ejecución
+    Get-Job | Remove-Job -Force | Out-Null
+}
+
+# Verificar si el archivo se creó
+if (Test-Path $reportPath) {
+    Write-Host "El archivo RTF se creó correctamente." -ForegroundColor Green
+    Write-Host "Tamaño del archivo: $((Get-Item $reportPath).Length) bytes" -ForegroundColor Green
 }
 else {
-    Write-ColorOutput "Se encontraron $($results.CorruptFiles.Count) archivos corruptos o con problemas:" "Red"
-    foreach ($corruptFile in $results.CorruptFiles) {
-        Write-ColorOutput "  $corruptFile" "Red"
+    Write-Host "Error: No se pudo encontrar el archivo RTF después de crearlo." -ForegroundColor Red
+}
+
+# Mostrar los archivos en la carpeta de destino
+Write-Host "Contenido de la carpeta de destino:"
+Get-ChildItem -Path $folderPath | ForEach-Object { 
+    $item = $_
+    if ($item.Name -eq "EXR_Checker_Report.rtf") {
+        Write-Host "$($item.Name) (Tamaño: $($item.Length) bytes)" -ForegroundColor Green
+    }
+    else {
+        Write-Host $item.Name
     }
 }
 
-Write-Host ""
-Write-Host "Verificación completada. Total de archivos procesados: $($results.ProcessedFiles)"
-
-# Generar reporte en un archivo de texto
-$reportPath = Join-Path $folderPath "EXR_Checker_Report.txt"
-$reportContent = @"
-Reporte de verificación de archivos EXR
-Fecha: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss")
-Carpeta escaneada: $folderPath
-Verificando solo carpetas de input: $($checkOnlyInput)
-
-Total de archivos EXR procesados: $($results.ProcessedFiles)
-Archivos corruptos o con problemas: $($results.CorruptFiles.Count)
-
-Lista de archivos corruptos o con problemas:
-"@
-
-if ($results.CorruptFiles.Count -eq 0) {
-    $reportContent += "`nNo se encontraron archivos corruptos o con problemas."
+# Intentar abrir el archivo RTF
+try {
+    Start-Process $reportPath
+    Write-Host "Intentando abrir el archivo RTF..."
 }
-else {
-    foreach ($corruptFile in $results.CorruptFiles) {
-        $reportContent += "`n$corruptFile"
-    }
+catch {
+    Write-Host "No se pudo abrir el archivo RTF automáticamente. Por favor, ábralo manualmente." -ForegroundColor Yellow
 }
-
-$reportContent | Out-File -FilePath $reportPath -Encoding UTF8
-
-Write-ColorOutput "Se ha generado un reporte detallado en:" "Cyan" $reportPath -newLine
