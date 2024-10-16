@@ -15,7 +15,7 @@ REM
 REM   Requisitos:
 REM     - exrcheck debe estar en la carpeta OpenEXR relativa a la ubicación del script.
 REM
-REM   Lega - 2024 - v1.0
+REM   Lega - 2024 - v1.1
 REM ______________________________________________________________________________________________________________
 
 chcp 65001 >nul
