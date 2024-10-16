@@ -69,6 +69,8 @@ if "!version_exists!"=="false" (
         echo Error al renombrar el archivo.
         echo Código de error: !errorlevel!
         pause
+    ) else (
+        REM echo Archivo renombrado exitosamente a %filename%_v!newver!!ext!
     )
     pause
     popd
