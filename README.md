@@ -11,13 +11,15 @@ Este repositorio contiene una colección de herramientas para el procesamiento y
 
 Verifica la integridad de archivos EXR en una carpeta y sus subcarpetas recursivamente.
 
-- **Versión actual**: v1.0
+- **Versión actual**: v1.3
 - **Uso**: Arrastra una carpeta que contenga archivos EXR sobre el archivo EXR_Checker.bat.
 - **Funcionalidades**:
   - Recibe una carpeta arrastrada como argumento.
+  - Opción para verificar solo carpetas que contengan "input" en su nombre.
   - Llama a un script de PowerShell para procesar los archivos EXR.
   - Usa exrcheck (de OpenEXR) para verificar la integridad de cada archivo EXR.
-  - Genera un reporte de archivos corruptos, si los hay.
+  - Genera un reporte RTF de archivos corruptos, si los hay.
+  - Permite cancelar la operación presionando Ctrl+C en cualquier momento.
 - **Requisitos**:
   - OpenEXR (exrcheck), ya incluido en el repositorio.
 

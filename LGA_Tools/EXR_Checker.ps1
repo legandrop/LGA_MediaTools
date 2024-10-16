@@ -7,12 +7,12 @@
 #     - Escanea recursivamente todas las subcarpetas.
 #     - Utiliza exrcheck para verificar la integridad de cada archivo EXR encontrado.
 #     - Genera un reporte RTF de archivos corruptos con sus rutas completas.
-#     - Permite cancelar la operación presionando la tecla ESC en cualquier momento.
+#     - Permite cancelar la operación presionando Ctrl+C en cualquier momento.
 #   Uso:
 #     Este script es llamado por EXR_Checker.bat al arrastrar una carpeta sobre él.
 #   Requisitos:
 #     - exrcheck debe estar en la carpeta OpenEXR relativa a la ubicación del script.
-#   Lega - 2024 - v3.0
+#   Lega - 2024 - v1.3
 # ______________________________________________________________________________________________________________
 
 # Configurar la codificación de salida a UTF-8 para la consola
@@ -72,35 +72,12 @@ if (-not (Test-Path $folderPath -PathType Container)) {
     exit 1
 }
 
-# Mensaje de inicio sobre cómo cancelar la operación
-Write-Host "Puedes presionar la tecla ESC en cualquier momento para cancelar la operación." -ForegroundColor Yellow
-
-# Crear una variable de sincronización para la cancelación
-$cancelRequested = $false
-
-# Función para escuchar la tecla ESC en segundo plano
-function Start-EscListener {
-    $scriptBlock = {
-        while ($true) {
-            if ([console]::KeyAvailable) {
-                $key = [console]::ReadKey($true)
-                if ($key.Key -eq 'Escape') {
-                    $global:cancelRequested = $true
-                    break
-                }
-            }
-            Start-Sleep -Milliseconds 100
-        }
-    }
-    Start-Job -ScriptBlock $scriptBlock | Out-Null
-}
-
-# Iniciar el listener de la tecla ESC
-Start-EscListener
-
 # Preguntar si se quiere verificar solo las carpetas de input
 $checkOnlyInput = Read-Host "¿Desea verificar solo archivos EXR en carpetas que contengan 'input'? (s/n)"
 $checkOnlyInput = $checkOnlyInput.ToLower() -eq 's'
+
+# Mensaje de inicio sobre cómo cancelar la operación
+Write-Host "Puedes presionar Ctrl+C en cualquier momento para cancelar la operación." -ForegroundColor Yellow
 
 # Definir la ruta del reporte RTF
 $reportPath = Join-Path $folderPath "EXR_Checker_Report.rtf"
@@ -119,21 +96,21 @@ function Write-RTFSummary {
         [string]$folderPath,
         [array]$corruptFiles
     )
+    $escapedFolderPath = Escape-RtfString $folderPath
+    $rtfLine = "\par{\cf0 $escapedFolderPath "
+    
     if ($corruptFiles.Count -eq 0) {
-        # Escribir mensaje en verde
-        $escapedFolderPath = Escape-RtfString $folderPath
-        $message = "Todos los archivos en la carpeta: $escapedFolderPath son válidos."
-        $rtfLine = "{\cf2 $message}\par"
+        $message = "Todos los archivos en esta carpeta son válidos.}"
+        $rtfLine += "{\cf4 $message}\par\par"
     }
     else {
-        # Escribir mensaje en dark red y listar archivos corruptos
-        $escapedFolderPath = Escape-RtfString $folderPath
-        $message = "Archivos corruptos encontrados en la carpeta: $escapedFolderPath"
-        $rtfLine = "{\cf6 $message}\par"
+        $message = "Archivos corruptos encontrados en esta carpeta:}"
+        $rtfLine += "{\cf6 $message}\par"
         foreach ($file in $corruptFiles) {
-            $escapedFile = Escape-RtfString $file
+            $escapedFile = Escape-RtfString (Split-Path $file -Leaf)
             $rtfLine += "{\cf6  - $escapedFile}\par"
         }
+        $rtfLine += "\par"
     }
 
     try {
@@ -148,11 +125,12 @@ function Write-RTFSummary {
 # Función para escribir carpetas saltadas en el RTF
 function Write-RTFSkippedFolder {
     param (
-        [string]$folderPath
+        [string]$folderPath,
+        [string]$reason
     )
     $escapedFolderPath = Escape-RtfString $folderPath
-    $message = "Carpeta saltada (no contiene 'input'): $escapedFolderPath"
-    $rtfLine = "{\cf3 $message}\par"  # cf3 corresponde a Azul
+    $rtfLine = "{\cf0 $escapedFolderPath "
+    $rtfLine += "{\cf3 Carpeta saltada: $reason}}\par"
 
     try {
         $global:rtfWriter.WriteLine($rtfLine)
@@ -192,11 +170,6 @@ function Process-Folder {
         [string]$folderPath
     )
 
-    # Verificar si se ha solicitado cancelar
-    if ($cancelRequested) {
-        throw "Operación cancelada por el usuario."
-    }
-
     $corruptFiles = @()
     $processedFiles = 0
 
@@ -205,12 +178,11 @@ function Process-Folder {
     # Verificar si la ruta completa contiene "input" si se ha solicitado
     if ($checkOnlyInput) {
         if ($folderPath -notlike "*input*") {
-            # Consola: imprimir carpeta sin color
+            # Consola: imprimir carpeta y mensaje en la misma línea
             Write-ColorOutput "$folderPath " "White" -NoNewline
-            # Consola: imprimir mensaje en cyan en la misma línea
-            Write-ColorOutput "Carpeta saltada (no contiene 'input'): $folderPath" "Cyan" -newLine
+            Write-ColorOutput "Carpeta saltada (no contiene 'input')" "Cyan" -newLine
             # RTF: escribir carpeta saltada
-            Write-RTFSkippedFolder -folderPath $folderPath
+            Write-RTFSkippedFolder -folderPath $folderPath -reason "No contiene 'input'"
             # Continuar procesando subcarpetas
             Get-ChildItem -Path $folderPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
                 $subFolderResults = Process-Folder -folderPath $_.FullName
@@ -225,19 +197,17 @@ function Process-Folder {
     }
 
     if ($exrFiles.Count -eq 0) {
-        # Consola: imprimir carpeta sin archivos EXR en cyan
+        # Consola: imprimir carpeta y mensaje en la misma línea
         Write-ColorOutput "$folderPath " "White" -NoNewline
-        Write-ColorOutput "Carpeta sin archivos EXR: $folderPath" "Cyan" -newLine
-        # RTF: opcionalmente, podrías escribir esto en el RTF si lo deseas
-        # Write-RTFSkippedFolder -folderPath $folderPath
+        Write-ColorOutput "Carpeta sin archivos EXR" "Cyan" -newLine
+        # RTF: escribir carpeta sin archivos EXR
+        Write-RTFSkippedFolder -folderPath $folderPath -reason "No contiene archivos EXR"
     }
     else {
+        # Eliminar el salto de línea extra antes de procesar los archivos EXR
+        # $global:rtfWriter.WriteLine("\par")
+        
         foreach ($file in $exrFiles) {
-            # Verificar si se ha solicitado cancelar
-            if ($cancelRequested) {
-                throw "Operación cancelada por el usuario."
-            }
-
             Write-Host "Verificando: $($file.FullName)" -NoNewline
             try {
                 $exrcheckOutput = & $exrcheckPath $file.FullName 2>&1
@@ -259,15 +229,13 @@ function Process-Folder {
 
         # Escribir resumen en RTF
         Write-RTFSummary -folderPath $folderPath -corruptFiles $corruptFiles
+        
+        # Eliminar el salto de línea extra después de procesar los archivos EXR
+        # $global:rtfWriter.WriteLine("\par")
     }
 
     # Procesar subcarpetas
     Get-ChildItem -Path $folderPath -Directory -ErrorAction SilentlyContinue | ForEach-Object {
-        # Verificar si se ha solicitado cancelar
-        if ($cancelRequested) {
-            throw "Operación cancelada por el usuario."
-        }
-
         $subFolderResults = Process-Folder -folderPath $_.FullName
         $corruptFiles += $subFolderResults.CorruptFiles
         $processedFiles += $subFolderResults.ProcessedFiles
@@ -287,7 +255,7 @@ try {
     # Escribir los encabezados de RTF con fuente Arial, tamaño 6, y colores más oscuros
     $rtfWriter.WriteLine("{\rtf1\ansi\ansicpg1252\deff0")
     $rtfWriter.WriteLine("{\fonttbl {\f0 Arial;}}")
-    $rtfWriter.WriteLine("{\colortbl ;\red255\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green100\blue0;\red255\green255\blue0;\red128\green0\blue0;}")
+    $rtfWriter.WriteLine("{\colortbl ;\red255\green0\blue0;\red0\green128\blue0;\red0\green0\blue255;\red0\green100\blue0;\red255\green255\blue0;\red128\green0\blue0;\red0\green0\blue0;}")
     $rtfWriter.WriteLine("\f0\fs12\b Reporte de Verificación de Integridad de Archivos EXR\b0\par")
 
     $fecha = Escape-RtfString (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
@@ -356,8 +324,6 @@ finally {
             Write-Host "Error al cerrar el archivo RTF: $_" -ForegroundColor Red
         }
     }
-    # Detener el listener de ESC si está en ejecución
-    Get-Job | Remove-Job -Force | Out-Null
 }
 
 # Verificar si el archivo se creó
