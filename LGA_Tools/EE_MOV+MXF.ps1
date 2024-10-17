@@ -18,14 +18,14 @@
 #     - FFmpeg, Oiio y OpenColorIO deben estar instalados y configurados.
 #     - Estructura de carpetas específica con _input, FgPlate, y EditRef.
 #
-#   Lega - 2024 - v1.6
+#   Lega - 2024 - v1.7
 # ______________________________________________________________________________________________________________
 
 
 # Variable para borrar o no borrar los archivos temporarios para la creacion de la placa
 $DeleteTempFiles = $true
 
-# Obtener la ruta del script
+# Configuración de rutas para las herramientas y recursos necesarios
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $ffmpegPath = Join-Path (Split-Path -Parent $scriptDir) "FFmpeg\ffmpeg.exe"
 $ffprobePath = Join-Path (Split-Path -Parent $scriptDir) "FFmpeg\ffprobe.exe"
@@ -33,12 +33,10 @@ $oiiotoolPath = Join-Path (Split-Path -Parent $scriptDir) "OIIO\oiiotool.exe"
 $ocioConfigPath = Join-Path (Split-Path -Parent $scriptDir) "OCIO\aces_1.2\config.ocio"
 $deliveriesMatPath = "T:\VFX-EE\ASSETS\Materiales_Deliveries"
 
-
-# Configurar la variable de entorno OCIO
+# Configuración de la variable de entorno OCIO para el manejo de color
 $env:OCIO = $ocioConfigPath
 
-
-# Función para pausar y salir solo con ESC y borrar los temp si existen
+# Función para pausar la ejecución y salir, borrando archivos temporales si es necesario
 function Pause-AndExit {
     if ($DeleteTempFiles) {
         Write-Host "Borrando archivos temporales..."
@@ -63,8 +61,7 @@ function Pause-AndExit {
     }
 }
 
-
-# Función para imprimir en color
+# Función para imprimir mensajes en color en la consola
 function Write-ColorOutput {
     param (
         [string]$message,
@@ -95,8 +92,7 @@ if (-not $inputMovFile.EndsWith('.mov', [StringComparison]::OrdinalIgnoreCase)) 
     Pause-AndExit
 }
 
-
-# Verificar si ffmpeg.exe y oiiotool.exe existen
+# Verificación de la existencia de herramientas necesarias
 if (-Not (Test-Path $ffmpegPath)) {
     Write-Host "Error: No se encuentra ffmpeg.exe en la carpeta /FFmpeg/"
     Write-Host "Chequear que ffmpeg.exe exista en: $ffmpegPath"
@@ -112,22 +108,7 @@ if (-Not (Test-Path $ocioConfigPath)) {
     Pause-AndExit
 }
 
-
-
-# Función para imprimir en color
-function Write-ColorOutput {
-    param (
-        [string]$message,
-        [string]$color
-    )
-    $originalColor = $host.UI.RawUI.ForegroundColor
-    $host.UI.RawUI.ForegroundColor = $color
-    Write-Host $message
-    $host.UI.RawUI.ForegroundColor = $originalColor
-}
-
-
-# Función para encontrar el EditRef más reciente:
+# Función para encontrar el archivo EditRef más reciente
 function Find-LatestEditRef {
     param (
         [string]$path
@@ -171,7 +152,7 @@ function Check-FileNameStructure {
     
     Write-Host "Verificando estructura del nombre del archivo:"
     
-    # Verificar que comienza con 'EE-'
+    # Verifica que el nombre comience con 'EE-'
     if ($fileName -match '^EE-') {
         Write-ColorOutput "  Comienza con 'EE-': Correcto" "Green"
     } else {
@@ -179,7 +160,7 @@ function Check-FileNameStructure {
         $isValid = $false
     }
 
-    # Verificar el número de episodio (3 dígitos)
+    # Verifica el número de episodio (3 dígitos)
     if ($fileName -match '^EE-(\d{3})') {
         Write-ColorOutput "  Número de episodio (3 dígitos): Correcto ($($matches[1]))" "Green"
     } else {
@@ -187,7 +168,7 @@ function Check-FileNameStructure {
         $isValid = $false
     }
 
-    # Verificar el formato general
+    # Verifica el formato general del nombre del archivo
     $pattern = '^EE-(\d{3})_(\d+)_(\d+)_([^_]+)_([^_]+)_comp_v(\d+)$'
     if ($fileName -match $pattern) {
         $episode = $matches[1]
@@ -225,7 +206,7 @@ function Check-FileNameStructure {
     return $isValid
 }
 
-# Uso de la función
+# Verifica la estructura del nombre del archivo de entrada
 $fileName = [System.IO.Path]::GetFileNameWithoutExtension($inputMovFile)
 Write-Host "Verificando la estructura del nombre del archivo: $fileName"
 $nameCheckResult = Check-FileNameStructure $fileName
@@ -236,9 +217,6 @@ if (-not $nameCheckResult) {
     Write-ColorOutput "La verificación del nombre del archivo fue exitosa." "Green"
     Write-Host ""
 }
-
-
-
 
 # Función para obtener el número de frames de un archivo de video usando FFprobe
 function Get-VideoFrameCount {
@@ -258,8 +236,6 @@ function Get-VideoFrameCount {
     }
 }
 
-
-
 # Función para obtener el número de frames de una secuencia de imágenes
 function Get-ImageSequenceFrameCount {
     param (
@@ -269,27 +245,25 @@ function Get-ImageSequenceFrameCount {
     return $exrFiles.Count
 }
 
-
-
-# Función para renombrar el archivo
+# Función para renombrar el archivo de salida según las reglas especificadas
 function Rename-OutputFile {
     param (
         [string]$originalName
     )
     
-    # Reemplazar 'EE-' por 'EE_'
+    # Reemplaza 'EE-' por 'EE_'
     $newName = $originalName -replace 'EE-', 'EE_'
     
-    # Eliminar las dos palabras después del tercer bloque de números
+    # Elimina las dos palabras después del tercer bloque de números
     $newName = $newName -replace '^([^\d]*\d+_\d+_\d+)(?:_[^_]+){2}_(.*)$', '$1_$2'
     
-    # Cambiar '_comp' a '_COMP'
+    # Cambia '_comp' a '_COMP'
     $newName = $newName -replace '_comp', '_COMP'
     
-    # Añadir '_WKA' antes del número de versión
+    # Añade '_WKA' antes del número de versión
     $newName = $newName -replace '(v\d+)$', 'WKA_$1'
     
-    # Convertir el nombre completo a mayúsculas
+    # Convierte el nombre completo a mayúsculas
     $newName = $newName.ToUpper()
     
     return $newName
@@ -312,8 +286,7 @@ Write-Host "Nombre original: $originalFileName"
 Write-Host "Nuevo nombre: $newFileName"
 Write-Host ""
 
-
-# Obtener la fecha actual en formato DD/MM/AAAA
+# Obtiene la fecha actual en formato DD/MM/AAAA
 $currentDate = Get-Date -Format "dd/MM/yyyy"
 
 # Función para encontrar la carpeta FgPlate con la versión más alta
@@ -371,7 +344,7 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
     $editRefFrameCount = Get-VideoFrameCount -videoPath $latestEditRefFile
     Write-Host "Número de frames en el archivo EditRef: $editRefFrameCount"
 
-    # Comparar los números de frames
+    # Compara los números de frames
     if ($movFrameCount -eq $exrFrameCount) {
         Write-ColorOutput "Los números de frames coinciden." "Green"
         Write-Host ""
@@ -380,10 +353,10 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
         Pause-AndExit
     }
 
-    # Buscar el primer frame EXR en la carpeta FgPlate
+    # Busca el primer frame EXR en la carpeta FgPlate
     $firstExrFrame = Get-ChildItem -Path $latestFgPlateFolder -Filter "*.exr" | Select-Object -First 1
 
-    # Variables para el thumb
+    # Define variables para la creación de la placa con thumbnail y textos
     $thumbRightMargin = 27
     $thumbTopMargin = 48
 
@@ -408,7 +381,7 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
     $frameCountTopMargin = 752
     $mediaColorTopMargin = 786 
 
-    # Extraer Episode y Scene del nombre del archivo
+    # Extrae Episode y Scene del nombre del archivo
     $fileNameParts = $newFileName -split '_'
     $episode = $fileNameParts[1]
     $scene = $fileNameParts[2]
@@ -416,14 +389,13 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
     # Escapar los caracteres especiales en el texto del conteo de frames
     $frameCountText = "EditRef\: $editRefFrameCount        EXR\: $exrFrameCount"      
 
-    # Definir MediaColor
+    # Define MediaColor
     $mediaColorText = "Rec709"
-
 
     if ($firstExrFrame) {
         $thumbPath = Join-Path $deliveriesMatPath "thumb_temp.jpg"
 
-        # Convertir EXR a JPG usando oiiotool con conversión de color
+        # Convierte EXR a JPG usando oiiotool con conversión de color ACES a Rec.709
         $oiiotoolArgs = @(
             $firstExrFrame.FullName,
             "--colorconvert", "ACES - ACES2065-1", "Output - Rec.709",
@@ -439,11 +411,11 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
             if (Test-Path $thumbPath) {
                 Write-Host "Thumbnail guardado exitosamente en: $thumbPath"
 
-                # Insertar el thumbnail en Placa_template_HD.jpg y agregar texto usando FFmpeg
+                # Inserta el thumbnail en Placa_template_HD.jpg y agrega texto usando FFmpeg
                 $placaTemplatePath = Join-Path $deliveriesMatPath "Placa_template_HD.jpg"
                 $placaTemplateOutputPath = Join-Path $deliveriesMatPath "Placa_template_HD_temp.png"
 
-
+                # Prepara los argumentos para FFmpeg para crear la placa con thumbnail y textos
                 $ffmpegPlacaArgs = @(
                     "-y",
                     "-i", $placaTemplatePath,
@@ -455,12 +427,8 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
                     $placaTemplateOutputPath
                 )
 
-
                 Write-Host "Insertando thumbnail y texto en Placa_template_HD.jpg usando FFmpeg..."
                 & $ffmpegPath @ffmpegPlacaArgs
-
-
-
 
                 if (Test-Path $placaTemplateOutputPath) {
                     Write-ColorOutput "Placa con thumbnail y texto creada exitosamente: $placaTemplateOutputPath" "Green"
@@ -481,8 +449,6 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
         Write-Host "No se encontraron archivos EXR en la carpeta FgPlate."
         Pause-AndExit
     }
-
-    # ... (resto del código sin cambios) ...
 } else {
     if (-not $latestFgPlateFolder) {
         Write-Host "No se pudo encontrar una carpeta FgPlate válida."
@@ -496,19 +462,17 @@ if ($latestFgPlateFolder -and $latestEditRefFile) {
 Write-Host ""
 Write-Host ""
 
-# Obtener el framerate del video de entrada
+# Obtiene el framerate del video de entrada
 $framerateOutput = & $ffprobePath -v error -select_streams v:0 -of default=noprint_wrappers=1:nokey=1 -show_entries stream=r_frame_rate $inputMovFile
 $framerate = ($framerateOutput -split '/')[0]
 Write-Host "Framerate del video de entrada: $framerate"
 
-
-# Obtener información sobre las pistas de audio
+# Verifica si el video de entrada tiene pistas de audio
 $hasAudio = & $ffprobePath -v error -select_streams a -count_packets -show_entries stream=codec_type -of csv=p=0 $inputMovFile
 $audioMapping = if ($hasAudio) { @("-map", "1:a?") } else { @() }
 
-
-# Usar el $movFrameCount que ya obtuvimos anteriormente
-$newDuration = $movFrameCount + 1  # Añadimos 1 frame para la placa
+# Calcula la nueva duración del video incluyendo la placa
+$newDuration = $movFrameCount + 1  # Añade 1 frame para la placa
 Write-Host "Duración original del video: $movFrameCount frames"
 Write-Host "Nueva duración del video con placa: $newDuration frames"
 
@@ -518,13 +482,13 @@ $fontPath = 'C\:\\Windows\\Fonts\\OpenSans-Regular.ttf'
 $videoInfo = & $ffprobePath -v error -select_streams v:0 -count_packets -show_entries stream=width,height -of csv=p=0 $inputMovFile
 $width, $height = $videoInfo -split ','
 
-# Calcular la nueva altura manteniendo la relación de aspecto
+# Calcula la nueva altura manteniendo la relación de aspecto
 $newHeight = [math]::Floor((1920 * [int]$height / [int]$width) / 2) * 2
 
 Write-Host "Dimensiones originales: $width x $height"
 Write-Host "Nueva altura calculada: $newHeight"
 
-# Actualizar el comando FFmpeg con el escalado Lanczos y las barras semitransparentes
+# Prepara los argumentos para FFmpeg para crear el archivo MOV final
 $ffmpegArgs = @(
     "-y",
     "-loop", "1", "-t", "0.04167", "-framerate", $framerate, "-i", $placaTemplateOutputPath,
@@ -555,7 +519,7 @@ $ffmpegArgs += @(
     $outputFile
 )
 
-# Ejecutar FFmpeg
+# Ejecuta FFmpeg para crear el archivo MOV final
 Write-Host "Ejecutando FFmpeg..."
 Write-Host "Comando: $ffmpegPath $($ffmpegArgs -join ' ')"
 Write-Host "Procesando... Por favor, espere."
@@ -574,7 +538,7 @@ try {
     Pause-AndExit
 }
 
-
+# Prepara el nombre del archivo MXF de salida
 $mxfOutputFile = [System.IO.Path]::ChangeExtension($outputFile, "mxf")
 
 # Comando FFmpeg para convertir a MXF sin las barras 2.35:1
@@ -603,7 +567,7 @@ $ffmpegMxfArgs += @(
     $mxfOutputFile
 )
 
-# Ejecutar FFmpeg para crear el archivo MXF
+# Ejecuta FFmpeg para crear el archivo MXF
 Write-Host "Convirtiendo a MXF sin las barras 2.35:1..."
 Write-Host "Comando: $ffmpegPath $($ffmpegMxfArgs -join ' ')"
 Write-Host "Procesando... Por favor, espere."
@@ -622,6 +586,5 @@ try {
     Pause-AndExit
 }
 
-
-
+# Finaliza el script
 Pause-AndExit
