@@ -14,4 +14,4 @@ venv/
 ENV/
 
 # Ignorar todas las carpetas o subcarpetas llamadas +OLD
-LGA_MediaTools.zip
+LGA_MediaTools*.zip
