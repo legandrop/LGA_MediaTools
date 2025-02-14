@@ -62,6 +62,21 @@ Convierte archivos EXR de cualquier compresión a compresión DWAA.
 
 <br>
 
+
+### EXR_to_PIZ
+
+Convierte archivos EXR de cualquier compresión a compresión PIZ.
+
+- **Versión actual**: v1.0
+- **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXR_to_PIZ.bat.
+- **Funcionalidades**:
+  - Utiliza oiiotool para realizar la conversión.
+  - La salida se guarda en una nueva carpeta con la compresión PIZ aplicada.
+- **Requisitos**:
+  - OIIO (oiiotool), ya incluido en el repositorio.
+
+<br>
+
 ### EXR_to_PXR24
 
 Convierte archivos EXR de cualquier compresión a compresión PXR24.
