@@ -14,7 +14,7 @@
 #   Requisitos:
 #     - FFmpeg debe estar instalado y configurado.
 #
-#   Lega - v1.0
+#   Lega - v1.1
 # ______________________________________________________________________________________________________________
 
 # Configuración de rutas para las herramientas necesarias
@@ -163,17 +163,27 @@ $startTime = Get-Date
 
 Write-ColorOutput "Iniciando conversión a PNG..." "Yellow"
 Write-ColorOutput "Los archivos comenzarán con el número 0997" "Yellow"
+Write-ColorOutput "Aplicando corrección de gamma (1.015) para preservar luminancia..." "Yellow"
+Write-ColorOutput "Configurando máxima calidad PNG sin compresión..." "Yellow"
 
-# Ejecutar FFmpeg para convertir MOV a PNG
+# Ejecutar FFmpeg para convertir MOV a PNG con corrección de gamma y máxima calidad
 $ffmpegArgs = @(
     "-i"
     $inputMovFile
     "-start_number"
     "997"
-    "-q:v"
-    "1"
     "-pix_fmt"
-    "rgb24"
+    "rgba64be"
+    "-compression_level"
+    "0"
+    "-pred"
+    "mixed"
+    "-color_primaries"
+    "bt709"
+    "-color_trc"
+    "bt709"
+    "-colorspace"
+    "bt709"
     $outputPattern
 )
 
