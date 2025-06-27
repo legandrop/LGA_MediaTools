@@ -20,6 +20,8 @@ Verifica la integridad de archivos EXR en una carpeta y sus subcarpetas recursiv
   - Usa exrcheck (de OpenEXR) para verificar la integridad de cada archivo EXR.
   - Genera un reporte RTF de archivos corruptos, si los hay.
   - Permite cancelar la operación presionando Ctrl+C en cualquier momento.
+  - Muestra progreso en tiempo real con códigos de color para indicar estado de archivos.
+  - Escribe resúmenes por carpeta indicando archivos válidos o corruptos encontrados.
 - **Requisitos**:
   - OpenEXR (exrcheck), ya incluido en el repositorio.
 
@@ -29,7 +31,7 @@ Verifica la integridad de archivos EXR en una carpeta y sus subcarpetas recursiv
 
 Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos específicos.
 
-- **Versión actual**: v1.6
+- **Versión actual**: v1.7
 - **Uso**: Arrastra un archivo .MOV sobre el archivo EE_MOV+MXF.bat.
 - **Funcionalidades**:
   - Verifica la estructura del nombre del archivo de entrada.
@@ -40,6 +42,8 @@ Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos esp
   - Produce un archivo MOV con barras negras semitransparentes 2.35:1, placa inicial y textos.
   - Crea una versión MXF sin las barras 2.35:1.
   - Renombra los archivos de salida según reglas específicas.
+  - Convierte colores de ACES a Rec.709 para el thumbnail.
+  - Utiliza códecs ProRes para MOV y DNxHD para MXF.
 - **Requisitos**:
   - FFmpeg, ya incluido en el repositorio.
   - OIIO (oiiotool), ya incluido en el repositorio.
@@ -56,12 +60,35 @@ Convierte archivos EXR de cualquier compresión a compresión DWAA.
 - **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXR_to_DWAA.bat.
 - **Funcionalidades**:
   - Utiliza oiiotool para realizar la conversión.
+  - Aplica compresión DWAA con calidad 60.
+  - Maneja automáticamente renombrado de canales específicos.
+  - Muestra progreso en tiempo real con información de tamaños de archivo.
+  - Calcula y muestra tiempo total de procesamiento.
+  - Reemplaza "piz" por "dwaa" en nombres de carpetas o agrega "-dwaa" al final.
   - La salida se guarda en una nueva carpeta con la compresión DWAA aplicada.
 - **Requisitos**:
   - OIIO (oiiotool), ya incluido en el repositorio.
 
 <br>
 
+### EXR_to_ZIP
+
+Convierte archivos EXR de cualquier compresión a compresión ZIP.
+
+- **Versión actual**: v1.0
+- **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXR_to_ZIP.bat.
+- **Funcionalidades**:
+  - Utiliza oiiotool para realizar la conversión.
+  - Aplica compresión ZIP para reducir tamaño de archivos.
+  - Maneja automáticamente renombrado de canales específicos.
+  - Muestra progreso en tiempo real con información de tamaños de archivo.
+  - Calcula y muestra tiempo total de procesamiento.
+  - Si la carpeta contiene "dwaa", se cambiará por "zip", sino se agregará "-zip" al final.
+  - La salida se guarda en una nueva carpeta con la compresión ZIP aplicada.
+- **Requisitos**:
+  - OIIO (oiiotool), ya incluido en el repositorio.
+
+<br>
 
 ### EXR_to_PIZ
 
@@ -71,6 +98,11 @@ Convierte archivos EXR de cualquier compresión a compresión PIZ.
 - **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXR_to_PIZ.bat.
 - **Funcionalidades**:
   - Utiliza oiiotool para realizar la conversión.
+  - Aplica compresión PIZ para archivos de alta calidad.
+  - Maneja automáticamente renombrado de canales específicos.
+  - Muestra progreso en tiempo real con información de tamaños de archivo.
+  - Calcula y muestra tiempo total de procesamiento.
+  - Si la carpeta contiene "dwaa", se cambiará por "piz", sino se agregará "-piz" al final.
   - La salida se guarda en una nueva carpeta con la compresión PIZ aplicada.
 - **Requisitos**:
   - OIIO (oiiotool), ya incluido en el repositorio.
@@ -85,6 +117,13 @@ Convierte archivos EXR de cualquier compresión a compresión PXR24.
 - **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXR_to_PXR24.bat.
 - **Funcionalidades**:
   - Utiliza oiiotool para realizar la conversión.
+  - Aplica compresión PXR24 para balance entre calidad y tamaño.
+  - Maneja automáticamente renombrado de canales específicos.
+  - Elimina "FinalImageMovieRenderQueue_" y reemplaza "ActorHitProxyMask" por "Cryptomatte".
+  - Maneja casos especiales como "FinalImagePPM_MRQ_05_SceneDepth" a "MRQ_SceneDepth".
+  - Muestra progreso en tiempo real con información de tamaños de archivo.
+  - Calcula y muestra tiempo total de procesamiento.
+  - Reemplaza "piz" por "pxr24" en nombres o agrega "-pxr24" al final.
   - La salida se guarda en una nueva carpeta con la compresión PXR24 aplicada.
 - **Requisitos**:
   - OIIO (oiiotool), ya incluido en el repositorio.
@@ -96,10 +135,16 @@ Convierte archivos EXR de cualquier compresión a compresión PXR24.
 Convierte archivos EXR multicanal a archivos EXR individuales por canal, con compresión Pxr24.
 
 - **Versión actual**: v1.4
-- **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXRmC_to_PXR24.bat.
+- **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXRmCh_to_PXR24.bat.
 - **Funcionalidades**:
   - Utiliza oiiotool para realizar la conversión y exrheader para leer los canales.
+  - Separa automáticamente archivos multicanal en archivos individuales por canal.
   - Corrige los nombres de los canales eliminando "FinalImageMovieRenderQueue_" y reemplazando ActorHitProxyMask por CryptoMatte.
+  - Maneja casos especiales de renombrado de canales específicos.
+  - Agrupa canales con numeración consecutiva automáticamente.
+  - Inserta nombres de canal en posiciones apropiadas del nombre de archivo.
+  - Calcula tamaños totales originales vs convertidos.
+  - Muestra tiempo total de procesamiento.
   - La salida se guarda en nuevas subcarpetas con los archivos divididos por canal y con la compresión Pxr24 aplicada.
 - **Requisitos**:
   - OIIO (oiiotool), ya incluido en el repositorio.
@@ -112,11 +157,17 @@ Convierte archivos EXR multicanal a archivos EXR individuales por canal, con com
 Convierte archivos EXR multicanal a archivos EXR individuales por canal, con compresión Pxr24 y DWAA.
 
 - **Versión actual**: v1.3
-- **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXRmC_to_PXR24+DWAA.bat.
+- **Uso**: Arrastra una carpeta con archivos EXR sobre el archivo EXRmCh_to_PXR24+DWAA.bat.
 - **Funcionalidades**:
   - Utiliza oiiotool para realizar la conversión y exrheader para leer los canales.
+  - Separa automáticamente archivos multicanal en archivos individuales por canal.
   - Corrige los nombres de los canales eliminando "FinalImageMovieRenderQueue_" y reemplazando ActorHitProxyMask por CryptoMatte.
   - El canal RGBA se convierte a DWAA, mientras que los demás canales se convierten a Pxr24.
+  - Aplica compresión inteligente según el tipo de canal (RGBA=DWAA, otros=Pxr24).
+  - Agrupa canales con numeración consecutiva automáticamente.
+  - Maneja renombrado inteligente de archivos según compresión aplicada.
+  - Calcula tamaños totales originales vs convertidos.
+  - Muestra tiempo total de procesamiento.
   - La salida se guarda en nuevas subcarpetas con los archivos divididos por canal y con la compresión correspondiente aplicada.
 - **Requisitos**:
   - OIIO (oiiotool), ya incluido en el repositorio.
