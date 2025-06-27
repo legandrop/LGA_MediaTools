@@ -76,6 +76,27 @@ Convierte secuencias EXR en ACES 2065-1 a archivos MOV en Rec.709 usando ProRes 
 
 <br>
 
+### MOV_to_PNG_997
+
+Convierte archivos MOV a secuencias de archivos PNG comenzando desde el frame 0997.
+
+- **Versión actual**: v1.0
+- **Uso**: Arrastra un archivo .MOV sobre el archivo MOV_to_PNG_997.bat.
+- **Funcionalidades**:
+  - Acepta archivos .MOV arrastrados al .bat.
+  - Crea una subcarpeta con el nombre del archivo MOV (sin extensión).
+  - Si la carpeta ya existe y contiene archivos, agrega un número al final para crear una carpeta única.
+  - Genera una secuencia PNG numerada comenzando desde 0997 (4 dígitos).
+  - Preserva la calidad de video original en formato PNG con máxima calidad.
+  - Muestra información detallada del video (resolución, frame rate, duración, total de frames).
+  - Calcula y muestra tiempo total de procesamiento y tamaño de archivos generados.
+  - Utiliza formato RGB24 para compatibilidad máxima.
+  - Nomenclatura de archivos: `nombre_archivo_0997.png`, `nombre_archivo_0998.png`, etc.
+- **Requisitos**:
+  - FFmpeg, ya incluido en el repositorio.
+
+<br>
+
 ### EXR_to_DWAA
 
 Convierte archivos EXR de cualquier compresión a compresión DWAA.
