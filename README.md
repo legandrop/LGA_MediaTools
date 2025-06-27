@@ -52,6 +52,30 @@ Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos esp
 
 <br>
 
+### EXR_to_MOV_LT
+
+Convierte secuencias EXR en ACES 2065-1 a archivos MOV en Rec.709 usando ProRes LT.
+
+- **Versión actual**: v1.0
+- **Uso**: Arrastra una carpeta con una secuencia EXR sobre el archivo EXR_to_MOV_LT.bat.
+- **Funcionalidades**:
+  - Detecta automáticamente el patrón de numeración de frames en la secuencia EXR.
+  - Convierte automáticamente el espacio de color de ACES 2065-1 a Rec.709 usando OpenColorIO.
+  - Proceso de dos pasos: oiiotool para conversión de color + FFmpeg para crear MOV.
+  - Genera archivos MOV con compresión ProRes LT (profile 1) en formato YUV 422 10-bit.
+  - El archivo de salida se guarda en el directorio padre de la carpeta arrastrada.
+  - El nombre del archivo MOV se toma del nombre de la carpeta de origen.
+  - Limpieza automática de archivos temporales.
+  - Muestra progreso en tiempo real con información detallada del proceso.
+  - Calcula y muestra tiempo total de procesamiento y tamaño del archivo generado.
+  - Maneja automáticamente secuencias con diferentes números de frame inicial.
+- **Requisitos**:
+  - FFmpeg, ya incluido en el repositorio.
+  - OIIO (oiiotool), ya incluido en el repositorio.
+  - OpenColorIO, ya incluido en el repositorio.
+
+<br>
+
 ### EXR_to_DWAA
 
 Convierte archivos EXR de cualquier compresión a compresión DWAA.
