@@ -11,7 +11,7 @@
 #       5. Los archivos EXR convertidos se guardarán en la siguiente ubicación:
 #          [Carpeta_del_Shot_Encontrada]\_input\[Nombre_del_Plate]\n#       6. Los archivos de salida serán renombrados a '[Nombre_del_Plate]_[Número_de_Frame_4_dígitos].exr'.
 #
-#   Lega - v1.0
+#   Lega - v1.1
 # ______________________________________________________________________________________________________________
 
 
@@ -224,10 +224,13 @@ $startTime = Get-Date
 Write-Host "Iniciando conversion..." -ForegroundColor Cyan
 Write-Host ""
 
+# DWA compression level (OpenEXR DWA usa 'level', no 'quality').
+$dwaaLevel = 60
+Write-Host "Usando compresion: dwaa (level=$dwaaLevel)" -ForegroundColor Yellow
+
 # Process EXR files
 foreach ($file in $files) {
     $currentFile++
-    $originalFileName = $file.BaseName
 
     Write-Host "Procesando archivo: $($file.Name)" -ForegroundColor Yellow
 
@@ -247,7 +250,9 @@ foreach ($file in $files) {
     $totalOriginalSize += $originalSize
     
     # Use Start-Process to handle spaces in paths
-    $arguments = """$($file.FullName)"" --compression dwaa:quality=60 -o ""$outputPath"""
+    # Nota: Para DWA en EXR, el parametro correcto es 'level' (no 'quality').
+    # Ademas, establecemos explicitamente el atributo EXR 'dwaCompressionLevel' para compatibilidad.
+    $arguments = """$($file.FullName)"" --compression dwaa --attrib:type=float exr:dwaCompressionLevel $dwaaLevel -o ""$outputPath"""
     Write-Host "  Ejecutando: $oiiotoolPath $arguments" -ForegroundColor Gray
     
     $process = Start-Process -FilePath $oiiotoolPath -ArgumentList $arguments -NoNewWindow -Wait -PassThru
