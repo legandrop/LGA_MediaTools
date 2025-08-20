@@ -99,9 +99,54 @@ $frameRange = "$minFrame-$maxFrame"
 Write-Host "FRAME RANGE ENCONTRADO: $frameRange" -ForegroundColor Green
 
 Write-Host ""
+Write-Host "=== PASO 3: CREANDO ESTRUCTURA DE CARPETAS ===" -ForegroundColor Cyan
+
+# Determine shot folder path
+$shotFolderPath = (Get-Item $sourcePath).Parent.Parent.FullName
+Write-Host "Carpeta del shot: $shotFolderPath" -ForegroundColor Yellow
+
+# Create comp structure
+$compPath = Join-Path $shotFolderPath "Comp"
+$publishPath = Join-Path $compPath "4_publish"
+$finalDestPath = Join-Path $publishPath "${shotName}_comp_v00"
+
+Write-Host "Creando estructura:" -ForegroundColor Yellow
+Write-Host "  Comp: $compPath" -ForegroundColor Gray
+Write-Host "  4_publish: $publishPath" -ForegroundColor Gray
+Write-Host "  Final: $finalDestPath" -ForegroundColor Gray
+
+# Create directories
+if (-Not (Test-Path $compPath)) {
+    Write-Host "Creando carpeta Comp..." -ForegroundColor Yellow
+    New-Item -Path $compPath -ItemType Directory -Force | Out-Null
+    Write-Host "✓ Carpeta Comp creada" -ForegroundColor Green
+} else {
+    Write-Host "✓ Carpeta Comp ya existe" -ForegroundColor Green
+}
+
+if (-Not (Test-Path $publishPath)) {
+    Write-Host "Creando carpeta 4_publish..." -ForegroundColor Yellow
+    New-Item -Path $publishPath -ItemType Directory -Force | Out-Null
+    Write-Host "✓ Carpeta 4_publish creada" -ForegroundColor Green
+} else {
+    Write-Host "✓ Carpeta 4_publish ya existe" -ForegroundColor Green
+}
+
+if (-Not (Test-Path $finalDestPath)) {
+    Write-Host "Creando carpeta destino..." -ForegroundColor Yellow
+    New-Item -Path $finalDestPath -ItemType Directory -Force | Out-Null
+    Write-Host "✓ Carpeta destino creada" -ForegroundColor Green
+} else {
+    Write-Host "✓ Carpeta destino ya existe" -ForegroundColor Green
+}
+
+Write-Host "ESTRUCTURA CREADA: $finalDestPath" -ForegroundColor Green
+
+Write-Host ""
 Write-Host "RESULTADO:" -ForegroundColor DarkGreen
 Write-Host "Shot Name: $shotName" -ForegroundColor DarkGreen
 Write-Host "Frame Range: $frameRange" -ForegroundColor DarkGreen
+Write-Host "Carpeta creada: $finalDestPath" -ForegroundColor DarkGreen
 Write-Host ""
 Write-Host "Presione cualquier tecla para salir" -ForegroundColor DarkYellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
