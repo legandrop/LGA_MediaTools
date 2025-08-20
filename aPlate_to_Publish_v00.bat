@@ -6,7 +6,7 @@ REM   Genera placeholders EXR negros para compositing basándose en el frame ran
 REM   Este script Batch actúa como un lanzador para un script de PowerShell más complejo.
 REM
 REM   Uso:
-REM       1. Arrastra una carpeta con secuencia EXR sobre este archivo .bat.
+REM       1. Arrastra una carpeta con un plate EXR (de la carpeta input) sobre este archivo .bat.
 REM       2. La carpeta debe estar ubicada en: shotname/input/nombre_de_sequencia
 REM       3. El script extraerá automáticamente:
 REM          - El shotname desde la ruta de la carpeta

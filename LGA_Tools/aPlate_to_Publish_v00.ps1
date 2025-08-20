@@ -155,6 +155,49 @@ Write-Host "  Nombre: $($templateFile.Name)" -ForegroundColor Gray
 Write-Host "  Tamano: $($templateFile.Length) bytes" -ForegroundColor Gray
 Write-Host "  Fecha: $($templateFile.LastWriteTime)" -ForegroundColor Gray
 
+# COPIAR TODOS LOS FRAMES DEL RANGE
+Write-Host ""
+Write-Host "=== COPIANDO TODOS LOS FRAMES ===" -ForegroundColor Cyan
+
+$totalFrames = ($maxFrame - $minFrame) + 1
+Write-Host "Generando $totalFrames archivos desde frame $minFrame hasta $maxFrame..." -ForegroundColor Yellow
+Write-Host ""
+
+$currentFrame = 0
+$successCount = 0
+$errorCount = 0
+
+for ($frame = $minFrame; $frame -le $maxFrame; $frame++) {
+    $currentFrame++
+    
+    $frameFormatted = $frame.ToString("0000")
+    $outputFileName = "${shotName}_comp_v00_${frameFormatted}.exr"
+    $outputPath = Join-Path $finalDestPath $outputFileName
+    
+    Write-Host "[$currentFrame/$totalFrames] $outputFileName" -ForegroundColor Gray
+    
+    try {
+        Copy-Item -Path $blackExrTemplate -Destination $outputPath -Force
+        
+        if (Test-Path $outputPath) {
+            Write-Host "  OK" -ForegroundColor DarkGreen
+            $successCount++
+        } else {
+            Write-Host "  ERROR: No se creo" -ForegroundColor Red
+            $errorCount++
+        }
+    }
+    catch {
+        Write-Host "  ERROR: $($_.Exception.Message)" -ForegroundColor Red
+        $errorCount++
+    }
+}
+
+Write-Host ""
+Write-Host "GENERACION COMPLETADA:" -ForegroundColor Green
+Write-Host "  Archivos creados: $successCount" -ForegroundColor Green
+Write-Host "  Errores: $errorCount" -ForegroundColor $(if ($errorCount -gt 0) { "Red" } else { "Green" })
+
 # RESULTADO FINAL
 Write-Host ""
 Write-Host "=== RESULTADO ===" -ForegroundColor DarkGreen
@@ -162,6 +205,7 @@ Write-Host "Shot Name: $shotName" -ForegroundColor DarkGreen
 Write-Host "Frame Range: $frameRange" -ForegroundColor DarkGreen
 Write-Host "Carpeta creada: $finalDestPath" -ForegroundColor DarkGreen
 Write-Host "Template verificado: OK" -ForegroundColor DarkGreen
+Write-Host "Frames generados: $successCount/$totalFrames" -ForegroundColor DarkGreen
 Write-Host ""
 Write-Host "Presione cualquier tecla para salir" -ForegroundColor DarkYellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
