@@ -1,10 +1,4 @@
-# ______________________________________________________________________________________________________________
-#
-#   Genera placeholders EXR negros - VERSION SIMPLE
-#   Solo extrae el shotname de la ruta
-#
-#   Lega - v2.1
-# ______________________________________________________________________________________________________________
+# Genera placeholders EXR negros para compositing
 
 Write-Host "=== GENERADOR DE PLACEHOLDERS EXR ===" -ForegroundColor Cyan
 
@@ -26,13 +20,12 @@ if (-Not (Test-Path -Path $sourcePath -PathType Container)) {
     exit
 }
 
-Write-Host "Carpeta válida: $sourcePath" -ForegroundColor Green
+Write-Host "Carpeta valida: $sourcePath" -ForegroundColor Green
 
-# Extract shotname - VERSION SIMPLE
+# PASO 1: Extraer shotname
 Write-Host ""
 Write-Host "=== PASO 1: EXTRAYENDO SHOTNAME ===" -ForegroundColor Cyan
 
-# Get just the folder name parts
 $sourceName = Split-Path $sourcePath -Leaf
 $parentPath = Split-Path $sourcePath -Parent
 $parentName = Split-Path $parentPath -Leaf
@@ -40,7 +33,6 @@ $parentName = Split-Path $parentPath -Leaf
 Write-Host "Carpeta arrastrada: $sourceName" -ForegroundColor Yellow
 Write-Host "Carpeta padre: $parentName" -ForegroundColor Yellow
 
-# If parent is _input, then the shotname is the grandparent
 if ($parentName -eq '_input') {
     $grandParentPath = Split-Path $parentPath -Parent
     $shotName = Split-Path $grandParentPath -Leaf
@@ -52,10 +44,10 @@ if ($parentName -eq '_input') {
     exit
 }
 
+# PASO 2: Extraer frame range
 Write-Host ""
 Write-Host "=== PASO 2: EXTRAYENDO FRAME RANGE ===" -ForegroundColor Cyan
 
-# Find EXR files
 Write-Host "Buscando archivos EXR en: $sourcePath" -ForegroundColor Yellow
 $exrFiles = Get-ChildItem -Path $sourcePath -Filter "*.exr"
 $fileCount = $exrFiles.Count
@@ -69,13 +61,11 @@ if ($fileCount -eq 0) {
 
 Write-Host "Archivos EXR encontrados: $fileCount" -ForegroundColor Green
 
-# Extract frame numbers
 $frameNumbers = @()
 foreach ($file in $exrFiles) {
     $fileName = $file.Name
     Write-Host "  - $fileName" -ForegroundColor Gray
     
-    # Extract number from end of filename
     if ($fileName -match '(\d+)\.exr$') {
         $frameNum = [int]$matches[1]
         $frameNumbers += $frameNum
@@ -90,7 +80,6 @@ if ($frameNumbers.Count -eq 0) {
     exit
 }
 
-# Calculate frame range
 $frameNumbers = $frameNumbers | Sort-Object
 $minFrame = $frameNumbers[0]
 $maxFrame = $frameNumbers[-1]
@@ -98,14 +87,13 @@ $frameRange = "$minFrame-$maxFrame"
 
 Write-Host "FRAME RANGE ENCONTRADO: $frameRange" -ForegroundColor Green
 
+# PASO 3: Crear estructura de carpetas
 Write-Host ""
 Write-Host "=== PASO 3: CREANDO ESTRUCTURA DE CARPETAS ===" -ForegroundColor Cyan
 
-# Determine shot folder path
 $shotFolderPath = (Get-Item $sourcePath).Parent.Parent.FullName
 Write-Host "Carpeta del shot: $shotFolderPath" -ForegroundColor Yellow
 
-# Create comp structure
 $compPath = Join-Path $shotFolderPath "Comp"
 $publishPath = Join-Path $compPath "4_publish"
 $finalDestPath = Join-Path $publishPath "${shotName}_comp_v00"
@@ -115,38 +103,65 @@ Write-Host "  Comp: $compPath" -ForegroundColor Gray
 Write-Host "  4_publish: $publishPath" -ForegroundColor Gray
 Write-Host "  Final: $finalDestPath" -ForegroundColor Gray
 
-# Create directories
 if (-Not (Test-Path $compPath)) {
     Write-Host "Creando carpeta Comp..." -ForegroundColor Yellow
     New-Item -Path $compPath -ItemType Directory -Force | Out-Null
-    Write-Host "✓ Carpeta Comp creada" -ForegroundColor Green
+    Write-Host "Carpeta Comp creada" -ForegroundColor Green
 } else {
-    Write-Host "✓ Carpeta Comp ya existe" -ForegroundColor Green
+    Write-Host "Carpeta Comp ya existe" -ForegroundColor Green
 }
 
 if (-Not (Test-Path $publishPath)) {
     Write-Host "Creando carpeta 4_publish..." -ForegroundColor Yellow
     New-Item -Path $publishPath -ItemType Directory -Force | Out-Null
-    Write-Host "✓ Carpeta 4_publish creada" -ForegroundColor Green
+    Write-Host "Carpeta 4_publish creada" -ForegroundColor Green
 } else {
-    Write-Host "✓ Carpeta 4_publish ya existe" -ForegroundColor Green
+    Write-Host "Carpeta 4_publish ya existe" -ForegroundColor Green
 }
 
 if (-Not (Test-Path $finalDestPath)) {
     Write-Host "Creando carpeta destino..." -ForegroundColor Yellow
     New-Item -Path $finalDestPath -ItemType Directory -Force | Out-Null
-    Write-Host "✓ Carpeta destino creada" -ForegroundColor Green
+    Write-Host "Carpeta destino creada" -ForegroundColor Green
 } else {
-    Write-Host "✓ Carpeta destino ya existe" -ForegroundColor Green
+    Write-Host "Carpeta destino ya existe" -ForegroundColor Green
 }
 
 Write-Host "ESTRUCTURA CREADA: $finalDestPath" -ForegroundColor Green
 
+# PASO 4: Verificar EXR template
 Write-Host ""
-Write-Host "RESULTADO:" -ForegroundColor DarkGreen
+Write-Host "=== PASO 4: VERIFICANDO EXR TEMPLATE ===" -ForegroundColor Cyan
+
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$blackExrTemplate = Join-Path $scriptDir "Shotname_comp_v00_num.exr"
+
+Write-Host "Buscando template EXR negro en:" -ForegroundColor Yellow
+Write-Host "$blackExrTemplate" -ForegroundColor Yellow
+
+if (-Not (Test-Path $blackExrTemplate)) {
+    Write-Host "ERROR: No se encuentra el template EXR negro" -ForegroundColor Red
+    Write-Host "Presione cualquier tecla para salir"
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
+    exit
+}
+
+Write-Host "TEMPLATE EXR ENCONTRADO" -ForegroundColor Green
+Write-Host "Ruta del template: $blackExrTemplate" -ForegroundColor Green
+
+$templateFile = Get-Item $blackExrTemplate
+Write-Host "Informacion del template:" -ForegroundColor Yellow
+Write-Host "  Nombre: $($templateFile.Name)" -ForegroundColor Gray
+Write-Host "  Tamano: $($templateFile.Length) bytes" -ForegroundColor Gray
+Write-Host "  Fecha: $($templateFile.LastWriteTime)" -ForegroundColor Gray
+
+# RESULTADO FINAL
+Write-Host ""
+Write-Host "=== RESULTADO ===" -ForegroundColor DarkGreen
 Write-Host "Shot Name: $shotName" -ForegroundColor DarkGreen
 Write-Host "Frame Range: $frameRange" -ForegroundColor DarkGreen
 Write-Host "Carpeta creada: $finalDestPath" -ForegroundColor DarkGreen
+Write-Host "Template verificado: OK" -ForegroundColor DarkGreen
 Write-Host ""
 Write-Host "Presione cualquier tecla para salir" -ForegroundColor DarkYellow
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
