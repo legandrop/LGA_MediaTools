@@ -182,7 +182,7 @@ foreach ($file in $files) {
     # Extract frame number and create new filename
     $frameNumber = Get-FrameNumber $file.Name
     # Format: LC_101010_WAN_010_010_cmp_v04.0001001.exr (point + three zeros + frame number)
-    $newFileName = "${newFolderName}.${frameNumber}001"
+    $newFileName = "${newFolderName}.000${frameNumber}"
 
     Write-Host "  Frame extraido: $frameNumber" -ForegroundColor Gray
     Write-Host "  Nuevo nombre: $newFileName.exr" -ForegroundColor Gray
