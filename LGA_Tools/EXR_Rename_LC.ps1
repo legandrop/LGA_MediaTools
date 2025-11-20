@@ -1,6 +1,7 @@
 # ______________________________________________________________________________________________________________
 #
 #   Renombra archivos EXR aplicando la convención LC (Lega Conversion) y duplica la carpeta con la nueva estructura.
+#   Convierte automáticamente "comp" a "cmp" (insensible a mayúsculas/minúsculas) pero mantiene otros sufijos como "Matte01" tal cual.
 #   Aplica las reglas específicas de transformación LC para proyectos VFX.
 #
 #   Uso:
@@ -10,6 +11,7 @@
 #
 #   Ejemplo de transformación:
 #       LC_1010_010_Beauty_Senora_comp_v04 -> LC_101_WAN_010_010_cmp_v04
+#       LC_1010_010_Beauty_Senora_Matte01_v04 -> LC_101_WAN_010_010_Matte01_v04
 #
 #   Lega - v1.0
 # ______________________________________________________________________________________________________________
@@ -80,17 +82,25 @@ function ConvertTo-LCFolderName {
     $sceneNumber = $segments[2]   # 010
     $descriptor = $segments[3]     # Beauty
     $action = $segments[4]         # Senora
-    $suffix = $segments[5]         # comp
+    $suffix = $segments[5]         # comp, Matte01, etc.
     $version = $segments[6]        # v04
 
-    # Build new name: LC_101_WAN_010_010_cmp_v04
-    $newName = "$projectName`_$episodeNumber`_$sceneNumber`_$sceneNumber`_cmp_$version"
+    # Transform suffix: if it's "comp" (case insensitive), use "cmp", otherwise keep original
+    $normalizedSuffix = $suffix.ToLower()
+    if ($normalizedSuffix -eq "comp") {
+        $transformedSuffix = "cmp"
+    } else {
+        $transformedSuffix = $suffix
+    }
+
+    # Build new name: LC_101_WAN_010_010_cmp_v04 or LC_101_WAN_010_010_Matte01_v04
+    $newName = "$projectName`_$episodeNumber`_$sceneNumber`_$sceneNumber`_$transformedSuffix`_$version"
 
     Write-Host "Transformacion:" -ForegroundColor Gray
     Write-Host "  Proyecto: $projectName -> $projectName" -ForegroundColor Gray
     Write-Host "  Episodio-Escena: $episodeScene -> $episodeNumber" -ForegroundColor Gray
     Write-Host "  Escena: $sceneNumber -> $sceneNumber (duplicado)" -ForegroundColor Gray
-    Write-Host "  Descriptor-Accion-Sufijo: $descriptor`_$action`_$suffix -> cmp_$version" -ForegroundColor Gray
+    Write-Host "  Descriptor-Accion-Sufijo: $descriptor`_$action`_$suffix -> $transformedSuffix`_$version" -ForegroundColor Gray
 
     return $newName
 }
@@ -181,7 +191,7 @@ foreach ($file in $files) {
 
     # Extract frame number and create new filename
     $frameNumber = Get-FrameNumber $file.Name
-    # Format: LC_101010_WAN_010_010_cmp_v04.0001001.exr (point + three zeros + frame number)
+    # Format: LC_101_WAN_010_010_cmp_v04.0001001.exr or LC_101_WAN_010_010_Matte01_v04.0001001.exr
     $newFileName = "${newFolderName}.000${frameNumber}"
 
     Write-Host "  Frame extraido: $frameNumber" -ForegroundColor Gray
