@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EXR_to_PXR24 | Lega | v1.10
+REM
 REM   Convierte archivos EXR de cualquier compresión a compresión PXR24.
 REM   Utiliza un script de PowerShell que a su vez llama a la herramienta oiiotool para realizar la conversión.
 REM   Uso:
@@ -9,7 +11,6 @@ REM       Arrastra una carpeta con archivos EXR sobre este archivo .bat.
 REM       Este archivo .bat ejecutará un script de PowerShell que se encargará de realizar la conversión.
 REM       Los archivos convertidos se guardarán en una nueva carpeta con la compresión PXR24 aplicada.
 REM
-REM   Lega - 2024 - v1.1
 REM ______________________________________________________________________________________________________________
 
 

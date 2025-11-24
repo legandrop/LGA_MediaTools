@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EE_MOV+MXF | Lega | v1.60
+REM
 REM   Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos específicos.
 REM   Funcionalidades principales:
 REM     - Verifica la estructura del nombre del archivo de entrada.
@@ -20,7 +22,6 @@ REM   Requisitos:
 REM     - FFmpeg, Oiio y OpenColorIO deben estar instalados y configurados.
 REM     - Estructura de carpetas específica con _input, FgPlate, y EditRef.
 REM
-REM   Lega - 2024 - v1.6
 REM ______________________________________________________________________________________________________________
 
 chcp 65001 >nul

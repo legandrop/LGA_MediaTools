@@ -1,5 +1,7 @@
 # ______________________________________________________________________________________________________________
 #
+#   EXR_Rename_LC | Lega | v1.00
+#
 #   Renombra archivos EXR aplicando la convención LC (Lega Conversion) y duplica la carpeta con la nueva estructura.
 #   Convierte automáticamente "comp" a "cmp" (insensible a mayúsculas/minúsculas) pero mantiene otros sufijos como "Matte01" tal cual.
 #   Aplica las reglas específicas de transformación LC para proyectos VFX.
@@ -13,7 +15,6 @@
 #       LC_1010_010_Beauty_Senora_comp_v04 -> LC_101_WAN_010_010_cmp_v04
 #       LC_1010_010_Beauty_Senora_Matte01_v04 -> LC_101_WAN_010_010_Matte01_v04
 #
-#   Lega - v1.0
 # ______________________________________________________________________________________________________________
 
 

@@ -3,6 +3,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EXR_Checker | Lega | v1.30
+REM
 REM   Verifica la integridad de archivos EXR en una carpeta arrastrada y sus subcarpetas.
 REM   Funcionalidades principales:
 REM     - Recibe una carpeta arrastrada como argumento.
@@ -16,7 +18,6 @@ REM
 REM   Requisitos:
 REM     - exrcheck debe estar en la carpeta OpenEXR relativa a la ubicación del script.
 REM
-REM   Lega - 2024 - v1.3
 REM ______________________________________________________________________________________________________________
 
 

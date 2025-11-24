@@ -1,12 +1,13 @@
 # ______________________________________________________________________________________________________________
 #
+#   EXR_to_DPX | Lega | v1.00
+#
 #   Convierte archivos EXR a DPX 16bit.
 #   Utiliza la herramienta oiiotool para realizar la conversión.
 #   Uso: 
 #       La carpeta de origen con los archivos EXR se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en una nueva carpeta con el sufijo _dpx.
 #
-#   Lega - 2024 - v1.0
 # ______________________________________________________________________________________________________________
 
 # Obtener la ruta del script

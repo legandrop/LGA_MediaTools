@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   DPX_to_EXR_DWAA | Lega | v1.01
+REM
 REM   Convierte archivos DPX a EXR con compresión DWAA (calidad 60).
 REM   Utiliza un script de PowerShell que a su vez llama a la herramienta oiiotool para realizar la conversión.
 REM   Uso:
@@ -9,7 +11,7 @@ REM       Arrastra una carpeta con archivos DPX sobre este archivo .bat.
 REM       Este archivo .bat ejecutará un script de PowerShell que se encargará de realizar la conversión.
 REM       Los archivos convertidos se guardarán en una nueva carpeta con el sufijo _exr.
 REM
-REM   Lega - 2024 - v1.0
+REM   v1.01 - Reemplazar punto antes del número de frame por guión bajo
 REM ______________________________________________________________________________________________________________
 
 

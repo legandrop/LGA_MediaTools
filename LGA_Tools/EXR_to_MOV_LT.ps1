@@ -1,12 +1,13 @@
 # ______________________________________________________________________________________________________________
 #
+#   EXR_to_MOV_LT | Lega | v1.00
+#
 #   Convierte secuencias EXR en ACES 2065-1 a archivos MOV en Rec.709 usando ProRes LT.
 #   Utiliza FFmpeg con filtros de OpenColorIO para la conversión de color y compresión ProRes LT.
 #   Uso: 
 #       La carpeta de origen con la secuencia EXR se arrastra al archivo .bat, que luego llama a este script.
 #       El archivo MOV se guarda en el directorio padre de la carpeta arrastrada.
 #
-#   Lega - 2024 - v1.0
 # ______________________________________________________________________________________________________________
 
 # Obtener la ruta del script y configurar rutas de herramientas

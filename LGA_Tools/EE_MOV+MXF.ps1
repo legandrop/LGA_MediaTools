@@ -1,5 +1,7 @@
 ﻿# ______________________________________________________________________________________________________________
 #
+#   EE_MOV+MXF | Lega | v1.70
+#
 #   Procesa un archivo .MOV para crear versiones MOV y MXF con overlays y textos específicos.
 #   Funcionalidades principales:
 #     - Verifica la estructura del nombre del archivo de entrada.
@@ -18,7 +20,6 @@
 #     - FFmpeg, Oiio y OpenColorIO deben estar instalados y configurados.
 #     - Estructura de carpetas específica con _input, FgPlate, y EditRef.
 #
-#   Lega - 2024 - v1.7
 # ______________________________________________________________________________________________________________
 
 

@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   MOV_to_PNG_997 | Lega | v1.20
+REM
 REM   Convierte un archivo .MOV a una secuencia de archivos PNG comenzando desde el frame 0997.
 REM   Funcionalidades principales:
 REM     - Acepta archivos .MOV arrastrados al .bat.
@@ -16,7 +18,6 @@ REM
 REM   Requisitos:
 REM     - FFmpeg debe estar instalado y configurado.
 REM
-REM   Lega - 2024 - v1.0
 REM ______________________________________________________________________________________________________________
 
 chcp 65001 >nul

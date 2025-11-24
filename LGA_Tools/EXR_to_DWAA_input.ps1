@@ -1,5 +1,7 @@
 # ______________________________________________________________________________________________________________
 #
+#   EXR_to_DWAA_input | Lega | v1.10
+#
 #   Convierte archivos EXR de cualquier compresión a compresión DWAA y organiza la salida en la estructura del proyecto VFX.
 #   Utiliza la herramienta oiiotool para la conversión y gestiona el renombrado de archivos.
 #
@@ -11,7 +13,6 @@
 #       5. Los archivos EXR convertidos se guardarán en la siguiente ubicación:
 #          [Carpeta_del_Shot_Encontrada]\_input\[Nombre_del_Plate]\n#       6. Los archivos de salida serán renombrados a '[Nombre_del_Plate]_[Número_de_Frame_4_dígitos].exr'.
 #
-#   Lega - v1.1
 # ______________________________________________________________________________________________________________
 
 

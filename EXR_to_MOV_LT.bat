@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EXR_to_MOV_LT | Lega | v1.00
+REM
 REM   Convierte secuencias EXR en ACES 2065-1 a archivos MOV en Rec.709 usando ProRes LT.
 REM   Utiliza un script de PowerShell que a su vez llama a FFmpeg y OpenColorIO para realizar la conversión.
 REM   Uso:
@@ -9,7 +11,6 @@ REM       Arrastra una carpeta con secuencia EXR sobre este archivo .bat.
 REM       Este archivo .bat ejecutará un script de PowerShell que se encargará de realizar la conversión.
 REM       El archivo MOV se guardará en el directorio padre de la carpeta arrastrada.
 REM
-REM   Lega - 2024 - v1.0
 REM ______________________________________________________________________________________________________________
 
 

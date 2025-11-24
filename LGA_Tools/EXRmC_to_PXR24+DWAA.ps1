@@ -1,5 +1,7 @@
 # ____________________________________________________________________________________________________________________________________
 #
+#   EXRmC_to_PXR24+DWAA | Lega | v1.30
+#
 #   Convierte archivos EXR multicanal a archivos EXR individuales por canal.
 #   Utiliza la herramienta oiiotool para realizar la conversión y exrheader para leer los canales.
 #
@@ -12,7 +14,6 @@
 #       La carpeta de origen con los archivos EXR se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en nuevas subcarpetas con los archivos divididos por canal y con la compresión correspondiente aplicada.
 #
-#   Lega - 2024 - v1.3
 # ____________________________________________________________________________________________________________________________________
 
 

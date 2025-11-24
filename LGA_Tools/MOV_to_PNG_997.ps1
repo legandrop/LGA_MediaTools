@@ -1,5 +1,7 @@
 # ______________________________________________________________________________________________________________
 #
+#   MOV_to_PNG_997 | Lega | v1.20
+#
 #   Convierte un archivo .MOV a una secuencia de archivos PNG comenzando desde el frame 0997.
 #   Funcionalidades principales:
 #     - Acepta archivos .MOV arrastrados al .bat.
@@ -16,7 +18,6 @@
 #     - FFmpeg debe estar instalado y configurado.
 #     - OIIO debe estar instalado para la eliminación del canal alpha.
 #
-#   Lega - v1.2
 # ______________________________________________________________________________________________________________
 
 # Configuración de rutas para las herramientas necesarias

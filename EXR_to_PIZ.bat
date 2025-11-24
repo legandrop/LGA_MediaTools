@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EXR_to_PIZ | Lega | v1.00
+REM
 REM   Convierte archivos EXR de cualquier compresión a compresión PIZ.
 REM   Utiliza un script de PowerShell que a su vez llama a la herramienta oiiotool para realizar la conversión.
 REM   Uso:
@@ -11,7 +13,6 @@ REM       Los archivos convertidos se guardarán en una nueva carpeta con la com
 REM       Si la carpeta o archivos originales contienen en su nombre "dwaa", se cambiará el nombre por "piz".
 REM       Si no contienen "dwaa", se agregará "piz" al final del nombre de la carpeta (no de los archivos).
 REM
-REM   Lega - 2025 - v1.0
 REM ______________________________________________________________________________________________________________
 
 

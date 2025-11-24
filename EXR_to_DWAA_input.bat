@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EXR_to_DWAA_input | Lega | v1.10
+REM
 REM   Convierte archivos EXR de cualquier compresión a compresión DWAA y organiza la salida en la estructura del proyecto VFX.
 REM   Este script Batch actúa como un lanzador para un script de PowerShell más complejo.
 REM
@@ -14,7 +16,6 @@ REM       5. Los archivos EXR convertidos se guardarán en la siguiente ubicaci�
 REM          [Carpeta_del_Shot_Encontrada]\_input\[Nombre_del_Plate]
 REM       6. Los archivos de salida serán renombrados a '[Nombre_del_Plate]_[Número_de_Frame_4_dígitos].exr'.
 REM
-REM   Lega - v1.0
 REM ______________________________________________________________________________________________________________
 
 

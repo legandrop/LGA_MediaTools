@@ -1,12 +1,13 @@
 # ______________________________________________________________________________________________________________
 #
+#   EXR_to_PXR24 | Lega | v1.10
+#
 #   Convierte archivos EXR de cualquier compresion a compresion Pxr24.
 #   Utiliza la herramienta oiiotool para realizar la conversion.
 #   Uso: 
 #       La carpeta de origen con los archivos EXR se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en una nueva carpeta con la compresión Pxr24 aplicada.
 #
-#   Lega - 2024 - v1.1
 # ______________________________________________________________________________________________________________
 
 # Obtener la ruta del script

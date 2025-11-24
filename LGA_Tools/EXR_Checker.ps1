@@ -1,5 +1,7 @@
 ﻿# ______________________________________________________________________________________________________________
 #
+#   EXR_Checker | Lega | v1.30
+#
 #   Verifica la integridad de archivos EXR en una carpeta y sus subcarpetas.
 #   Funcionalidades principales:
 #     - Recibe la ruta de una carpeta como argumento.
@@ -12,7 +14,7 @@
 #     Este script es llamado por EXR_Checker.bat al arrastrar una carpeta sobre él.
 #   Requisitos:
 #     - exrcheck debe estar en la carpeta OpenEXR relativa a la ubicación del script.
-#   Lega - 2024 - v1.3
+#
 # ______________________________________________________________________________________________________________
 
 # Configurar la codificación de salida a UTF-8 para la consola

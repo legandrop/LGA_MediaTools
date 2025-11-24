@@ -1,5 +1,7 @@
 # ______________________________________________________________________________________________________________
 #
+#   EXR_to_ZIP | Lega | v1.00
+#
 #   Convierte archivos EXR de cualquier compresion a compresion ZIP.
 #   Utiliza la herramienta oiiotool para realizar la conversion.
 #   Uso: 
@@ -8,7 +10,6 @@
 #       Si la carpeta o archivos originales contienen en su nombre "dwaa", se cambiará el nombre por "zip".
 #       Si no contienen "dwaa", se agregará "zip" al final del nombre de la carpeta (no de los archivos).
 #
-#   Lega - 2025 - v1.0
 # ______________________________________________________________________________________________________________
 
 # Obtener la ruta del script

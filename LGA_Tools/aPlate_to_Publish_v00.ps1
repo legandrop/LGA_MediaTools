@@ -1,4 +1,19 @@
-# Genera placeholders EXR negros para compositing
+# ______________________________________________________________________________________________________________
+#
+#   aPlate_to_Publish_v00 | Lega | v1.00
+#
+#   Genera placeholders EXR negros para compositing basándose en el frame range de una secuencia existente.
+#   Uso:
+#       1. Arrastra una carpeta con un plate EXR (de la carpeta input) sobre el archivo .bat asociado.
+#       2. La carpeta debe estar ubicada en: shotname/input/nombre_de_sequencia
+#       3. El script extraerá automáticamente:
+#          - El shotname desde la ruta de la carpeta
+#          - El frame range analizando los archivos EXR en la carpeta
+#       4. Se creará la estructura: shotname/Comp/4_publish/shotname_comp_v00
+#       5. Se generarán placeholders EXR negros para cada frame del range detectado
+#       6. Los archivos generados seguirán el formato: 'shotname_comp_v00_[frame].exr'.
+#
+# ______________________________________________________________________________________________________________
 
 Write-Host "=== GENERADOR DE PLACEHOLDERS EXR ===" -ForegroundColor Cyan
 

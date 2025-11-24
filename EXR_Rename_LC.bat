@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   EXR_Rename_LC | Lega | v1.00
+REM
 REM   Renombra archivos EXR aplicando la convención LC (Lega Conversion) y duplica la carpeta con la nueva estructura.
 REM   Convierte "comp" a "cmp" (insensible a mayúsculas/minúsculas) pero mantiene otros sufijos como "Matte01" tal cual.
 REM   Este script Batch actúa como un lanzador para un script de PowerShell más complejo.
@@ -15,7 +17,6 @@ REM   Ejemplo de transformación:
 REM       LC_1010_010_Beauty_Senora_comp_v04 -> LC_101_WAN_010_010_cmp_v04
 REM       LC_1010_010_Beauty_Senora_Matte01_v04 -> LC_101_WAN_010_010_Matte01_v04
 REM
-REM   Lega - v1.0
 REM ______________________________________________________________________________________________________________
 
 

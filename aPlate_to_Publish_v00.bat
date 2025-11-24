@@ -2,6 +2,8 @@
 
 REM ______________________________________________________________________________________________________________
 REM
+REM   aPlate_to_Publish_v00 | Lega | v1.00
+REM
 REM   Genera placeholders EXR negros para compositing basándose en el frame range de una secuencia existente.
 REM   Este script Batch actúa como un lanzador para un script de PowerShell más complejo.
 REM
@@ -15,7 +17,6 @@ REM       4. Se creará la estructura: shotname/Comp/4_publish/shotname_comp_v00
 REM       5. Se generarán placeholders EXR negros para cada frame del range detectado
 REM       6. Los archivos generados seguirán el formato: 'shotname_comp_v00_[frame].exr'.
 REM
-REM   Lega - v1.0
 REM ______________________________________________________________________________________________________________
 
 

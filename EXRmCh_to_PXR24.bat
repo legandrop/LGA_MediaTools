@@ -1,6 +1,8 @@
 @echo off
 REM __________________________________________________________________________________________________________________________
 REM
+REM   EXRmC_to_PXR24 | Lega | v1.40
+REM
 REM   Convierte archivos EXR multicanal a archivos EXR individuales por canal, con compresión Pxr24.
 REM   Utiliza la herramienta oiiotool para realizar la conversión y exrheader para leer los canales.
 REM
@@ -12,7 +14,6 @@ REM       Arrastra la carpeta de origen con los archivos EXR sobre este archivo 
 REM       Este archivo llamará al script PowerShell para procesar la conversión.
 REM       La salida se guarda en nuevas subcarpetas con los archivos divididos por canal y con la compresión Pxr24 aplicada.
 REM
-REM   Lega - 2024 - v1.4
 REM __________________________________________________________________________________________________________________________
 
 
