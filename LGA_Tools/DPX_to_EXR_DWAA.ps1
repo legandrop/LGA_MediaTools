@@ -1,12 +1,14 @@
 # ______________________________________________________________________________________________________________
 #
+#   DPX_to_EXR_DWAA | Lega | v1.01
+#
 #   Convierte archivos DPX a EXR con compresión DWAA (calidad 60).
 #   Utiliza la herramienta oiiotool para realizar la conversión.
 #   Uso: 
 #       La carpeta de origen con los archivos DPX se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en una nueva carpeta con el sufijo _exr.
 #
-#   Lega - 2024 - v1.0
+#   v1.01 - Reemplazar punto antes del número de frame por guión bajo
 # ______________________________________________________________________________________________________________
 
 # Obtener la ruta del script
@@ -79,6 +81,12 @@ $startTime = Get-Date
 foreach ($file in $files) {
     $currentFile++
     $fileName = $file.BaseName
+    
+    # Reemplazar punto antes del número de frame por guión bajo
+    # Ejemplo: KTCE_001_010_aPlate_v001.1001 -> KTCE_001_010_aPlate_v001_1001
+    if ($fileName -match '\.(\d+)$') {
+        $fileName = $fileName -replace '\.(\d+)$', '_$1'
+    }
     
     $outputPath = Join-Path $destPath "$fileName.exr"
     
