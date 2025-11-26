@@ -1,13 +1,15 @@
 # ______________________________________________________________________________________________________________
 #
-#   DPX_to_EXR_DWAA | Lega | v1.01
+#   DPX_to_EXR_DWAA | Lega | v1.02
 #
 #   Convierte archivos DPX a EXR con compresión DWAA (calidad 60).
 #   Utiliza la herramienta oiiotool para realizar la conversión.
-#   Uso: 
+#   PRESERVA TODA la metadata crítica del DPX en el EXR resultante.
+#   Uso:
 #       La carpeta de origen con los archivos DPX se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en una nueva carpeta con el sufijo _exr.
 #
+#   v1.02 - Preservación completa de metadata del DPX al EXR (30+ campos críticos)
 #   v1.01 - Reemplazar punto antes del número de frame por guión bajo
 # ______________________________________________________________________________________________________________
 
@@ -64,6 +66,144 @@ $currentFile = 0
 $totalOriginalSize = 0
 $totalConvertedSize = 0
 
+# Función para agregar TODA la metadata crítica del DPX al EXR
+function Add-DPXMetadataToEXR {
+    param ([string]$dpxPath, [string]$exrPath)
+
+    $iinfoPath = Join-Path $scriptDir "..\OIIO\iinfo.exe"
+    $exrstdattrPath = Join-Path $scriptDir "..\OpenEXR\exrstdattr.exe"
+
+    try {
+        # Ejecutar iinfo.exe para obtener metadata completa
+        $metadataLines = & $iinfoPath -v $dpxPath 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "  Advertencia: No se pudo leer metadata del DPX" -ForegroundColor Yellow
+            return
+        }
+        $metadataOutput = $metadataLines -join "`n"
+
+        # Crear archivo temporal
+        $tempExrPath = $exrPath + ".tmp"
+        $currentExrPath = $exrPath
+
+        # Función helper para extraer valores con regex
+        function Get-MetadataValue {
+            param ($pattern, $type = "string")
+            $match = [regex]::Match($metadataOutput, $pattern)
+            if ($match.Success) {
+                $value = $match.Groups[1].Value
+                return @{Type=$type; Value=$value}
+            }
+            return $null
+        }
+
+        # Extraer TODOS los campos de metadata crítica
+        $metadataFields = @{}
+
+        # Información de Color y Transferencia (CRÍTICA)
+        $metadataFields["dpx:Colorimetric"] = Get-MetadataValue 'dpx:Colorimetric:\s*"([^"]*)"'
+        $metadataFields["dpx:Transfer"] = Get-MetadataValue 'dpx:Transfer:\s*"([^"]*)"'
+        $metadataFields["dpx:WhiteLevel"] = Get-MetadataValue 'dpx:WhiteLevel:\s*(\d+)' "int"
+        $metadataFields["dpx:BlackLevel"] = Get-MetadataValue 'dpx:BlackLevel:\s*(\d+)' "int"
+        $metadataFields["dpx:BlackGain"] = Get-MetadataValue 'dpx:BlackGain:\s*(\d+)' "int"
+        $metadataFields["dpx:BreakPoint"] = Get-MetadataValue 'dpx:BreakPoint:\s*(\d+)' "int"
+        $metadataFields["dpx:HighData"] = Get-MetadataValue 'dpx:HighData:\s*(\d+)' "int"
+        $metadataFields["dpx:LowData"] = Get-MetadataValue 'dpx:LowData:\s*(\d+)' "int"
+        $metadataFields["dpx:HighQuantity"] = Get-MetadataValue 'dpx:HighQuantity:\s*([\d.]+)' "float"
+        $metadataFields["dpx:LowQuantity"] = Get-MetadataValue 'dpx:LowQuantity:\s*([\d.]+)' "float"
+
+        # Información de Dispositivo y Producción (CRÍTICA)
+        $metadataFields["dpx:InputDevice"] = Get-MetadataValue 'dpx:InputDevice:\s*"([^"]*)"'
+        $metadataFields["OriginalSoftware"] = Get-MetadataValue 'Software:\s*"([^"]*)"'
+        $metadataFields["dpx:Version"] = Get-MetadataValue 'dpx:Version:\s*"([^"]*)"'
+        $metadataFields["dpx:Format"] = Get-MetadataValue 'dpx:Format:\s*"([^"]*)"'
+        $metadataFields["dpx:FrameId"] = Get-MetadataValue 'dpx:FrameId:\s*"([^"]*)"'
+        $metadataFields["dpx:SlateInfo"] = Get-MetadataValue 'dpx:SlateInfo:\s*"([^"]*)"'
+        $metadataFields["dpx:UserBits"] = Get-MetadataValue 'dpx:UserBits:\s*(\d+)' "int"
+
+        # Información de Timing y Frame (CRÍTICA)
+        $metadataFields["dpx:TemporalFrameRate"] = Get-MetadataValue 'dpx:TemporalFrameRate:\s*(\d+)' "int"
+        $metadataFields["dpx:FramePosition"] = Get-MetadataValue 'dpx:FramePosition:\s*(\d+)' "int"
+        $metadataFields["dpx:SequenceLength"] = Get-MetadataValue 'dpx:SequenceLength:\s*(\d+)' "int"
+        $metadataFields["dpx:HeldCount"] = Get-MetadataValue 'dpx:HeldCount:\s*(\d+)' "int"
+        $metadataFields["dpx:DittoKey"] = Get-MetadataValue 'dpx:DittoKey:\s*(\d+)' "int"
+
+        # Información Técnica de Imagen
+        $metadataFields["dpx:ImageDescriptor"] = Get-MetadataValue 'dpx:ImageDescriptor:\s*"([^"]*)"'
+        $metadataFields["dpx:HorizontalSampleRate"] = Get-MetadataValue 'dpx:HorizontalSampleRate:\s*(\d+)' "int"
+        $metadataFields["dpx:VerticalSampleRate"] = Get-MetadataValue 'dpx:VerticalSampleRate:\s*(\d+)' "int"
+        $metadataFields["dpx:XScannedSize"] = Get-MetadataValue 'dpx:XScannedSize:\s*([\d.e+-]+)' "float"
+        $metadataFields["dpx:YScannedSize"] = Get-MetadataValue 'dpx:YScannedSize:\s*([\d.e+-]+)' "float"
+        $metadataFields["dpx:ShutterAngle"] = Get-MetadataValue 'dpx:ShutterAngle:\s*(\d+)' "int"
+        $metadataFields["dpx:IntegrationTimes"] = Get-MetadataValue 'dpx:IntegrationTimes:\s*(\d+)' "int"
+
+        # Procesar campos que tienen valores válidos
+        $validFields = $metadataFields.GetEnumerator() | Where-Object { $_.Value -and $_.Value.Value }
+
+        if ($validFields.Count -gt 0) {
+            Write-Host "  Agregando $($validFields.Count) campos de metadata..." -ForegroundColor Cyan
+
+            # Procesar cada campo válido uno por uno
+            foreach ($field in $validFields) {
+                $fieldName = $field.Key
+                $fieldData = $field.Value
+
+                # Crear nuevo archivo temporal para cada campo
+                $nextTempPath = $currentExrPath + ".tmp"
+
+                $commandArgs = @()
+
+                # Agregar el campo según su tipo
+                switch ($fieldData.Type) {
+                    "int" {
+                        $commandArgs += "-int", $fieldName, $fieldData.Value
+                    }
+                    "float" {
+                        $commandArgs += "-float", $fieldName, $fieldData.Value
+                    }
+                    default {
+                        $commandArgs += "-string", $fieldName, "`"$($fieldData.Value)`""
+                    }
+                }
+
+                $commandArgs += "`"$currentExrPath`"", "`"$nextTempPath`""
+
+                # Ejecutar exrstdattr para este campo
+                $process = Start-Process -FilePath $exrstdattrPath -ArgumentList $commandArgs -NoNewWindow -Wait -PassThru
+
+                if ($process.ExitCode -eq 0 -and (Test-Path $nextTempPath)) {
+                    # Limpiar archivo temporal anterior si existe
+                    if ($currentExrPath -ne $exrPath -and (Test-Path $currentExrPath)) {
+                        Remove-Item $currentExrPath -Force
+                    }
+                    # Actualizar el path actual
+                    $currentExrPath = $nextTempPath
+                } else {
+                    Write-Host "  Error agregando $($fieldName): Código de salida $($process.ExitCode)" -ForegroundColor Yellow
+                    if (Test-Path $nextTempPath) {
+                        Remove-Item $nextTempPath -Force
+                    }
+                }
+            }
+
+            # Mover el archivo final a la ubicación correcta
+            if ($currentExrPath -ne $exrPath) {
+                Move-Item -Path $currentExrPath -Destination $exrPath -Force
+            }
+
+            Write-Host "  Metadata agregada correctamente ($($validFields.Count) campos)" -ForegroundColor Green
+        } else {
+            Write-Host "  No se encontró metadata adicional para agregar" -ForegroundColor Yellow
+        }
+
+    }
+    catch {
+        Write-Host "  Error procesando metadata: $($_.Exception.Message)" -ForegroundColor Red
+        # Limpiar archivos temporales en caso de error
+        Get-ChildItem -Path (Split-Path $exrPath) -Filter "$(Split-Path $exrPath -Leaf)*.tmp" | Remove-Item -Force
+    }
+}
+
 # Función para convertir bytes a una representación legible
 function Format-FileSize {
     param ([long]$size)
@@ -95,14 +235,17 @@ foreach ($file in $files) {
     $originalSize = (Get-Item $file.FullName).Length
     $totalOriginalSize += $originalSize
     
-    # Argumentos para oiiotool: input --compression dwaa:quality=60 -o output
-    $arguments = """$($file.FullName)"" --compression dwaa:quality=60 -o ""$outputPath"""
+    # Argumentos para oiiotool: input --compression dwaa:quality=60 --nosoftwareattrib -o output
+    $arguments = """$($file.FullName)"" --compression dwaa:quality=60 --nosoftwareattrib -o ""$outputPath"""
     Start-Process -FilePath $oiiotoolPath -ArgumentList $arguments -NoNewWindow -Wait
     
     if (Test-Path $outputPath) {
         $convertedSize = (Get-Item $outputPath).Length
         $totalConvertedSize += $convertedSize
-        
+
+        # Agregar metadata del DPX al EXR usando exrstdattr
+        Add-DPXMetadataToEXR -dpxPath $file.FullName -exrPath $outputPath
+
         $originalSizeFormatted = Format-FileSize $originalSize
         $convertedSizeFormatted = Format-FileSize $convertedSize
         Write-Host "  $originalSizeFormatted -> $convertedSizeFormatted" -ForegroundColor DarkYellow
