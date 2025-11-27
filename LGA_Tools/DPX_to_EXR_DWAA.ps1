@@ -1,15 +1,18 @@
 # ______________________________________________________________________________________________________________
 #
-#   DPX_to_EXR_DWAA | Lega | v1.03
+#   DPX_to_EXR_DWAA | Lega | v1.05
 #
 #   Convierte archivos DPX a EXR con compresión DWAA (calidad 60).
 #   Utiliza la herramienta oiiotool para realizar la conversión.
 #   PRESERVA TODA la metadata crítica del DPX en el EXR resultante.
 #   Optimización extrema de rendimiento para agregar metadata.
+#   CORRECCIONES PROFESIONALES para herramienta EXR→DPX.
 #   Uso:
 #       La carpeta de origen con los archivos DPX se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en una nueva carpeta con el sufijo _exr.
 #
+#   v1.05 - Cabecera DPX comprimida embebida en el EXR + preservación literal de Transfer
+#   v1.04 - CORRECCIONES PROFESIONALES: dpx:Transfer="log", campos DPX específicos agregados
 #   v1.03 - OPTIMIZACIÓN EXTREMA: metadata agregada en UNA sola llamada (25x más rápido)
 #   v1.02 - Preservación completa de metadata del DPX al EXR (30+ campos críticos)
 #   v1.01 - Reemplazar punto antes del número de frame por guión bajo
@@ -18,6 +21,68 @@
 # Obtener la ruta del script
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $oiiotoolPath = Join-Path $scriptDir "..\OIIO\oiiotool.exe"
+
+# Asegurar disponibilidad de compresión para almacenar cabeceras
+Add-Type -AssemblyName System.IO.Compression
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+function ConvertTo-UInt32 {
+    param (
+        [byte[]]$bytes,
+        [bool]$isBigEndian
+    )
+    $working = $bytes.Clone()
+    if ($isBigEndian -and [BitConverter]::IsLittleEndian) {
+        [Array]::Reverse($working)
+    } elseif (-not $isBigEndian -and -not [BitConverter]::IsLittleEndian) {
+        [Array]::Reverse($working)
+    }
+    return [BitConverter]::ToUInt32($working, 0)
+}
+
+function Compress-BytesToBase64 {
+    param ([byte[]]$bytes)
+    $outputStream = New-Object System.IO.MemoryStream
+    $deflateStream = New-Object System.IO.Compression.DeflateStream(
+        $outputStream,
+        [System.IO.Compression.CompressionMode]::Compress,
+        $true
+    )
+    $deflateStream.Write($bytes, 0, $bytes.Length)
+    $deflateStream.Dispose()
+    $compressed = $outputStream.ToArray()
+    $outputStream.Dispose()
+    return [Convert]::ToBase64String($compressed)
+}
+
+function Get-DPXHeaderInfo {
+    param ([string]$dpxPath)
+
+    $fs = [System.IO.File]::Open($dpxPath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::Read)
+    try {
+        $magicBytes = New-Object byte[] 4
+        $fs.Read($magicBytes, 0, 4) | Out-Null
+        $magic = [System.Text.Encoding]::ASCII.GetString($magicBytes)
+        $isBigEndian = $magic -eq "SDPX"
+
+        $offsetBytes = New-Object byte[] 4
+        $fs.Read($offsetBytes, 0, 4) | Out-Null
+        $imageDataOffset = ConvertTo-UInt32 -bytes $offsetBytes -isBigEndian $isBigEndian
+
+        $fs.Position = 0
+        $headerBytes = New-Object byte[] $imageDataOffset
+        $fs.Read($headerBytes, 0, $imageDataOffset) | Out-Null
+
+        return [PSCustomObject]@{
+            Magic = $magic
+            Size  = $imageDataOffset
+            Base64 = Compress-BytesToBase64 -bytes $headerBytes
+        }
+    }
+    finally {
+        $fs.Dispose()
+    }
+}
 
 # Verificar si oiiotool.exe existe en esa ruta
 if (-Not (Test-Path $oiiotoolPath)) {
@@ -144,6 +209,19 @@ function Add-DPXMetadataToEXR {
         $metadataFields["dpx:YScannedSize"] = Get-MetadataValue 'dpx:YScannedSize:\s*([\d.e+-]+)' "float"
         $metadataFields["dpx:ShutterAngle"] = Get-MetadataValue 'dpx:ShutterAngle:\s*(\d+)' "int"
         $metadataFields["dpx:IntegrationTimes"] = Get-MetadataValue 'dpx:IntegrationTimes:\s*(\d+)' "int"
+
+        # Campos DPX específicos para formato profesional
+        $metadataFields["dpx:Interlace"] = Get-MetadataValue 'dpx:Interlace:\s*(\d+)' "int"
+        $metadataFields["dpx:VideoSignal"] = Get-MetadataValue 'dpx:VideoSignal:\s*(\d+)' "int"
+        $metadataFields["dpx:FieldNumber"] = Get-MetadataValue 'dpx:FieldNumber:\s*(\d+)' "int"
+
+        # Cabecera DPX comprimida para reconstrucción perfecta
+        $headerInfo = Get-DPXHeaderInfo -dpxPath $dpxPath
+        if ($headerInfo) {
+            $metadataFields["lga:DPXHeaderZ"] = @{Type="string"; Value=$headerInfo.Base64}
+            $metadataFields["lga:DPXHeaderSize"] = @{Type="int"; Value=$headerInfo.Size}
+            $metadataFields["lga:DPXMagic"] = @{Type="string"; Value=$headerInfo.Magic}
+        }
 
         # Procesar campos que tienen valores válidos
         $validFields = $metadataFields.GetEnumerator() | Where-Object { $_.Value -and $_.Value.Value }
