@@ -338,22 +338,68 @@ foreach ($file in $files) {
     $originalSize = (Get-Item $file.FullName).Length
     $totalOriginalSize += $originalSize
 
-    # Crear DPX con metadata completa en una sola operación
-    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Procesando: $($file.Name) -> $fileName.dpx" -ForegroundColor Yellow
-    if (Create-DPXWithMetadata -exrPath $file.FullName -dpxPath $outputPath) {
-        if (Test-Path $outputPath) {
-            $convertedSize = (Get-Item $outputPath).Length
-            $totalConvertedSize += $convertedSize
+    # LÓGICA DE REINTENTO CRÍTICA - NUNCA DEJAR UN ARCHIVO SIN CONVERTIR
+    $maxRetries = 3
+    $retryCount = 0
+    $conversionSuccess = $false
 
-            $originalSizeFormatted = Format-FileSize $originalSize
-            $convertedSizeFormatted = Format-FileSize $convertedSize
-            Write-Host "  $originalSizeFormatted -> $convertedSizeFormatted" -ForegroundColor DarkYellow
-            Write-Host "  Metadata aplicada correctamente" -ForegroundColor Green
-        } else {
-            Write-Host "  Error: No se pudo crear el archivo DPX" -ForegroundColor Red
+    while ($retryCount -lt $maxRetries -and -not $conversionSuccess) {
+        $retryCount++
+
+        if ($retryCount -gt 1) {
+            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [RETRY] Reintentando archivo $($file.Name) (intento $retryCount de $maxRetries)" -ForegroundColor Yellow
         }
-    } else {
-        Write-Host "  Error al convertir." -ForegroundColor Red
+
+        # Crear DPX con metadata completa - INTENTO $retryCount DE $maxRetries
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Procesando: $($file.Name) -> $fileName.dpx" -ForegroundColor Yellow
+
+        if (Create-DPXWithMetadata -exrPath $file.FullName -dpxPath $outputPath) {
+            if (Test-Path $outputPath) {
+                $convertedSize = (Get-Item $outputPath).Length
+                $totalConvertedSize += $convertedSize
+
+                $originalSizeFormatted = Format-FileSize $originalSize
+                $convertedSizeFormatted = Format-FileSize $convertedSize
+                Write-Host "  $originalSizeFormatted -> $convertedSizeFormatted" -ForegroundColor DarkYellow
+                Write-Host "  Metadata aplicada correctamente" -ForegroundColor Green
+
+                $conversionSuccess = $true
+                Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [SUCCESS] Archivo $($file.Name) convertido exitosamente en intento $retryCount" -ForegroundColor Green
+            } else {
+                Write-Host "  Error: No se pudo crear el archivo DPX" -ForegroundColor Red
+
+                if ($retryCount -lt $maxRetries) {
+                    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [WARNING] Intento $retryCount falló para $($file.Name), esperando 2 segundos antes de reintentar..." -ForegroundColor Yellow
+                    Start-Sleep -Seconds 2
+                }
+            }
+        } else {
+            Write-Host "  Error al convertir." -ForegroundColor Red
+
+            if ($retryCount -lt $maxRetries) {
+                Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [WARNING] Intento $retryCount falló para $($file.Name), esperando 2 segundos antes de reintentar..." -ForegroundColor Yellow
+                Start-Sleep -Seconds 2
+            }
+        }
+    }
+
+    # VERIFICACIÓN CRÍTICA: Si falló después de todos los reintentos, DETENER TODO
+    if (-not $conversionSuccess) {
+        Write-Host ""
+        Write-Host "==================================================================================" -ForegroundColor Red
+        Write-Host "                    ERROR CRITICO - CONVERSION FALLIDA" -ForegroundColor Red
+        Write-Host "==================================================================================" -ForegroundColor Red
+        Write-Host "Archivo: $($file.Name)" -ForegroundColor Red
+        Write-Host "Intentos realizados: $maxRetries" -ForegroundColor Red
+        Write-Host "Estado: TODOS LOS INTENTOS FALLARON" -ForegroundColor Red
+        Write-Host "Accion: DETENIENDO PROCESO COMPLETO" -ForegroundColor Red
+        Write-Host "==================================================================================" -ForegroundColor Red
+        Write-Host ""
+        Write-Host "El archivo '$($file.Name)' no pudo ser convertido despues de $maxRetries intentos." -ForegroundColor Red
+        Write-Host "Revise el archivo o los permisos y ejecute nuevamente el script." -ForegroundColor Red
+        Write-Host ""
+        Write-Host "PROCESO DETENIDO POR ERROR CRITICO" -ForegroundColor Red
+        exit 1
     }
 
     Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Finalizado procesamiento de archivo $currentFile" -ForegroundColor Green
