@@ -20,86 +20,8 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $oiiotoolPath = Join-Path $scriptDir "..\OIIO\oiiotool.exe"
 $iinfoBinary = Join-Path $scriptDir "..\OIIO\iinfo.exe"
 
-$DebugMode = $true
-$envDebug = $env:EXR_TO_DPX_DEBUG
-if ($envDebug -and $envDebug.ToLower() -eq 'true') { $DebugMode = $true }
-
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-function Log-Debug {
-    param([string]$Message, [string]$Color = "Gray")
-    if ($DebugMode) {
-        Write-Host $Message -ForegroundColor $Color
-    }
-}
-
-# Ejecuta un proceso externo con timeout y captura de salida.
-function Invoke-ProcessWithTimeout {
-    param (
-        [string]$filePath,
-        [string]$arguments,
-        [int]$timeoutSeconds = 30,
-        [string]$workingDirectory = $null,
-        [bool]$captureOutput = $true
-    )
-
-    $process = New-Object System.Diagnostics.Process
-    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $startInfo.FileName = $filePath
-    $startInfo.Arguments = $arguments
-    $startInfo.UseShellExecute = $false
-    $startInfo.RedirectStandardOutput = $captureOutput
-    $startInfo.RedirectStandardError = $captureOutput
-    $startInfo.CreateNoWindow = $true
-    if ($workingDirectory) { $startInfo.WorkingDirectory = $workingDirectory }
-    $process.StartInfo = $startInfo
-
-    try {
-        $null = $process.Start()
-        $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-        $exited = $process.WaitForExit($timeoutSeconds * 1000)
-        $stopwatch.Stop()
-
-        $output = $null
-        $errorOutput = $null
-        if ($captureOutput) {
-            $output = $process.StandardOutput.ReadToEnd()
-            $errorOutput = $process.StandardError.ReadToEnd()
-        }
-
-        if (-not $exited) {
-            try { $process.Kill() } catch {}
-            return @{
-                ExitCode  = -1
-                TimedOut  = $true
-                Duration  = $stopwatch.Elapsed
-                StdOut    = $output
-                StdErr    = $errorOutput
-            }
-        }
-
-        return @{
-            ExitCode  = $process.ExitCode
-            TimedOut  = $false
-            Duration  = $stopwatch.Elapsed
-            StdOut    = $output
-            StdErr    = $errorOutput
-        }
-    }
-    catch {
-        return @{
-            ExitCode = -1
-            TimedOut = $false
-            Duration = [TimeSpan]::Zero
-            StdOut   = $null
-            StdErr   = $_.Exception.Message
-        }
-    }
-    finally {
-        $process.Dispose()
-    }
-}
 
 function ConvertTo-UInt32 {
     param (
@@ -109,7 +31,8 @@ function ConvertTo-UInt32 {
     $working = $bytes.Clone()
     if ($isBigEndian -and [BitConverter]::IsLittleEndian) {
         [Array]::Reverse($working)
-    } elseif (-not $isBigEndian -and -not [BitConverter]::IsLittleEndian) {
+    }
+    elseif (-not $isBigEndian -and -not [BitConverter]::IsLittleEndian) {
         [Array]::Reverse($working)
     }
     return [BitConverter]::ToUInt32($working, 0)
@@ -125,7 +48,8 @@ function Set-UInt32Bytes {
     $bytes = [BitConverter]::GetBytes($value)
     if ($isBigEndian -and [BitConverter]::IsLittleEndian) {
         [Array]::Reverse($bytes)
-    } elseif (-not $isBigEndian -and -not [BitConverter]::IsLittleEndian) {
+    }
+    elseif (-not $isBigEndian -and -not [BitConverter]::IsLittleEndian) {
         [Array]::Reverse($bytes)
     }
     [Array]::Copy($bytes, 0, $buffer, $offset, 4)
@@ -134,7 +58,7 @@ function Set-UInt32Bytes {
 function Decompress-Base64Bytes {
     param ([string]$base64String)
     $compressedBytes = [Convert]::FromBase64String($base64String)
-    $inputStream = New-Object System.IO.MemoryStream(,$compressedBytes)
+    $inputStream = New-Object System.IO.MemoryStream(, $compressedBytes)
     $deflateStream = New-Object System.IO.Compression.DeflateStream(
         $inputStream,
         [System.IO.Compression.CompressionMode]::Decompress
@@ -239,30 +163,53 @@ function Format-FileSize {
 function Create-DPXWithMetadata {
     param ([string]$exrPath, [string]$dpxPath)
 
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando para $exrPath" "Magenta"
+    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando para $exrPath" -ForegroundColor Magenta
 
     try {
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando lectura de metadata con iinfo (timeout 30s)" "Magenta"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando lectura de metadata con iinfo (timeout 30s)" -ForegroundColor Magenta
+
+        # EJECUCIÓN CONTROLADA CON TIMEOUT PARA EVITAR PROCESOS HUÉRFANOS
+        $job = Start-Job -ScriptBlock {
+            param($bin, $path)
+            try {
+                $result = & $bin -v $path 2>$null
+                return @{ Output = $result; ExitCode = $LASTEXITCODE }
+            }
+            catch {
+                return @{ Output = $null; ExitCode = -1; Error = $_.Exception.Message }
+            }
+        } -ArgumentList $iinfoBinary, $exrPath
 
         $timeoutSeconds = 30
-        $iinfoArgs = "-v `"$exrPath`""
-        $iinfoResult = Invoke-ProcessWithTimeout -filePath $iinfoBinary -arguments $iinfoArgs -timeoutSeconds $timeoutSeconds -captureOutput $true
+        $startWaitTime = Get-Date
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Esperando finalización de iinfo..." -ForegroundColor Cyan
 
-        if ($iinfoResult.TimedOut) {
-        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo excedió timeout de ${timeoutSeconds}s (esperó $($iinfoResult.Duration.TotalSeconds.ToString('N2'))s), forzando terminación" -ForegroundColor Red
+        $jobCompleted = $job | Wait-Job -Timeout $timeoutSeconds
+        $waitDuration = [math]::Round(((Get-Date) - $startWaitTime).TotalSeconds, 2)
+
+        if ($jobCompleted) {
+            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] iinfo completado exitosamente en ${waitDuration}s" -ForegroundColor Green
+            $jobResult = Receive-Job $job
+            $metadataLines = $jobResult.Output
+            $exitCode = $jobResult.ExitCode
+
+            if ($exitCode -ne 0) {
+                Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo falló con código de salida $exitCode" -ForegroundColor Red
+                Remove-Job $job
+                return $false
+            }
+        }
+        else {
+            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo excedió timeout de ${timeoutSeconds}s (esperó ${waitDuration}s), forzando terminación" -ForegroundColor Red
+            Stop-Job $job -ErrorAction SilentlyContinue
+            Remove-Job $job
             return $false
         }
 
-        if ($iinfoResult.ExitCode -ne 0) {
-        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo falló con código de salida $($iinfoResult.ExitCode)" -ForegroundColor Red
-        if ($iinfoResult.StdErr) { Write-Host "  stderr: $($iinfoResult.StdErr.Trim())" -ForegroundColor Red }
-            return $false
-        }
+        Remove-Job $job
 
-        $metadataText = $iinfoResult.StdOut
-        $metadataLines = $metadataText -split "`r?`n"
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] iinfo completado exitosamente en $($iinfoResult.Duration.TotalSeconds.ToString('N2'))s" "Green"
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Metadata leída correctamente ($($metadataLines.Count) líneas)" "Magenta"
+        $metadataText = $metadataLines -join "`n"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Metadata leída correctamente (${metadataLines.Count} líneas)" -ForegroundColor Magenta
 
         $headerMatch = [regex]::Match($metadataText, 'lga:DPXHeaderZ:\s*"([^"]*)"')
         $headerSizeMatch = [regex]::Match($metadataText, 'lga:DPXHeaderSize:\s*(\d+)')
@@ -290,25 +237,17 @@ function Create-DPXWithMetadata {
         }
 
         # Convertir EXR a un DPX temporal (solo para obtener los píxeles)
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando conversión con oiiotool" "Magenta"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando conversión con oiiotool" -ForegroundColor Magenta
         $tempDPX = "$dpxPath.tmp.dpx"
         if (Test-Path $tempDPX) { Remove-Item $tempDPX -Force }
         $arguments = "`"$exrPath`" -d uint16 -o `"$tempDPX`""
-        $oiioResult = Invoke-ProcessWithTimeout -filePath $oiiotoolPath -arguments $arguments -timeoutSeconds 120 -captureOutput $true
+        $process = Start-Process -FilePath $oiiotoolPath -ArgumentList $arguments -NoNewWindow -Wait -PassThru
 
         # VALIDACIÓN ROBUSTA DEL ARCHIVO TEMPORAL
-        if ($oiioResult.TimedOut) {
-            Write-Host "  Error: oiiotool excedió el timeout de 120s" -ForegroundColor Red
+        if ($process.ExitCode -ne 0) {
+            Write-Host "  Error: oiiotool falló con código $($process.ExitCode)" -ForegroundColor Red
             return $false
         }
-
-        if ($oiioResult.ExitCode -ne 0) {
-            Write-Host "  Error: oiiotool falló con código $($oiioResult.ExitCode)" -ForegroundColor Red
-            if ($oiioResult.StdErr) { Write-Host "  stderr: $($oiioResult.StdErr.Trim())" -ForegroundColor Red }
-            return $false
-        }
-
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] oiiotool completado en $($oiioResult.Duration.TotalSeconds.ToString('N2'))s" "Green"
 
         if (-not (Test-Path $tempDPX)) {
             Write-Host "  Error: oiiotool no creó archivo temporal" -ForegroundColor Red
@@ -323,11 +262,12 @@ function Create-DPXWithMetadata {
             return $false
         }
 
-        if ($tempFileInfo.Length -lt 1000000) {  # Menos de 1MB es sospechoso
-        Write-Host "  Advertencia: DPX temporal muy pequeño ($($tempFileInfo.Length) bytes)" -ForegroundColor Yellow
+        if ($tempFileInfo.Length -lt 1000000) {
+            # Menos de 1MB es sospechoso
+            Write-Host "  Advertencia: DPX temporal muy pequeño ($($tempFileInfo.Length) bytes)" -ForegroundColor Yellow
         }
 
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: DPX temporal creado correctamente" "Magenta"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: DPX temporal creado correctamente" -ForegroundColor Magenta
 
         $tempBytes = [System.IO.File]::ReadAllBytes($tempDPX)
         Remove-Item $tempDPX -Force
@@ -349,7 +289,8 @@ function Create-DPXWithMetadata {
 
         if ($originalBigEndian -and -not $tempBigEndian) {
             Swap-BytePairs -buffer $pixelData
-        } elseif (-not $originalBigEndian -and $tempBigEndian) {
+        }
+        elseif (-not $originalBigEndian -and $tempBigEndian) {
             Swap-BytePairs -buffer $pixelData
         }
 
@@ -359,7 +300,7 @@ function Create-DPXWithMetadata {
         # Actualizar Creator para reflejar la tool utilizada
         Set-FixedAsciiString -buffer $headerBytes -offset 160 -length 100 -text "LGA EXR_to_DPX v1.5 TIMEOUT"
 
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Escribiendo archivo final $dpxPath" "Magenta"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Escribiendo archivo final $dpxPath" -ForegroundColor Magenta
         $fileStream = [System.IO.File]::Open($dpxPath, [System.IO.FileMode]::Create, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
         try {
             $fileStream.Write($headerBytes, 0, $headerBytes.Length)
@@ -369,7 +310,7 @@ function Create-DPXWithMetadata {
             $fileStream.Dispose()
         }
 
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Completado exitosamente" "Magenta"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Completado exitosamente" -ForegroundColor Magenta
         return $true
     }
     catch {
@@ -381,11 +322,11 @@ function Create-DPXWithMetadata {
 # Iniciar el temporizador
 $startTime = Get-Date
 
-Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Script iniciado - procesando $fileCount archivos EXR" "Yellow"
+Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Script iniciado - procesando $fileCount archivos EXR" -ForegroundColor Yellow
 
 # Procesar archivos EXR
 foreach ($file in $files) {
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Iniciando procesamiento de archivo $currentFile" "Cyan"
+    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Iniciando procesamiento de archivo $currentFile" -ForegroundColor Cyan
 
     $currentFile++
     $fileStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
@@ -399,8 +340,8 @@ foreach ($file in $files) {
 
     $outputPath = Join-Path $destPath "$fileName.dpx"
 
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Nombre convertido: $fileName.dpx" "Cyan"
-    if ($DebugMode) { Write-Host "Convirtiendo archivo $currentFile de $fileCount..." -NoNewline -ForegroundColor DarkYellow }
+    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Nombre convertido: $fileName.dpx" -ForegroundColor Cyan
+    Write-Host "Convirtiendo archivo $currentFile de $fileCount..." -NoNewline -ForegroundColor DarkYellow
 
     $originalSize = (Get-Item $file.FullName).Length
     $totalOriginalSize += $originalSize
@@ -418,7 +359,7 @@ foreach ($file in $files) {
         }
 
         # Crear DPX con metadata completa - INTENTO $retryCount DE $maxRetries
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Procesando: $($file.Name) -> $fileName.dpx" "Yellow"
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Procesando: $($file.Name) -> $fileName.dpx" -ForegroundColor Yellow
 
         if (Create-DPXWithMetadata -exrPath $file.FullName -dpxPath $outputPath) {
             if (Test-Path $outputPath) {
@@ -427,14 +368,13 @@ foreach ($file in $files) {
 
                 $originalSizeFormatted = Format-FileSize $originalSize
                 $convertedSizeFormatted = Format-FileSize $convertedSize
-                if ($DebugMode) {
-                    Write-Host "  $originalSizeFormatted -> $convertedSizeFormatted" -ForegroundColor DarkYellow
-                    Write-Host "  Metadata aplicada correctamente" -ForegroundColor Green
-                }
+                Write-Host "  $originalSizeFormatted -> $convertedSizeFormatted" -ForegroundColor DarkYellow
+                Write-Host "  Metadata aplicada correctamente" -ForegroundColor Green
 
                 $conversionSuccess = $true
-                Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [SUCCESS] Archivo $($file.Name) convertido exitosamente en intento $retryCount" "Green"
-            } else {
+                Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [SUCCESS] Archivo $($file.Name) convertido exitosamente en intento $retryCount" -ForegroundColor Green
+            }
+            else {
                 Write-Host "  Error: No se pudo crear el archivo DPX" -ForegroundColor Red
 
                 if ($retryCount -lt $maxRetries) {
@@ -442,7 +382,8 @@ foreach ($file in $files) {
                     Start-Sleep -Seconds 2
                 }
             }
-        } else {
+        }
+        else {
             Write-Host "  Error al convertir." -ForegroundColor Red
 
             if ($retryCount -lt $maxRetries) {
@@ -450,11 +391,6 @@ foreach ($file in $files) {
                 Start-Sleep -Seconds 2
             }
         }
-    }
-
-    if ($conversionSuccess -and -not $DebugMode) {
-        $summary = "[{0}/{1}] {2} | {3} -> {4} | {5:N2}s" -f $currentFile, $fileCount, "$fileName.dpx", $originalSizeFormatted, $convertedSizeFormatted, $fileStopwatch.Elapsed.TotalSeconds
-        Write-Host $summary -ForegroundColor Cyan
     }
 
     # VERIFICACIÓN CRÍTICA: Si falló después de todos los reintentos, DETENER TODO
@@ -478,8 +414,8 @@ foreach ($file in $files) {
 
     $fileStopwatch.Stop()
     $fileDurations += $fileStopwatch.Elapsed.TotalSeconds
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Tiempo por frame: $($fileStopwatch.Elapsed.TotalSeconds.ToString('N2'))s" "Cyan"
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Finalizado procesamiento de archivo $currentFile" "Green"
+    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Tiempo por frame: $($fileStopwatch.Elapsed.TotalSeconds.ToString('N2'))s" -ForegroundColor Cyan
+    Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Finalizado procesamiento de archivo $currentFile" -ForegroundColor Green
 }
 
 # Calcular el tiempo total
@@ -487,7 +423,7 @@ $endTime = Get-Date
 $totalTime = $endTime - $startTime
 $formattedTime = "{0:D2}h {1:D2}m {2:D2}s" -f $totalTime.Hours, $totalTime.Minutes, $totalTime.Seconds
 
-Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Script completado exitosamente" "Yellow"
+Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Script completado exitosamente" -ForegroundColor Yellow
 
 # Mensaje final - Completado
 $totalOriginalSizeFormatted = Format-FileSize $totalOriginalSize
