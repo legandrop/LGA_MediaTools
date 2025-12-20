@@ -20,12 +20,27 @@ $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $oiiotoolPath = Join-Path $scriptDir "..\OIIO\oiiotool.exe"
 $iinfoBinary = Join-Path $scriptDir "..\OIIO\iinfo.exe"
 
-$DebugMode = $true
+$DebugMode = $false
 $envDebug = $env:EXR_TO_DPX_DEBUG
 if ($envDebug -and $envDebug.ToLower() -eq 'true') { $DebugMode = $true }
 
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+function Stop-StaleProcess {
+    param(
+        [string]$ProcessName,
+        [int]$MaxAgeSeconds = 60
+    )
+    try {
+        $now = Get-Date
+        Get-Process -Name $ProcessName -ErrorAction SilentlyContinue | Where-Object {
+            ($now - $_.StartTime).TotalSeconds -gt $MaxAgeSeconds
+        } | ForEach-Object {
+            try { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } catch {}
+        }
+    } catch {}
+}
 
 function Log-Debug {
     param([string]$Message, [string]$Color = "Gray")
@@ -44,47 +59,51 @@ function Invoke-ProcessWithTimeout {
         [bool]$captureOutput = $true
     )
 
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $filePath
+    $psi.Arguments = $arguments
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+    if ($captureOutput) {
+        $psi.RedirectStandardOutput = $true
+        $psi.RedirectStandardError = $true
+        $psi.StandardOutputEncoding = [System.Text.Encoding]::UTF8
+        $psi.StandardErrorEncoding = [System.Text.Encoding]::UTF8
+        $psi.RedirectStandardInput = $false
+    }
+    if ($workingDirectory) { $psi.WorkingDirectory = $workingDirectory }
+
     $process = New-Object System.Diagnostics.Process
-    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $startInfo.FileName = $filePath
-    $startInfo.Arguments = $arguments
-    $startInfo.UseShellExecute = $false
-    $startInfo.RedirectStandardOutput = $captureOutput
-    $startInfo.RedirectStandardError = $captureOutput
-    $startInfo.CreateNoWindow = $true
-    if ($workingDirectory) { $startInfo.WorkingDirectory = $workingDirectory }
-    $process.StartInfo = $startInfo
+    $process.StartInfo = $psi
 
     try {
         $null = $process.Start()
+        $procId = $process.Id
         $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
+
         $exited = $process.WaitForExit($timeoutSeconds * 1000)
         $stopwatch.Stop()
+
+        if (-not $exited) {
+            try { Stop-Process -Id $procId -Force -ErrorAction SilentlyContinue } catch {}
+            $process.WaitForExit()
+        }
 
         $output = $null
         $errorOutput = $null
         if ($captureOutput) {
+            # Leer después de WaitForExit para evitar deadlocks
             $output = $process.StandardOutput.ReadToEnd()
             $errorOutput = $process.StandardError.ReadToEnd()
         }
 
-        if (-not $exited) {
-            try { $process.Kill() } catch {}
-            return @{
-                ExitCode  = -1
-                TimedOut  = $true
-                Duration  = $stopwatch.Elapsed
-                StdOut    = $output
-                StdErr    = $errorOutput
-            }
-        }
-
         return @{
-            ExitCode  = $process.ExitCode
-            TimedOut  = $false
-            Duration  = $stopwatch.Elapsed
-            StdOut    = $output
-            StdErr    = $errorOutput
+            ExitCode = $process.ExitCode
+            TimedOut = (-not $exited)
+            Duration = $stopwatch.Elapsed
+            StdOut   = $output
+            StdErr   = $errorOutput
+            Pid      = $procId
         }
     }
     catch {
@@ -94,6 +113,7 @@ function Invoke-ProcessWithTimeout {
             Duration = [TimeSpan]::Zero
             StdOut   = $null
             StdErr   = $_.Exception.Message
+            Pid      = $null
         }
     }
     finally {
@@ -249,12 +269,12 @@ function Create-DPXWithMetadata {
         $iinfoResult = Invoke-ProcessWithTimeout -filePath $iinfoBinary -arguments $iinfoArgs -timeoutSeconds $timeoutSeconds -captureOutput $true
 
         if ($iinfoResult.TimedOut) {
-        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo excedió timeout de ${timeoutSeconds}s (esperó $($iinfoResult.Duration.TotalSeconds.ToString('N2'))s), forzando terminación" -ForegroundColor Red
+            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo PID $($iinfoResult.Pid) excedió timeout de ${timeoutSeconds}s (esperó $($iinfoResult.Duration.TotalSeconds.ToString('N2'))s), forzando terminación" -ForegroundColor Red
             return $false
         }
 
         if ($iinfoResult.ExitCode -ne 0) {
-        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo falló con código de salida $($iinfoResult.ExitCode)" -ForegroundColor Red
+            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo PID $($iinfoResult.Pid) falló con código de salida $($iinfoResult.ExitCode)" -ForegroundColor Red
         if ($iinfoResult.StdErr) { Write-Host "  stderr: $($iinfoResult.StdErr.Trim())" -ForegroundColor Red }
             return $false
         }
@@ -298,12 +318,12 @@ function Create-DPXWithMetadata {
 
         # VALIDACIÓN ROBUSTA DEL ARCHIVO TEMPORAL
         if ($oiioResult.TimedOut) {
-            Write-Host "  Error: oiiotool excedió el timeout de 120s" -ForegroundColor Red
+            Write-Host "  Error: oiiotool PID $($oiioResult.Pid) excedió el timeout de 120s" -ForegroundColor Red
             return $false
         }
 
         if ($oiioResult.ExitCode -ne 0) {
-            Write-Host "  Error: oiiotool falló con código $($oiioResult.ExitCode)" -ForegroundColor Red
+            Write-Host "  Error: oiiotool PID $($oiioResult.Pid) falló con código $($oiioResult.ExitCode)" -ForegroundColor Red
             if ($oiioResult.StdErr) { Write-Host "  stderr: $($oiioResult.StdErr.Trim())" -ForegroundColor Red }
             return $false
         }
@@ -412,6 +432,10 @@ foreach ($file in $files) {
 
     while ($retryCount -lt $maxRetries -and -not $conversionSuccess) {
         $retryCount++
+
+        # Limpieza preventiva de procesos colgados antes de intentar
+        Stop-StaleProcess -ProcessName "iinfo" -MaxAgeSeconds 60
+        Stop-StaleProcess -ProcessName "oiiotool" -MaxAgeSeconds 60
 
         if ($retryCount -gt 1) {
             Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [RETRY] Reintentando archivo $($file.Name) (intento $retryCount de $maxRetries)" -ForegroundColor Yellow
