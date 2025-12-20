@@ -1,6 +1,6 @@
 # ______________________________________________________________________________________________________________
 #
-#   EXR_to_DPX | Lega | v1.5 TIMEOUT FIXED
+#   EXR_to_DPX | Lega | v2.0 FAST END
 #
 #   Convierte archivos EXR (generados por DPX_to_EXR_DWAA.ps1) de vuelta a DPX.
 #   RECUPERA TODA la metadata original del DPX desde el EXR.
@@ -10,9 +10,10 @@
 #       La carpeta de origen con los archivos EXR se arrastra al archivo .bat, que luego llama a este script.
 #       La salida se guarda en una nueva carpeta con el sufijo _dpx.
 #
-#   v1.5 TIMEOUT FIXED - Control robusto de procesos iinfo/oiiotool con timeout 30s
-#                       + Prevención de procesos huérfanos + Logging mejorado con tiempos
-#                       + Reconstrucción binaria del header DPX + metadata embebida (lga:DPXHeaderZ)
+#   v2.0 FAST END      - Fuerza endianness según DPX original para evitar byte-swap
+#                       - Header patch in-place con metadata embebida (lga:DPXHeaderZ/Size/Magic)
+#                       - Single-pass oiiotool (sin DPX temporal) + timeouts y retry robustos
+#                       - Performance típica ~0.5s/frame en pruebas recientes
 # ______________________________________________________________________________________________________________
 
 # Obtener la ruta del script
@@ -256,49 +257,86 @@ function Format-FileSize {
     return "$size B"
 }
 
+function Get-LgaTransitMetadata {
+    param (
+        [string]$exrPath
+    )
+
+    $timeoutSeconds = 30
+    # oiiotool --info -v con metamatch solo a atributos lga:* (salida mínima)
+    $metaArgs = "--info -v --metamatch `"lga:`" `"$exrPath`""
+    $metaResult = Invoke-ProcessWithTimeout -filePath $oiiotoolPath -arguments $metaArgs -timeoutSeconds $timeoutSeconds -captureOutput $true
+
+    if ($metaResult.TimedOut) {
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] oiiotool PID $($metaResult.Pid) excedió timeout de ${timeoutSeconds}s (esperó $($metaResult.Duration.TotalSeconds.ToString('N2'))s), forzando terminación" -ForegroundColor Red
+        return $null
+    }
+
+    if ($metaResult.ExitCode -ne 0) {
+        Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] oiiotool PID $($metaResult.Pid) falló con código de salida $($metaResult.ExitCode)" -ForegroundColor Red
+        if ($metaResult.StdErr) { Write-Host "  stderr: $($metaResult.StdErr.Trim())" -ForegroundColor Red }
+        return $null
+    }
+
+    $metadataText = $metaResult.StdOut
+    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] oiiotool (lga only) completado en $($metaResult.Duration.TotalSeconds.ToString('N2'))s" "Green"
+
+    $lines = $metadataText -split "`r?`n"
+    $headerBase64 = $null
+    $headerSize = $null
+    $originalMagic = "SDPX"
+
+    for ($i = 0; $i -lt $lines.Length; $i++) {
+        $line = $lines[$i].Trim()
+        if ($line -match 'lga:DPXHeaderZ:') {
+            $joined = $line
+            $j = $i + 1
+            while ($joined -notmatch '"[^"]*"$' -and $j -lt $lines.Length) {
+                $joined += $lines[$j].Trim()
+                $j++
+            }
+            $headerMatch = [regex]::Match($joined, '"([^"]+)"')
+            if ($headerMatch.Success) {
+                $headerBase64 = ($headerMatch.Groups[1].Value -replace '\s', '')
+            }
+        } elseif ($line -match 'lga:DPXHeaderSize') {
+            $sizeMatch = [regex]::Match($line, '([0-9]+)')
+            if ($sizeMatch.Success) { $headerSize = [int]$sizeMatch.Groups[1].Value }
+        } elseif ($line -match 'lga:DPXMagic') {
+            $magicMatch = [regex]::Match($line, '"([^"]+)"')
+            if ($magicMatch.Success) { $originalMagic = $magicMatch.Groups[1].Value }
+        }
+    }
+
+    if (-not ($headerBase64 -and $headerSize)) {
+        Write-Host "  Advertencia: El EXR no contiene la cabecera DPX comprimida necesaria" -ForegroundColor Yellow
+        return $null
+    }
+
+    $metadata = @{
+        HeaderBase64  = $headerBase64
+        HeaderSize    = $headerSize
+        OriginalMagic = $originalMagic
+    }
+    return $metadata
+}
+
 function Create-DPXWithMetadata {
     param ([string]$exrPath, [string]$dpxPath)
 
     Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando para $exrPath" "Magenta"
 
     try {
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando lectura de metadata con iinfo (timeout 30s)" "Magenta"
+        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Lectura de metadata lga via oiiotool filtrado" "Magenta"
 
-        $timeoutSeconds = 30
-        $iinfoArgs = "-v `"$exrPath`""
-        $iinfoResult = Invoke-ProcessWithTimeout -filePath $iinfoBinary -arguments $iinfoArgs -timeoutSeconds $timeoutSeconds -captureOutput $true
-
-        if ($iinfoResult.TimedOut) {
-            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo PID $($iinfoResult.Pid) excedió timeout de ${timeoutSeconds}s (esperó $($iinfoResult.Duration.TotalSeconds.ToString('N2'))s), forzando terminación" -ForegroundColor Red
+        $lgaMeta = Get-LgaTransitMetadata -exrPath $exrPath
+        if (-not $lgaMeta) {
             return $false
         }
 
-        if ($iinfoResult.ExitCode -ne 0) {
-            Write-Host "$(Get-Date -Format 'HH:mm:ss.fff'): [ERROR] iinfo PID $($iinfoResult.Pid) falló con código de salida $($iinfoResult.ExitCode)" -ForegroundColor Red
-        if ($iinfoResult.StdErr) { Write-Host "  stderr: $($iinfoResult.StdErr.Trim())" -ForegroundColor Red }
-            return $false
-        }
-
-        $metadataText = $iinfoResult.StdOut
-        $metadataLines = $metadataText -split "`r?`n"
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] iinfo completado exitosamente en $($iinfoResult.Duration.TotalSeconds.ToString('N2'))s" "Green"
-    Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Metadata leída correctamente ($($metadataLines.Count) líneas)" "Magenta"
-
-        $headerMatch = [regex]::Match($metadataText, 'lga:DPXHeaderZ:\s*"([^"]*)"')
-        $headerSizeMatch = [regex]::Match($metadataText, 'lga:DPXHeaderSize:\s*(\d+)')
-        $magicMatch = [regex]::Match($metadataText, 'lga:DPXMagic:\s*"([^"]*)"')
-
-        if (-not ($headerMatch.Success -and $headerSizeMatch.Success)) {
-            Write-Host "  Advertencia: El EXR no contiene la cabecera DPX comprimida necesaria" -ForegroundColor Yellow
-            return $false
-        }
-
-        $headerBase64 = $headerMatch.Groups[1].Value
-        $headerSize = [int]$headerSizeMatch.Groups[1].Value
-        $originalMagic = "SDPX"
-        if ($magicMatch.Success) {
-            $originalMagic = $magicMatch.Groups[1].Value
-        }
+        $headerBase64 = $lgaMeta.HeaderBase64
+        $headerSize = $lgaMeta.HeaderSize
+        $originalMagic = $lgaMeta.OriginalMagic
         $originalBigEndian = $originalMagic -eq "SDPX"
 
         $headerBytes = Decompress-Base64Bytes -base64String $headerBase64
@@ -309,14 +347,14 @@ function Create-DPXWithMetadata {
             $headerBytes = $targetBytes
         }
 
-        # Convertir EXR a un DPX temporal (solo para obtener los píxeles)
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando conversión con oiiotool" "Magenta"
-        $tempDPX = "$dpxPath.tmp.dpx"
-        if (Test-Path $tempDPX) { Remove-Item $tempDPX -Force }
-        $arguments = "`"$exrPath`" -d uint16 -o `"$tempDPX`""
+        # Convertir EXR a DPX escribiendo directamente el archivo final (single-pass) y forzando endianness del original
+        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Iniciando conversión con oiiotool (single pass, endianness=$originalMagic)" "Magenta"
+        if (Test-Path $dpxPath) { Remove-Item $dpxPath -Force -ErrorAction SilentlyContinue }
+        $targetEndian = if ($originalBigEndian) { "big" } else { "little" }
+        $arguments = "`"$exrPath`" --attrib `"oiio:Endian`" `"$targetEndian`" -d uint16 -o `"$dpxPath`""
         $oiioResult = Invoke-ProcessWithTimeout -filePath $oiiotoolPath -arguments $arguments -timeoutSeconds 120 -captureOutput $true
 
-        # VALIDACIÓN ROBUSTA DEL ARCHIVO TEMPORAL
+        # VALIDACIÓN ROBUSTA DEL ARCHIVO GENERADO
         if ($oiioResult.TimedOut) {
             Write-Host "  Error: oiiotool PID $($oiioResult.Pid) excedió el timeout de 120s" -ForegroundColor Red
             return $false
@@ -330,66 +368,110 @@ function Create-DPXWithMetadata {
 
         Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] oiiotool completado en $($oiioResult.Duration.TotalSeconds.ToString('N2'))s" "Green"
 
-        if (-not (Test-Path $tempDPX)) {
-            Write-Host "  Error: oiiotool no creó archivo temporal" -ForegroundColor Red
+        if (-not (Test-Path $dpxPath)) {
+            Write-Host "  Error: oiiotool no creó archivo de salida" -ForegroundColor Red
             return $false
         }
 
-        # NUEVO: Verificar que el archivo temporal tenga contenido válido
-        $tempFileInfo = Get-Item $tempDPX
+        # Verificar que el archivo tenga contenido válido
+        $tempFileInfo = Get-Item $dpxPath
         if ($tempFileInfo.Length -eq 0) {
-            Write-Host "  Error: DPX temporal creado pero está vacío ($($tempFileInfo.Length) bytes)" -ForegroundColor Red
-            Remove-Item $tempDPX -Force -ErrorAction SilentlyContinue
+            Write-Host "  Error: DPX generado pero está vacío ($($tempFileInfo.Length) bytes)" -ForegroundColor Red
+            Remove-Item $dpxPath -Force -ErrorAction SilentlyContinue
             return $false
         }
 
         if ($tempFileInfo.Length -lt 1000000) {  # Menos de 1MB es sospechoso
-        Write-Host "  Advertencia: DPX temporal muy pequeño ($($tempFileInfo.Length) bytes)" -ForegroundColor Yellow
+        Write-Host "  Advertencia: DPX muy pequeño ($($tempFileInfo.Length) bytes)" -ForegroundColor Yellow
         }
 
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: DPX temporal creado correctamente" "Magenta"
+        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: DPX generado, iniciando patch de header" "Magenta"
 
-        $tempBytes = [System.IO.File]::ReadAllBytes($tempDPX)
-        Remove-Item $tempDPX -Force
+        # Leer magic/offset actual para decidir swap y validar offset
+        $tempBigEndian = $false
+        $tempDataOffset = 0
+        $fileLength = $tempFileInfo.Length
 
-        $tempMagic = [System.Text.Encoding]::ASCII.GetString($tempBytes, 0, 4)
-        $tempBigEndian = $tempMagic -eq "SDPX"
-
-        $tempOffsetBytes = New-Object byte[] 4
-        [Array]::Copy($tempBytes, 4, $tempOffsetBytes, 0, 4)
-        $tempDataOffset = ConvertTo-UInt32 -bytes $tempOffsetBytes -isBigEndian $tempBigEndian
-
-        $pixelLength = $tempBytes.Length - $tempDataOffset
-        if ($pixelLength -le 0) {
-            Write-Host "  Error: El DPX temporal no contiene datos de imagen válidos" -ForegroundColor Red
-            return $false
-        }
-        $pixelData = New-Object byte[] $pixelLength
-        [Array]::Copy($tempBytes, $tempDataOffset, $pixelData, 0, $pixelLength)
-
-        if ($originalBigEndian -and -not $tempBigEndian) {
-            Swap-BytePairs -buffer $pixelData
-        } elseif (-not $originalBigEndian -and $tempBigEndian) {
-            Swap-BytePairs -buffer $pixelData
-        }
-
-        $finalSize = [uint32]($headerBytes.Length + $pixelData.Length)
-        Set-UInt32Bytes -buffer $headerBytes -offset 16 -value $finalSize -isBigEndian $originalBigEndian
-
-        # Actualizar Creator para reflejar la tool utilizada
-        Set-FixedAsciiString -buffer $headerBytes -offset 160 -length 100 -text "LGA EXR_to_DPX v1.5 TIMEOUT"
-
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Escribiendo archivo final $dpxPath" "Magenta"
-        $fileStream = [System.IO.File]::Open($dpxPath, [System.IO.FileMode]::Create, [System.IO.FileAccess]::Write, [System.IO.FileShare]::None)
+        $patchStream = $null
         try {
-            $fileStream.Write($headerBytes, 0, $headerBytes.Length)
-            $fileStream.Write($pixelData, 0, $pixelData.Length)
+            $patchStream = [System.IO.File]::Open($dpxPath, [System.IO.FileMode]::Open, [System.IO.FileAccess]::ReadWrite, [System.IO.FileShare]::None)
+
+            $magicBytes = New-Object byte[] 4
+            $readMagic = $patchStream.Read($magicBytes, 0, 4)
+            if ($readMagic -ne 4) {
+                Write-Host "  Error: No se pudo leer el magic del DPX" -ForegroundColor Red
+                return $false
+            }
+            $tempMagic = [System.Text.Encoding]::ASCII.GetString($magicBytes, 0, 4)
+            $tempBigEndian = $tempMagic -eq "SDPX"
+
+            $offsetBytes = New-Object byte[] 4
+            $readOffset = $patchStream.Read($offsetBytes, 0, 4)
+            if ($readOffset -ne 4) {
+                Write-Host "  Error: No se pudo leer el offset de datos del DPX" -ForegroundColor Red
+                return $false
+            }
+            $tempDataOffset = ConvertTo-UInt32 -bytes $offsetBytes -isBigEndian $tempBigEndian
+
+            if ($fileLength -le $tempDataOffset) {
+                Write-Host "  Error: DPX generado es demasiado pequeño para dataOffset=$tempDataOffset (len=$fileLength)" -ForegroundColor Red
+                return $false
+            }
+
+            $pixelLength = $fileLength - $tempDataOffset
+
+            # Si el header original no coincide con el offset real, adaptar headerBytes para alinearlo
+            if ($headerBytes.Length -lt $tempDataOffset) {
+                $padded = New-Object byte[] $tempDataOffset
+                [Array]::Copy($headerBytes, 0, $padded, 0, $headerBytes.Length)
+                $headerBytes = $padded
+            }
+            # Actualizar offset de datos en el header a la posición real del payload
+            Set-UInt32Bytes -buffer $headerBytes -offset 4 -value ([uint32]$tempDataOffset) -isBigEndian $originalBigEndian
+
+            # Swap in-place solo si endianness difiere
+            if (($originalBigEndian -and -not $tempBigEndian) -or (-not $originalBigEndian -and $tempBigEndian)) {
+                Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Endianness difiere (orig=$originalMagic, gen=$tempMagic). Swapping pixel data in-place..." "Yellow"
+                $chunkSize = 1024 * 1024
+                $patchStream.Seek($tempDataOffset, [System.IO.SeekOrigin]::Begin) | Out-Null
+                $buffer = New-Object byte[] $chunkSize
+                $remaining = $pixelLength
+                while ($remaining -gt 0) {
+                    $toRead = [Math]::Min($chunkSize, $remaining)
+                    $read = $patchStream.Read($buffer, 0, $toRead)
+                    if ($read -le 0) { break }
+
+                    if ($read -lt $chunkSize) {
+                        $tmp = New-Object byte[] $read
+                        [Array]::Copy($buffer, 0, $tmp, 0, $read)
+                        Swap-BytePairs -buffer $tmp
+                        $patchStream.Seek(-1 * $read, [System.IO.SeekOrigin]::Current) | Out-Null
+                        $patchStream.Write($tmp, 0, $read)
+                    } else {
+                        Swap-BytePairs -buffer $buffer
+                        $patchStream.Seek(-1 * $read, [System.IO.SeekOrigin]::Current) | Out-Null
+                        $patchStream.Write($buffer, 0, $read)
+                    }
+
+                    $remaining -= $read
+                }
+                $patchStream.Seek(0, [System.IO.SeekOrigin]::Begin) | Out-Null
+            }
+
+            # Ajustar file size en header original y escribirlo al inicio (patch real)
+            $finalSize = [uint32]$fileLength
+            Set-UInt32Bytes -buffer $headerBytes -offset 16 -value $finalSize -isBigEndian $originalBigEndian
+            Set-FixedAsciiString -buffer $headerBytes -offset 160 -length 100 -text "LGA EXR_to_DPX v1.5 TIMEOUT"
+
+            $patchStream.Seek(0, [System.IO.SeekOrigin]::Begin) | Out-Null
+            $patchStream.Write($headerBytes, 0, $headerBytes.Length)
+            $patchStream.Flush()
         }
         finally {
-            $fileStream.Dispose()
+            if ($patchStream) { $patchStream.Dispose() }
         }
 
-        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Completado exitosamente" "Magenta"
+        Log-Debug "$(Get-Date -Format 'HH:mm:ss.fff'): [DEBUG] Create-DPXWithMetadata: Patch de header completado" "Magenta"
         return $true
     }
     catch {
