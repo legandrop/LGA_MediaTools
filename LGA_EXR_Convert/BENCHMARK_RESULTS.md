@@ -71,11 +71,47 @@ Mejor candidato inicial: Python orquestando `oiiotool` en paralelo por frame.
 - `exrmetrics` comprime mas chico (`0.249` vs `0.295`), pero es demasiado lento para este objetivo.
 - Todas las variantes preservaron metadata segun `iinfo -v`, ignorando solo diferencias esperadas de compresion/DWA.
 
+## Metodos Descartados Para Siguientes Benchmarks
+
+Estos metodos quedan descartados para performance y no se siguen probando salvo que aparezca una razon nueva:
+
+- `oiiotool_sequential`: demasiado lento contra paralelismo por frame.
+- `exrmetrics_sequential`: preserva metadata y comprime mas chico, pero es muy lento.
+- `oiiotool_frames_single_process`: funciona, pero no compite con Python + `oiiotool` paralelo en esta version de OIIO.
+
 ## Estado
 
 Mejor candidato actual: Python orquestando `oiiotool` en paralelo por frame con default inicial de `8 workers`.
 
 Proximo paso sugerido: probar la secuencia completa con `8 workers` y quizas `6/10 workers` para afinar el default. Despues de eso, pasar a benchmarks con resize.
+
+## Run 03 - Secuencia Completa Sin Resize
+
+- Fecha: `2026-05-04_22-30-32`
+- Frames: `181`
+- Resize: no
+- OCIO/color conversion: no
+- Modo: `--parallel-only`
+- Raw output: `LGA_EXR_Convert/+building_blocks/_benchmark_output/2026-05-04_22-30-32/`
+
+| Method | Workers | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `oiiotool_parallel_6w` | 6 | 11.692 | 15.48 | 181/181 | 0.295 | 0 |
+| `oiiotool_parallel_8w` | 8 | 11.790 | 15.35 | 181/181 | 0.295 | 0 |
+| `oiiotool_parallel_10w` | 10 | 11.904 | 15.21 | 181/181 | 0.295 | 0 |
+
+## Observaciones Run 03
+
+- En la secuencia completa, `6 workers` fue apenas el mejor: `15.48 fps`.
+- La diferencia entre `6`, `8` y `10` es chica; el sistema parece saturar alrededor de `6-8 workers`.
+- `6 workers` parece mejor default conservador: mantiene maximo rendimiento y deja mas margen al sistema/disco.
+- La metadata sigue OK en los 181 frames segun `iinfo -v`.
+
+## Estado Actual
+
+Mejor candidato actual: Python orquestando `oiiotool` en paralelo por frame con default inicial de `6 workers` y opcion configurable.
+
+Proximo paso sugerido: empezar benchmarks con resize usando solo el metodo paralelo.
 
 ## Resize
 

@@ -139,3 +139,10 @@ LGA_EXR_Convert/
 9. Agregar caso con OCIO.
 10. Comparar resultados y elegir arquitectura.
 11. Implementar `LGA_EXR_Convert.py` final.
+
+## Estado de Benchmarks
+
+- Descartados para performance: `oiiotool` secuencial, `exrmetrics` secuencial y `oiiotool --frames` single-process.
+- Mejor enfoque actual sin resize: Python orquestando `oiiotool` en paralelo por frame.
+- Default inicial recomendado: `6 workers`, configurable por usuario.
+- Siguiente etapa: benchmark de resize usando solo el enfoque paralelo.

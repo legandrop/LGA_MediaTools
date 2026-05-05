@@ -393,6 +393,11 @@ def main() -> int:
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--frames", type=int, default=10)
     parser.add_argument("--workers", type=int, nargs="*", default=[2, 4, 8])
+    parser.add_argument(
+        "--parallel-only",
+        action="store_true",
+        help="Run only Python-orchestrated parallel oiiotool methods.",
+    )
     args = parser.parse_args()
 
     for tool in (OIIO_TOOL, IINFO, EXRHEADER, EXRMETRICS):
@@ -406,8 +411,9 @@ def main() -> int:
 
     results = []
 
-    sequential_dir = prepare_method_dir(run_dir, "oiiotool_sequential")
-    results.append(benchmark_sequential("oiiotool_sequential", make_jobs(frames, sequential_dir), convert_oiiotool))
+    if not args.parallel_only:
+        sequential_dir = prepare_method_dir(run_dir, "oiiotool_sequential")
+        results.append(benchmark_sequential("oiiotool_sequential", make_jobs(frames, sequential_dir), convert_oiiotool))
 
     for workers in args.workers:
         if workers < 1:
@@ -416,12 +422,12 @@ def main() -> int:
         method_dir = prepare_method_dir(run_dir, method)
         results.append(benchmark_parallel(method, make_jobs(frames, method_dir), convert_oiiotool, workers))
 
-    exrmetrics_dir = prepare_method_dir(run_dir, "exrmetrics_sequential")
-    results.append(
-        benchmark_sequential("exrmetrics_sequential", make_jobs(frames, exrmetrics_dir), convert_exrmetrics)
-    )
-
-    results.append(benchmark_oiiotool_frames(run_dir, frames))
+    if not args.parallel_only:
+        exrmetrics_dir = prepare_method_dir(run_dir, "exrmetrics_sequential")
+        results.append(
+            benchmark_sequential("exrmetrics_sequential", make_jobs(frames, exrmetrics_dir), convert_exrmetrics)
+        )
+        results.append(benchmark_oiiotool_frames(run_dir, frames))
 
     metadata_validation = [validate_metadata_for_method(result, frames, run_dir) for result in results]
 
@@ -432,6 +438,7 @@ def main() -> int:
         "frame_count": len(frames),
         "frames": [str(frame) for frame in frames],
         "cpu_count": os.cpu_count(),
+        "parallel_only": args.parallel_only,
         "tools": {
             "oiiotool": str(OIIO_TOOL),
             "iinfo": str(IINFO),
