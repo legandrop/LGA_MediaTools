@@ -1,0 +1,657 @@
+{
+  "build": "haa1b8b9_13",
+  "build_number": 13,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208",
+    "ucrt >=10.0.20348.0",
+    "openexr >=3.4.10,<3.5.0a0",
+    "ffmpeg >=7.1.1,<8.0a0",
+    "libpng >=1.6.58,<1.7.0a0",
+    "libwebp-base >=1.6.0,<2.0a0",
+    "libraw >=0.21.5,<0.22.0a0",
+    "tbb >=2022.3.0",
+    "libjpeg-turbo >=3.1.4.1,<4.0a0",
+    "openjpeg >=2.5.4,<3.0a0",
+    "libzlib >=1.3.2,<2.0a0",
+    "libfreetype >=2.14.3",
+    "libfreetype6 >=2.14.3",
+    "libboost >=1.90.0,<1.91.0a0",
+    "giflib >=5.2.2,<5.3.0a0",
+    "imath >=3.2.2,<3.2.3.0a0",
+    "libheif >=1.19.7,<1.20.0a0",
+    "libtiff >=4.7.1,<4.8.0a0"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\openimageio-2.5.18.0-haa1b8b9_13",
+  "features": "",
+  "files": [
+    "Library/bin/OpenImageIO.dll",
+    "Library/bin/OpenImageIO_Util.dll",
+    "Library/include/OpenImageIO/Imath.h",
+    "Library/include/OpenImageIO/argparse.h",
+    "Library/include/OpenImageIO/array_view.h",
+    "Library/include/OpenImageIO/atomic.h",
+    "Library/include/OpenImageIO/attrdelegate.h",
+    "Library/include/OpenImageIO/benchmark.h",
+    "Library/include/OpenImageIO/color.h",
+    "Library/include/OpenImageIO/dassert.h",
+    "Library/include/OpenImageIO/deepdata.h",
+    "Library/include/OpenImageIO/detail/farmhash.h",
+    "Library/include/OpenImageIO/detail/fmt/format.h",
+    "Library/include/OpenImageIO/detail/fmt/ostream.h",
+    "Library/include/OpenImageIO/detail/fmt/printf.h",
+    "Library/include/OpenImageIO/detail/fmt/std.h",
+    "Library/include/OpenImageIO/detail/fmt.h",
+    "Library/include/OpenImageIO/detail/pugixml/pugiconfig.hpp",
+    "Library/include/OpenImageIO/detail/pugixml/pugixml.cpp",
+    "Library/include/OpenImageIO/detail/pugixml/pugixml.hpp",
+    "Library/include/OpenImageIO/errorhandler.h",
+    "Library/include/OpenImageIO/export.h",
+    "Library/include/OpenImageIO/filesystem.h",
+    "Library/include/OpenImageIO/filter.h",
+    "Library/include/OpenImageIO/fmath.h",
+    "Library/include/OpenImageIO/fstream_mingw.h",
+    "Library/include/OpenImageIO/function_view.h",
+    "Library/include/OpenImageIO/half.h",
+    "Library/include/OpenImageIO/hash.h",
+    "Library/include/OpenImageIO/image_view.h",
+    "Library/include/OpenImageIO/imagebuf.h",
+    "Library/include/OpenImageIO/imagebufalgo.h",
+    "Library/include/OpenImageIO/imagebufalgo_util.h",
+    "Library/include/OpenImageIO/imagecache.h",
+    "Library/include/OpenImageIO/imageio.h",
+    "Library/include/OpenImageIO/missing_math.h",
+    "Library/include/OpenImageIO/oiioversion.h",
+    "Library/include/OpenImageIO/optparser.h",
+    "Library/include/OpenImageIO/parallel.h",
+    "Library/include/OpenImageIO/paramlist.h",
+    "Library/include/OpenImageIO/platform.h",
+    "Library/include/OpenImageIO/plugin.h",
+    "Library/include/OpenImageIO/refcnt.h",
+    "Library/include/OpenImageIO/simd.h",
+    "Library/include/OpenImageIO/span.h",
+    "Library/include/OpenImageIO/strided_ptr.h",
+    "Library/include/OpenImageIO/string_view.h",
+    "Library/include/OpenImageIO/strongparam.h",
+    "Library/include/OpenImageIO/strutil.h",
+    "Library/include/OpenImageIO/sysutil.h",
+    "Library/include/OpenImageIO/texture.h",
+    "Library/include/OpenImageIO/thread.h",
+    "Library/include/OpenImageIO/tiffutils.h",
+    "Library/include/OpenImageIO/timer.h",
+    "Library/include/OpenImageIO/type_traits.h",
+    "Library/include/OpenImageIO/typedesc.h",
+    "Library/include/OpenImageIO/unittest.h",
+    "Library/include/OpenImageIO/unordered_map_concurrent.h",
+    "Library/include/OpenImageIO/ustring.h",
+    "Library/include/OpenImageIO/varyingref.h",
+    "Library/include/OpenImageIO/vecparam.h",
+    "Library/include/OpenImageIO/version.h",
+    "Library/lib/OpenImageIO.lib",
+    "Library/lib/OpenImageIO_Util.lib",
+    "Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake",
+    "Library/lib/cmake/OpenImageIO/OpenImageIOConfigVersion.cmake",
+    "Library/lib/cmake/OpenImageIO/OpenImageIOTargets-release.cmake",
+    "Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake",
+    "Library/share/fonts/OpenImageIO/DroidSans-Bold.ttf",
+    "Library/share/fonts/OpenImageIO/DroidSans.ttf",
+    "Library/share/fonts/OpenImageIO/DroidSansMono.ttf",
+    "Library/share/fonts/OpenImageIO/DroidSerif-Bold.ttf",
+    "Library/share/fonts/OpenImageIO/DroidSerif-BoldItalic.ttf",
+    "Library/share/fonts/OpenImageIO/DroidSerif-Italic.ttf",
+    "Library/share/fonts/OpenImageIO/DroidSerif.ttf"
+  ],
+  "fn": "openimageio-2.5.18.0-haa1b8b9_13.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\openimageio-2.5.18.0-haa1b8b9_13",
+    "type": 1
+  },
+  "md5": "fa89890e285a02153a1c2ff76b771597",
+  "name": "openimageio",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\openimageio-2.5.18.0-haa1b8b9_13.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/OpenImageIO.dll",
+        "path_type": "hardlink",
+        "sha256": "3f5507853bcaa9dbd88ad695c4e32d0ea7b32b398228f5c052f9873ba04f3fea",
+        "sha256_in_prefix": "3f5507853bcaa9dbd88ad695c4e32d0ea7b32b398228f5c052f9873ba04f3fea",
+        "size_in_bytes": 7769088
+      },
+      {
+        "_path": "Library/bin/OpenImageIO_Util.dll",
+        "path_type": "hardlink",
+        "sha256": "915b6b7b8c41a19f4972cba3384f920d1dffcadeea1b6441b3a1d735c19c6ef1",
+        "sha256_in_prefix": "915b6b7b8c41a19f4972cba3384f920d1dffcadeea1b6441b3a1d735c19c6ef1",
+        "size_in_bytes": 712704
+      },
+      {
+        "_path": "Library/include/OpenImageIO/Imath.h",
+        "path_type": "hardlink",
+        "sha256": "995f0579abb9d0a726612199a09ddb0b1b87da81dee5c37ab339a5756dbf0187",
+        "sha256_in_prefix": "995f0579abb9d0a726612199a09ddb0b1b87da81dee5c37ab339a5756dbf0187",
+        "size_in_bytes": 1490
+      },
+      {
+        "_path": "Library/include/OpenImageIO/argparse.h",
+        "path_type": "hardlink",
+        "sha256": "c9385bb7487ea09f3860022c7e8447070567aaa36a6e37dbfcad17269a7ad28b",
+        "sha256_in_prefix": "c9385bb7487ea09f3860022c7e8447070567aaa36a6e37dbfcad17269a7ad28b",
+        "size_in_bytes": 29035
+      },
+      {
+        "_path": "Library/include/OpenImageIO/array_view.h",
+        "path_type": "hardlink",
+        "sha256": "4c3bf62a2f6bd306b158d3c5120bfa2a56d97de8bff858e8886d5c15e1f851d0",
+        "sha256_in_prefix": "4c3bf62a2f6bd306b158d3c5120bfa2a56d97de8bff858e8886d5c15e1f851d0",
+        "size_in_bytes": 495
+      },
+      {
+        "_path": "Library/include/OpenImageIO/atomic.h",
+        "path_type": "hardlink",
+        "sha256": "03fbc5c74f5d5e1de8490d9dc4670d931880f478300e5bc6d25825df21df18cb",
+        "sha256_in_prefix": "03fbc5c74f5d5e1de8490d9dc4670d931880f478300e5bc6d25825df21df18cb",
+        "size_in_bytes": 1870
+      },
+      {
+        "_path": "Library/include/OpenImageIO/attrdelegate.h",
+        "path_type": "hardlink",
+        "sha256": "815dad824d390aab0115723e4cec04f57d6c15bb67e3eb310c01de01403eb3c6",
+        "sha256_in_prefix": "815dad824d390aab0115723e4cec04f57d6c15bb67e3eb310c01de01403eb3c6",
+        "size_in_bytes": 8237
+      },
+      {
+        "_path": "Library/include/OpenImageIO/benchmark.h",
+        "path_type": "hardlink",
+        "sha256": "a332f40e20ab1b099dfd3c499b01bf696d19c30de9efd2cc38c534499e7698ea",
+        "sha256_in_prefix": "a332f40e20ab1b099dfd3c499b01bf696d19c30de9efd2cc38c534499e7698ea",
+        "size_in_bytes": 17210
+      },
+      {
+        "_path": "Library/include/OpenImageIO/color.h",
+        "path_type": "hardlink",
+        "sha256": "6d22841f1f57f9a785e904b0fc5948a9e0e8a5572d2d4f8724082398ee85ae9f",
+        "sha256_in_prefix": "6d22841f1f57f9a785e904b0fc5948a9e0e8a5572d2d4f8724082398ee85ae9f",
+        "size_in_bytes": 18262
+      },
+      {
+        "_path": "Library/include/OpenImageIO/dassert.h",
+        "path_type": "hardlink",
+        "sha256": "1c12a3b712fcb1fa14fb1de530597dfff3bf4630971087e20b0c06c8eeca4f56",
+        "sha256_in_prefix": "1c12a3b712fcb1fa14fb1de530597dfff3bf4630971087e20b0c06c8eeca4f56",
+        "size_in_bytes": 5331
+      },
+      {
+        "_path": "Library/include/OpenImageIO/deepdata.h",
+        "path_type": "hardlink",
+        "sha256": "30147854ccdb133afef3e02a3007637fd332b02ecf53736d9b5729a910f6bfd0",
+        "sha256_in_prefix": "30147854ccdb133afef3e02a3007637fd332b02ecf53736d9b5729a910f6bfd0",
+        "size_in_bytes": 8082
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/farmhash.h",
+        "path_type": "hardlink",
+        "sha256": "70170a044674345c038728ae22360bb011f561a1e5e3f5ee1743fe7440d519a1",
+        "sha256_in_prefix": "70170a044674345c038728ae22360bb011f561a1e5e3f5ee1743fe7440d519a1",
+        "size_in_bytes": 65156
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/fmt/format.h",
+        "path_type": "hardlink",
+        "sha256": "28105272dfcff4b2a1e95a84e38b5e39b7e7817a21216096d0f750eae9fce8bc",
+        "sha256_in_prefix": "28105272dfcff4b2a1e95a84e38b5e39b7e7817a21216096d0f750eae9fce8bc",
+        "size_in_bytes": 23
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/fmt/ostream.h",
+        "path_type": "hardlink",
+        "sha256": "913377074b49c998730a459bc0041833f4ff3162ba0ba649e9b08b974574f634",
+        "sha256_in_prefix": "913377074b49c998730a459bc0041833f4ff3162ba0ba649e9b08b974574f634",
+        "size_in_bytes": 24
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/fmt/printf.h",
+        "path_type": "hardlink",
+        "sha256": "c5e2ff6e47d62b4f72a8eb76939cb2b12bd5a4f337051b6f7bb77642492f74d9",
+        "sha256_in_prefix": "c5e2ff6e47d62b4f72a8eb76939cb2b12bd5a4f337051b6f7bb77642492f74d9",
+        "size_in_bytes": 23
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/fmt/std.h",
+        "path_type": "hardlink",
+        "sha256": "7debc7cbfbb8bd87cdaa3078b82860ae926a152476fd0f11182b9a1351e5a667",
+        "sha256_in_prefix": "7debc7cbfbb8bd87cdaa3078b82860ae926a152476fd0f11182b9a1351e5a667",
+        "size_in_bytes": 20
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/fmt.h",
+        "path_type": "hardlink",
+        "sha256": "96386ea3777420d3ca2e18db5ff44e1f8a16c95edbfc46e24879b69ec23a7660",
+        "sha256_in_prefix": "96386ea3777420d3ca2e18db5ff44e1f8a16c95edbfc46e24879b69ec23a7660",
+        "size_in_bytes": 6917
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/pugixml/pugiconfig.hpp",
+        "path_type": "hardlink",
+        "sha256": "b9cb2edf5a08a90d37cd6836de2ce0abdfbed10fb02f1c1a48bebd29a8cd08a1",
+        "sha256_in_prefix": "b9cb2edf5a08a90d37cd6836de2ce0abdfbed10fb02f1c1a48bebd29a8cd08a1",
+        "size_in_bytes": 3013
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/pugixml/pugixml.cpp",
+        "path_type": "hardlink",
+        "sha256": "92e9b891d8ee4ee3cd7dc3bd08781d6aa6dde56e8af29b15e85c1c5e243bb800",
+        "sha256_in_prefix": "92e9b891d8ee4ee3cd7dc3bd08781d6aa6dde56e8af29b15e85c1c5e243bb800",
+        "size_in_bytes": 338000
+      },
+      {
+        "_path": "Library/include/OpenImageIO/detail/pugixml/pugixml.hpp",
+        "path_type": "hardlink",
+        "sha256": "42171c463803cb97ea565965198031208c50039a6af952c60760d6ab357e29f7",
+        "sha256_in_prefix": "42171c463803cb97ea565965198031208c50039a6af952c60760d6ab357e29f7",
+        "size_in_bytes": 53672
+      },
+      {
+        "_path": "Library/include/OpenImageIO/errorhandler.h",
+        "path_type": "hardlink",
+        "sha256": "d5d3e2cbe639ca5a4d9dbac95eab6d4149c7b43b47e8a19129b1bbdc8a339854",
+        "sha256_in_prefix": "d5d3e2cbe639ca5a4d9dbac95eab6d4149c7b43b47e8a19129b1bbdc8a339854",
+        "size_in_bytes": 9239
+      },
+      {
+        "_path": "Library/include/OpenImageIO/export.h",
+        "path_type": "hardlink",
+        "sha256": "9c1dc58a8849aa3f1064598c9e615ea072aebf725ac5e66aa2ea6381f2ee884b",
+        "sha256_in_prefix": "9c1dc58a8849aa3f1064598c9e615ea072aebf725ac5e66aa2ea6381f2ee884b",
+        "size_in_bytes": 2728
+      },
+      {
+        "_path": "Library/include/OpenImageIO/filesystem.h",
+        "path_type": "hardlink",
+        "sha256": "dcb16f46e007b4c67f8fc1dc74e897cfc4e721170fea8888e1d5ad761a756942",
+        "sha256_in_prefix": "dcb16f46e007b4c67f8fc1dc74e897cfc4e721170fea8888e1d5ad761a756942",
+        "size_in_bytes": 24451
+      },
+      {
+        "_path": "Library/include/OpenImageIO/filter.h",
+        "path_type": "hardlink",
+        "sha256": "c0234c1dd3464234a98c1977e12f99011928eaff3864dffae79a027c7ef518e2",
+        "sha256_in_prefix": "c0234c1dd3464234a98c1977e12f99011928eaff3864dffae79a027c7ef518e2",
+        "size_in_bytes": 4160
+      },
+      {
+        "_path": "Library/include/OpenImageIO/fmath.h",
+        "path_type": "hardlink",
+        "sha256": "ff93cf8fae0f6be1969e12244f0a4854f39e46ef6774677ffc629b5ae46c11e5",
+        "sha256_in_prefix": "ff93cf8fae0f6be1969e12244f0a4854f39e46ef6774677ffc629b5ae46c11e5",
+        "size_in_bytes": 84339
+      },
+      {
+        "_path": "Library/include/OpenImageIO/fstream_mingw.h",
+        "path_type": "hardlink",
+        "sha256": "4b0e33b6a36494e77f4c52a254bad16cbad936229d613720cc1cd90eae33690e",
+        "sha256_in_prefix": "4b0e33b6a36494e77f4c52a254bad16cbad936229d613720cc1cd90eae33690e",
+        "size_in_bytes": 8313
+      },
+      {
+        "_path": "Library/include/OpenImageIO/function_view.h",
+        "path_type": "hardlink",
+        "sha256": "ab48bca543fd11c37f69f95eac02e699c973d65b071ef5d7f9856ae5bc2fdd84",
+        "sha256_in_prefix": "ab48bca543fd11c37f69f95eac02e699c973d65b071ef5d7f9856ae5bc2fdd84",
+        "size_in_bytes": 4150
+      },
+      {
+        "_path": "Library/include/OpenImageIO/half.h",
+        "path_type": "hardlink",
+        "sha256": "f28d27b85d4b7e37a37851df2338d91e5fad11aba3aa32991439293392541b0d",
+        "sha256_in_prefix": "f28d27b85d4b7e37a37851df2338d91e5fad11aba3aa32991439293392541b0d",
+        "size_in_bytes": 685
+      },
+      {
+        "_path": "Library/include/OpenImageIO/hash.h",
+        "path_type": "hardlink",
+        "sha256": "d3de3fc0ce288ea1fbe548f66d0c9e0f50aaefc4736c71218f09abc1e5ee500f",
+        "sha256_in_prefix": "d3de3fc0ce288ea1fbe548f66d0c9e0f50aaefc4736c71218f09abc1e5ee500f",
+        "size_in_bytes": 18669
+      },
+      {
+        "_path": "Library/include/OpenImageIO/image_view.h",
+        "path_type": "hardlink",
+        "sha256": "d6f400c26f0a8017d6518fe2672ff2cee868864b3c1d26695546286bf6367527",
+        "sha256_in_prefix": "d6f400c26f0a8017d6518fe2672ff2cee868864b3c1d26695546286bf6367527",
+        "size_in_bytes": 5143
+      },
+      {
+        "_path": "Library/include/OpenImageIO/imagebuf.h",
+        "path_type": "hardlink",
+        "sha256": "f7cb1f9c5f41f218286519a83043fdf2e1d1fc82daf85e114491553cab345ce5",
+        "sha256_in_prefix": "f7cb1f9c5f41f218286519a83043fdf2e1d1fc82daf85e114491553cab345ce5",
+        "size_in_bytes": 72261
+      },
+      {
+        "_path": "Library/include/OpenImageIO/imagebufalgo.h",
+        "path_type": "hardlink",
+        "sha256": "23cf81479ac36db06b20ed9987fb76de811a6d6893fd8cc2c30e99d7a801fbee",
+        "sha256_in_prefix": "23cf81479ac36db06b20ed9987fb76de811a6d6893fd8cc2c30e99d7a801fbee",
+        "size_in_bytes": 136917
+      },
+      {
+        "_path": "Library/include/OpenImageIO/imagebufalgo_util.h",
+        "path_type": "hardlink",
+        "sha256": "fad98f236030f1f8e5bfccb6b84782e2b46ba67aefcdc9333f3036bbbc82a068",
+        "sha256_in_prefix": "fad98f236030f1f8e5bfccb6b84782e2b46ba67aefcdc9333f3036bbbc82a068",
+        "size_in_bytes": 29895
+      },
+      {
+        "_path": "Library/include/OpenImageIO/imagecache.h",
+        "path_type": "hardlink",
+        "sha256": "ddaede4e355ec586c2eed9b28a0455cdf75efda1fe1d251b639490ec7d8c500b",
+        "sha256_in_prefix": "ddaede4e355ec586c2eed9b28a0455cdf75efda1fe1d251b639490ec7d8c500b",
+        "size_in_bytes": 53264
+      },
+      {
+        "_path": "Library/include/OpenImageIO/imageio.h",
+        "path_type": "hardlink",
+        "sha256": "3d7e881970359b50f71b92ed53f8a4ba63683ef6bd90da4c0f5dc324638716e1",
+        "sha256_in_prefix": "3d7e881970359b50f71b92ed53f8a4ba63683ef6bd90da4c0f5dc324638716e1",
+        "size_in_bytes": 164735
+      },
+      {
+        "_path": "Library/include/OpenImageIO/missing_math.h",
+        "path_type": "hardlink",
+        "sha256": "f853b4301b4bf5bca3a8f1a443c4b089130572e98c01c2558a701196e38a9d1f",
+        "sha256_in_prefix": "f853b4301b4bf5bca3a8f1a443c4b089130572e98c01c2558a701196e38a9d1f",
+        "size_in_bytes": 415
+      },
+      {
+        "_path": "Library/include/OpenImageIO/oiioversion.h",
+        "path_type": "hardlink",
+        "sha256": "1a08bf2f70e92b3a1b8544f4a3c8136e96c2a561b25f837f6348f184ab1e0e30",
+        "sha256_in_prefix": "1a08bf2f70e92b3a1b8544f4a3c8136e96c2a561b25f837f6348f184ab1e0e30",
+        "size_in_bytes": 9001
+      },
+      {
+        "_path": "Library/include/OpenImageIO/optparser.h",
+        "path_type": "hardlink",
+        "sha256": "557919bf38586f110023629755e90dd2bc7268df32eafa59b436b9cb48c4d648",
+        "sha256_in_prefix": "557919bf38586f110023629755e90dd2bc7268df32eafa59b436b9cb48c4d648",
+        "size_in_bytes": 3188
+      },
+      {
+        "_path": "Library/include/OpenImageIO/parallel.h",
+        "path_type": "hardlink",
+        "sha256": "ae3024e4ce67288b206243eeb5f7cdaa89b17adc71bebb652f9206b5a298d9ec",
+        "sha256_in_prefix": "ae3024e4ce67288b206243eeb5f7cdaa89b17adc71bebb652f9206b5a298d9ec",
+        "size_in_bytes": 12221
+      },
+      {
+        "_path": "Library/include/OpenImageIO/paramlist.h",
+        "path_type": "hardlink",
+        "sha256": "5ff7e1b8be75eca081fe682c0f3c4e8cb7cc26b85c2b6c142bf97e5c76294f06",
+        "sha256_in_prefix": "5ff7e1b8be75eca081fe682c0f3c4e8cb7cc26b85c2b6c142bf97e5c76294f06",
+        "size_in_bytes": 20113
+      },
+      {
+        "_path": "Library/include/OpenImageIO/platform.h",
+        "path_type": "hardlink",
+        "sha256": "a10ca7c0cb0d3c87411c9164de8b5a82af9fd5688e042bc993ad176a38522c36",
+        "sha256_in_prefix": "a10ca7c0cb0d3c87411c9164de8b5a82af9fd5688e042bc993ad176a38522c36",
+        "size_in_bytes": 26738
+      },
+      {
+        "_path": "Library/include/OpenImageIO/plugin.h",
+        "path_type": "hardlink",
+        "sha256": "29a0eab1470dcb9d11bcac1b0c7f7c080667bce6b03c0a925546b618b867fa67",
+        "sha256_in_prefix": "29a0eab1470dcb9d11bcac1b0c7f7c080667bce6b03c0a925546b618b867fa67",
+        "size_in_bytes": 2360
+      },
+      {
+        "_path": "Library/include/OpenImageIO/refcnt.h",
+        "path_type": "hardlink",
+        "sha256": "cd209a8bcb191adfe90978d9fda379ee28a9855437a32b88ac6734a09fecc0b2",
+        "sha256_in_prefix": "cd209a8bcb191adfe90978d9fda379ee28a9855437a32b88ac6734a09fecc0b2",
+        "size_in_bytes": 6106
+      },
+      {
+        "_path": "Library/include/OpenImageIO/simd.h",
+        "path_type": "hardlink",
+        "sha256": "2cd233a6ea65ec6c8c2aea934472e37dfd92df43f473519dc99e902e9d889f75",
+        "sha256_in_prefix": "2cd233a6ea65ec6c8c2aea934472e37dfd92df43f473519dc99e902e9d889f75",
+        "size_in_bytes": 319728
+      },
+      {
+        "_path": "Library/include/OpenImageIO/span.h",
+        "path_type": "hardlink",
+        "sha256": "72e31783ef7ec2ec8225a72eb29fc2c214ded1cc7aa79737066620fa17d2d06a",
+        "sha256_in_prefix": "72e31783ef7ec2ec8225a72eb29fc2c214ded1cc7aa79737066620fa17d2d06a",
+        "size_in_bytes": 15520
+      },
+      {
+        "_path": "Library/include/OpenImageIO/strided_ptr.h",
+        "path_type": "hardlink",
+        "sha256": "2fb66211f2bef6107ee6ecf415fae2e931441a005d056daa38b2dc4687faa33d",
+        "sha256_in_prefix": "2fb66211f2bef6107ee6ecf415fae2e931441a005d056daa38b2dc4687faa33d",
+        "size_in_bytes": 4179
+      },
+      {
+        "_path": "Library/include/OpenImageIO/string_view.h",
+        "path_type": "hardlink",
+        "sha256": "4a7b0787e3ffa7a63a99a709970825e3ad497e677027f2fe183ff212852867b9",
+        "sha256_in_prefix": "4a7b0787e3ffa7a63a99a709970825e3ad497e677027f2fe183ff212852867b9",
+        "size_in_bytes": 20865
+      },
+      {
+        "_path": "Library/include/OpenImageIO/strongparam.h",
+        "path_type": "hardlink",
+        "sha256": "4076dbd9ae0c0caf18e91a6b6e9a5efef18f6d12808cabf9282eb1e93b82e6b7",
+        "sha256_in_prefix": "4076dbd9ae0c0caf18e91a6b6e9a5efef18f6d12808cabf9282eb1e93b82e6b7",
+        "size_in_bytes": 3925
+      },
+      {
+        "_path": "Library/include/OpenImageIO/strutil.h",
+        "path_type": "hardlink",
+        "sha256": "6aecc419cdd801c813ce9e2130793edab04fc89592446197d807f9de549d94bb",
+        "sha256_in_prefix": "6aecc419cdd801c813ce9e2130793edab04fc89592446197d807f9de549d94bb",
+        "size_in_bytes": 48094
+      },
+      {
+        "_path": "Library/include/OpenImageIO/sysutil.h",
+        "path_type": "hardlink",
+        "sha256": "7e9b07a993d4741bdc8096e68b238f01c93ccd7d2eb7b2b420b7b1f9fdcd49e3",
+        "sha256_in_prefix": "7e9b07a993d4741bdc8096e68b238f01c93ccd7d2eb7b2b420b7b1f9fdcd49e3",
+        "size_in_bytes": 5992
+      },
+      {
+        "_path": "Library/include/OpenImageIO/texture.h",
+        "path_type": "hardlink",
+        "sha256": "10710185a5ec2daf2051eeb565cd69f77ab732391769ed2a0d9fa8ff24694e39",
+        "sha256_in_prefix": "10710185a5ec2daf2051eeb565cd69f77ab732391769ed2a0d9fa8ff24694e39",
+        "size_in_bytes": 92614
+      },
+      {
+        "_path": "Library/include/OpenImageIO/thread.h",
+        "path_type": "hardlink",
+        "sha256": "62f58fbf052cecdff04ad561adb18e485214d00111d428d745157f4f7ce3c3d7",
+        "sha256_in_prefix": "62f58fbf052cecdff04ad561adb18e485214d00111d428d745157f4f7ce3c3d7",
+        "size_in_bytes": 29850
+      },
+      {
+        "_path": "Library/include/OpenImageIO/tiffutils.h",
+        "path_type": "hardlink",
+        "sha256": "30d326dd86b3e2d9432f34ed7aafbfbd7a26ab0333b7255715433ed1e659e174",
+        "sha256_in_prefix": "30d326dd86b3e2d9432f34ed7aafbfbd7a26ab0333b7255715433ed1e659e174",
+        "size_in_bytes": 11497
+      },
+      {
+        "_path": "Library/include/OpenImageIO/timer.h",
+        "path_type": "hardlink",
+        "sha256": "032b1e8646a1288b1e3a413530025d7c978a96f0e089fd64bb519499e5cf7d27",
+        "sha256_in_prefix": "032b1e8646a1288b1e3a413530025d7c978a96f0e089fd64bb519499e5cf7d27",
+        "size_in_bytes": 8954
+      },
+      {
+        "_path": "Library/include/OpenImageIO/type_traits.h",
+        "path_type": "hardlink",
+        "sha256": "d8b744269999936ab612c2dde1cd9abd3e98c0e7592ef2fe8583566654e583f8",
+        "sha256_in_prefix": "d8b744269999936ab612c2dde1cd9abd3e98c0e7592ef2fe8583566654e583f8",
+        "size_in_bytes": 1956
+      },
+      {
+        "_path": "Library/include/OpenImageIO/typedesc.h",
+        "path_type": "hardlink",
+        "sha256": "2ff741e11a8d6326731b63cd7f9742e4d9ee389de718506ad4dcfce1ae230570",
+        "sha256_in_prefix": "2ff741e11a8d6326731b63cd7f9742e4d9ee389de718506ad4dcfce1ae230570",
+        "size_in_bytes": 32225
+      },
+      {
+        "_path": "Library/include/OpenImageIO/unittest.h",
+        "path_type": "hardlink",
+        "sha256": "42db605dd615ed9c2d8b71853d0b4c4c060e2426326637e07208c5b4ca173c2d",
+        "sha256_in_prefix": "42db605dd615ed9c2d8b71853d0b4c4c060e2426326637e07208c5b4ca173c2d",
+        "size_in_bytes": 13260
+      },
+      {
+        "_path": "Library/include/OpenImageIO/unordered_map_concurrent.h",
+        "path_type": "hardlink",
+        "sha256": "ba80f5417601672b45ccedeed9b15252125e6b513a358a00aec079f3db24d0ad",
+        "sha256_in_prefix": "ba80f5417601672b45ccedeed9b15252125e6b513a358a00aec079f3db24d0ad",
+        "size_in_bytes": 20405
+      },
+      {
+        "_path": "Library/include/OpenImageIO/ustring.h",
+        "path_type": "hardlink",
+        "sha256": "42b6eee754e0850a60a3f7520ea51ebedeb1d1c2f45407654dd245a55daf84ba",
+        "sha256_in_prefix": "42b6eee754e0850a60a3f7520ea51ebedeb1d1c2f45407654dd245a55daf84ba",
+        "size_in_bytes": 38635
+      },
+      {
+        "_path": "Library/include/OpenImageIO/varyingref.h",
+        "path_type": "hardlink",
+        "sha256": "e53ebe0517c04f5cf01d3541ba8a8f520b6a68f9a8156152fa14464de4141498",
+        "sha256_in_prefix": "e53ebe0517c04f5cf01d3541ba8a8f520b6a68f9a8156152fa14464de4141498",
+        "size_in_bytes": 7289
+      },
+      {
+        "_path": "Library/include/OpenImageIO/vecparam.h",
+        "path_type": "hardlink",
+        "sha256": "68dbdb306cf78df21c2f1270269bb61c0f9aef5a8b61d2937b7420d5ba2516de",
+        "sha256_in_prefix": "68dbdb306cf78df21c2f1270269bb61c0f9aef5a8b61d2937b7420d5ba2516de",
+        "size_in_bytes": 13355
+      },
+      {
+        "_path": "Library/include/OpenImageIO/version.h",
+        "path_type": "hardlink",
+        "sha256": "4a75447721427f8a675ea6474977fe406b24fa681a68034fc947a4a747cd1f18",
+        "sha256_in_prefix": "4a75447721427f8a675ea6474977fe406b24fa681a68034fc947a4a747cd1f18",
+        "size_in_bytes": 138
+      },
+      {
+        "_path": "Library/lib/OpenImageIO.lib",
+        "path_type": "hardlink",
+        "sha256": "2545b38c72c25feefc040ea189d8954cb5f5b8774f961f35c7bf19d189ea7fc1",
+        "sha256_in_prefix": "2545b38c72c25feefc040ea189d8954cb5f5b8774f961f35c7bf19d189ea7fc1",
+        "size_in_bytes": 675754
+      },
+      {
+        "_path": "Library/lib/OpenImageIO_Util.lib",
+        "path_type": "hardlink",
+        "sha256": "7a5f57567f9721c5efc3b141d9aae294f7c6fe8f4d9d0b569fb805e3fd6bd95d",
+        "sha256_in_prefix": "7a5f57567f9721c5efc3b141d9aae294f7c6fe8f4d9d0b569fb805e3fd6bd95d",
+        "size_in_bytes": 463188
+      },
+      {
+        "_path": "Library/lib/cmake/OpenImageIO/OpenImageIOConfig.cmake",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_openimageio_1777200839/h_env",
+        "sha256": "1636b660ad18122f0636cf9bf5122e3f29c335f69f2e6408fa79548fa71d177f",
+        "sha256_in_prefix": "17d64198cc790d8e8bc18e7bff3fb1424830f629671f374bf4c457b9f4901261",
+        "size_in_bytes": 4281
+      },
+      {
+        "_path": "Library/lib/cmake/OpenImageIO/OpenImageIOConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "676b33836fbb307903c99e8f3dd140e41aa3347fc2ed9e25d7a9f9361c4bbbea",
+        "sha256_in_prefix": "676b33836fbb307903c99e8f3dd140e41aa3347fc2ed9e25d7a9f9361c4bbbea",
+        "size_in_bytes": 2836
+      },
+      {
+        "_path": "Library/lib/cmake/OpenImageIO/OpenImageIOTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "0d323707f212c292018af90a920dadf93a088144f82b85d481a138953d9cbd92",
+        "sha256_in_prefix": "0d323707f212c292018af90a920dadf93a088144f82b85d481a138953d9cbd92",
+        "size_in_bytes": 1853
+      },
+      {
+        "_path": "Library/lib/cmake/OpenImageIO/OpenImageIOTargets.cmake",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_openimageio_1777200839/h_env",
+        "sha256": "dc7368d747bc64ebd446458f3630dd260fd40b1a35d345c734a4c160078ddb9b",
+        "sha256_in_prefix": "71caedd9250fe8a5aad4075cf38f04c8db8d687e9f4163c58545c0ae0f01fc10",
+        "size_in_bytes": 5252
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSans-Bold.ttf",
+        "path_type": "hardlink",
+        "sha256": "b0e676ab52e9859a10bda9f4493bc819ed844ce4d1b055b9ba818e26d287c1fc",
+        "sha256_in_prefix": "b0e676ab52e9859a10bda9f4493bc819ed844ce4d1b055b9ba818e26d287c1fc",
+        "size_in_bytes": 42480
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSans.ttf",
+        "path_type": "hardlink",
+        "sha256": "90f0a053d61ba5042e1c2db00e49584bc8b0d0b3e07fb1609c391b541b0ab4fa",
+        "sha256_in_prefix": "90f0a053d61ba5042e1c2db00e49584bc8b0d0b3e07fb1609c391b541b0ab4fa",
+        "size_in_bytes": 41028
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSansMono.ttf",
+        "path_type": "hardlink",
+        "sha256": "30512eadb46048e3dfaf048be0e0c276d111fc1de973711971049f425ebffa67",
+        "sha256_in_prefix": "30512eadb46048e3dfaf048be0e0c276d111fc1de973711971049f425ebffa67",
+        "size_in_bytes": 117072
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSerif-Bold.ttf",
+        "path_type": "hardlink",
+        "sha256": "2bb98486a75a0ee4d7b223b374de24fc22ef0cfe4d1a9344b6b6583d0459c1b0",
+        "sha256_in_prefix": "2bb98486a75a0ee4d7b223b374de24fc22ef0cfe4d1a9344b6b6583d0459c1b0",
+        "size_in_bytes": 48880
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSerif-BoldItalic.ttf",
+        "path_type": "hardlink",
+        "sha256": "f151bfa44aae2993d5d5a6754c1358ee143f94ff70fb45a6b785250feba45b14",
+        "sha256_in_prefix": "f151bfa44aae2993d5d5a6754c1358ee143f94ff70fb45a6b785250feba45b14",
+        "size_in_bytes": 45652
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSerif-Italic.ttf",
+        "path_type": "hardlink",
+        "sha256": "40af94e599b6a6082cd5f571f4571e90eaafbeed148ab16384e268101f8d79af",
+        "sha256_in_prefix": "40af94e599b6a6082cd5f571f4571e90eaafbeed148ab16384e268101f8d79af",
+        "size_in_bytes": 40416
+      },
+      {
+        "_path": "Library/share/fonts/OpenImageIO/DroidSerif.ttf",
+        "path_type": "hardlink",
+        "sha256": "41e65b30dd61b843736933e031f31393e9db4cdbabaeded0f541a2df4efcf2f8",
+        "sha256_in_prefix": "41e65b30dd61b843736933e031f31393e9db4cdbabaeded0f541a2df4efcf2f8",
+        "size_in_bytes": 43648
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "openimageio",
+  "sha256": "edbf2a1c8d5450276568587e744a1e2bcf1d94a9f035918f177579a065566841",
+  "size": 3341815,
+  "subdir": "win-64",
+  "timestamp": 1777200839000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/openimageio-2.5.18.0-haa1b8b9_13.conda",
+  "version": "2.5.18.0"
+}

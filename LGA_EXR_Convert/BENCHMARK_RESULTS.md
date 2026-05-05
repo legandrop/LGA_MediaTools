@@ -195,3 +195,41 @@ Mejor candidato con resize sigue siendo Python + `oiiotool` paralelo.
 - Para `1920x1080`, `8 workers` fue apenas mejor (`10.08 fps`), practicamente empatado con `12 workers` (`10.07 fps`).
 - Todos los casos preservaron metadata segun `iinfo -v`.
 - Recomendacion: default general `6 workers` sin resize; para resize, permitir override y considerar default `8 workers`.
+
+## Run 08 - External Tools, Primeros 100 Frames
+
+- Fecha: `2026-05-04_23-16-29`
+- Frames: `1001-1100`
+- Resize: no
+- OCIO/color conversion: no
+- Tools:
+  - OpenEXR `exrmetrics` 3.4.11 desde `Tools/conda_exrtools`
+  - OpenImageIO Python bindings 2.5.18 desde `Tools/conda_exrtools`
+
+| Method | Workers/Threads | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `exrmetrics_3411_parallel_6w_t1` | 6w / 1t | 10.233 | 9.77 | 100/100 | 0.249 | 0 |
+| `exrmetrics_3411_parallel_6w_t2` | 6w / 2t | 6.796 | 14.71 | 100/100 | 0.249 | 0 |
+| `exrmetrics_3411_parallel_6w_t6` | 6w / 6t | 5.264 | 19.00 | 100/100 | 0.249 | 0 |
+| `oiio_py_2518_parallel_6w` | 6w | 10.035 | 9.96 | 100/100 | 0.295 | 0 |
+
+## Run 09 - External Tools, Secuencia Completa
+
+- Fecha: `2026-05-04_23-22-51`
+- Frames: `181`
+- Resize: no
+- OCIO/color conversion: no
+
+| Method | Workers/Threads | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `exrmetrics_3411_parallel_6w_t6` | 6w / 6t | 10.494 | 17.25 | 181/181 | 0.249 | 0 |
+
+## Observaciones External Tools
+
+- Nuevo ganador para recompress puro sin resize: OpenEXR `exrmetrics` 3.4.11 con `--convert -m -t 6 -z dwaa -l 60`, orquestado en paralelo desde Python.
+- En 100 frames, `exrmetrics_3411_parallel_6w_t6` hizo `19.00 fps`, mejor que el mejor `oiiotool` previo sin resize (`~15.37 fps` en 100 frames).
+- En secuencia completa, `exrmetrics_3411_parallel_6w_t6` hizo `17.25 fps`, mejor que Python + `oiiotool` paralelo (`15.48 fps`).
+- Ademas genera archivos mas chicos: ratio `0.249` vs `0.295` de `oiiotool`.
+- Metadata OK segun `iinfo -v`.
+- Limitacion: `exrmetrics` no cubre resize/OCIO; para esos casos sigue ganando el camino `oiiotool` paralelo.
+- OIIO 2.5.18 via Python bindings funciona, pero no mejora performance; queda descartado por ahora.

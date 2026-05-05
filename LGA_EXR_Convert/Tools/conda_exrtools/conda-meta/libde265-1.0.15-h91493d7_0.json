@@ -1,0 +1,119 @@
+{
+  "build": "h91493d7_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "ucrt >=10.0.20348.0",
+    "vc >=14.2,<15",
+    "vc14_runtime >=14.29.30139"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libde265-1.0.15-h91493d7_0",
+  "features": "",
+  "files": [
+    "Library/bin/dec265.exe",
+    "Library/bin/libde265.dll",
+    "Library/include/libde265/de265-version.h",
+    "Library/include/libde265/de265.h",
+    "Library/include/libde265/en265.h",
+    "Library/lib/cmake/libde265/libde265Config-release.cmake",
+    "Library/lib/cmake/libde265/libde265Config.cmake",
+    "Library/lib/cmake/libde265/libde265ConfigVersion.cmake",
+    "Library/lib/de265.lib",
+    "Library/lib/pkgconfig/libde265.pc"
+  ],
+  "fn": "libde265-1.0.15-h91493d7_0.conda",
+  "license": "LGPL-3.0-or-later",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libde265-1.0.15-h91493d7_0",
+    "type": 1
+  },
+  "md5": "9dc3c1fbc1c7bc6204e8a603f45e156b",
+  "name": "libde265",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libde265-1.0.15-h91493d7_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/dec265.exe",
+        "path_type": "hardlink",
+        "sha256": "6bd02e59d566a6e6853104f48b0cb45b36e584ff32337b1ffe7237a93a541d2e",
+        "sha256_in_prefix": "6bd02e59d566a6e6853104f48b0cb45b36e584ff32337b1ffe7237a93a541d2e",
+        "size_in_bytes": 23040
+      },
+      {
+        "_path": "Library/bin/libde265.dll",
+        "path_type": "hardlink",
+        "sha256": "6c7bd99580dadb58ac1b4c0d48a09a4e6aca017b8d64921280ae9bec7b1e4c19",
+        "sha256_in_prefix": "6c7bd99580dadb58ac1b4c0d48a09a4e6aca017b8d64921280ae9bec7b1e4c19",
+        "size_in_bytes": 505344
+      },
+      {
+        "_path": "Library/include/libde265/de265-version.h",
+        "path_type": "hardlink",
+        "sha256": "df60ce9260df2f44f44fd44714aab1cc0e0ed5f046087ab472a9955f1c001f9d",
+        "sha256_in_prefix": "df60ce9260df2f44f44fd44714aab1cc0e0ed5f046087ab472a9955f1c001f9d",
+        "size_in_bytes": 1158
+      },
+      {
+        "_path": "Library/include/libde265/de265.h",
+        "path_type": "hardlink",
+        "sha256": "548ca6e6bfd34ca6640d00486aa9539fc391bace61e2197421cf9095d6bbe84f",
+        "sha256_in_prefix": "548ca6e6bfd34ca6640d00486aa9539fc391bace61e2197421cf9095d6bbe84f",
+        "size_in_bytes": 18258
+      },
+      {
+        "_path": "Library/include/libde265/en265.h",
+        "path_type": "hardlink",
+        "sha256": "a768c533d1ac59c0002b9e3eb740cbac5181e8bda4225e3517bebcbac83e5a6e",
+        "sha256_in_prefix": "a768c533d1ac59c0002b9e3eb740cbac5181e8bda4225e3517bebcbac83e5a6e",
+        "size_in_bytes": 7536
+      },
+      {
+        "_path": "Library/lib/cmake/libde265/libde265Config-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "9b0572a153cf87c047ad834ee0ff36a1bd25cc80ef34d52f3a1e924906eaecb6",
+        "sha256_in_prefix": "9b0572a153cf87c047ad834ee0ff36a1bd25cc80ef34d52f3a1e924906eaecb6",
+        "size_in_bytes": 863
+      },
+      {
+        "_path": "Library/lib/cmake/libde265/libde265Config.cmake",
+        "path_type": "hardlink",
+        "sha256": "73356c7494ab993d61bb885e7e9f0d76fbc4d0a5e0c6dc6b73c7ff1a2345a3b2",
+        "sha256_in_prefix": "73356c7494ab993d61bb885e7e9f0d76fbc4d0a5e0c6dc6b73c7ff1a2345a3b2",
+        "size_in_bytes": 3859
+      },
+      {
+        "_path": "Library/lib/cmake/libde265/libde265ConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "2378ce49fd4ccee714e2ca714ab13c24c05f2c9f2d8e136069dde94f77d765af",
+        "sha256_in_prefix": "2378ce49fd4ccee714e2ca714ab13c24c05f2c9f2d8e136069dde94f77d765af",
+        "size_in_bytes": 3335
+      },
+      {
+        "_path": "Library/lib/de265.lib",
+        "path_type": "hardlink",
+        "sha256": "6fed1346bd0a7e8e4ba9a6a3cd9069e192b213020256c3102d21a8690abc4c8e",
+        "sha256_in_prefix": "6fed1346bd0a7e8e4ba9a6a3cd9069e192b213020256c3102d21a8690abc4c8e",
+        "size_in_bytes": 35410
+      },
+      {
+        "_path": "Library/lib/pkgconfig/libde265.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/libde265_1703088605763/_h_env",
+        "sha256": "cfa0e841c9f19e9ae06d579652f6886d277856096764abd6d6699068672cf96f",
+        "sha256_in_prefix": "5b46a17ad04c5ea7bb77a2c797b04dcbbf21c759bc369da6c2af9d42c96fb27d",
+        "size_in_bytes": 340
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "f52c603151743486d2faec37e161c60731001d9c955e0f12ac9ad334c1119116",
+  "size": 252968,
+  "subdir": "win-64",
+  "timestamp": 1703089151000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libde265-1.0.15-h91493d7_0.conda",
+  "version": "1.0.15"
+}

@@ -1,0 +1,12 @@
+prefix=/d/bld/libhwloc_1770953379274/_h_env/Library
+exec_prefix=${prefix}
+libdir=/d/bld/libhwloc_1770953379274/_h_env/Library/lib
+includedir=${prefix}/include
+
+Name: hwloc
+Description: Hardware locality detection and management library
+Version: 2.13.0
+Requires.private: 
+Cflags: -I${includedir}
+Libs: -L${libdir} -lhwloc
+Libs.private: -lgdi32  -lpthread   

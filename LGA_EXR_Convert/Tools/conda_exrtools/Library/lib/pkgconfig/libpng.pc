@@ -1,0 +1,12 @@
+prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+exec_prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+libdir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib
+includedir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/include/libpng16
+
+Name: libpng
+Description: Loads and saves PNG files
+Version: 1.6.58
+Requires.private: zlib
+Libs: -L${libdir} -lpng16
+Libs.private: -lz
+Cflags: -I${includedir}

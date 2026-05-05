@@ -1,0 +1,13 @@
+prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: SvtAv1Enc
+Description: SVT (Scalable Video Technology) for AV1 encoder library
+Version: 3.1.2
+Requires.private: 
+Libs: -L${libdir} -lSvtAv1Enc
+Libs.private: 
+Cflags: -I${includedir}/svt-av1 -DEB_DLL
+Cflags.private: -UEB_DLL

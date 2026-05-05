@@ -1,0 +1,263 @@
+{
+  "build": "h345c428_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208",
+    "ucrt >=10.0.20348.0",
+    "libzlib >=1.3.1,<2.0a0",
+    "libjpeg-turbo >=3.1.2,<4.0a0",
+    "jasper >=4.2.8,<5.0a0",
+    "lcms2 >=2.18,<3.0a0"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libraw-0.21.5-h345c428_0",
+  "features": "",
+  "files": [
+    "Library/bin/4channels.exe",
+    "Library/bin/dcraw_emu.exe",
+    "Library/bin/mem_image_sample.exe",
+    "Library/bin/multirender_test.exe",
+    "Library/bin/postprocessing_benchmark.exe",
+    "Library/bin/raw-identify.exe",
+    "Library/bin/raw.dll",
+    "Library/bin/raw_r.dll",
+    "Library/bin/simple_dcraw.exe",
+    "Library/bin/unprocessed_raw.exe",
+    "Library/include/libraw/libraw.h",
+    "Library/include/libraw/libraw_alloc.h",
+    "Library/include/libraw/libraw_config.h",
+    "Library/include/libraw/libraw_const.h",
+    "Library/include/libraw/libraw_datastream.h",
+    "Library/include/libraw/libraw_internal.h",
+    "Library/include/libraw/libraw_types.h",
+    "Library/include/libraw/libraw_version.h",
+    "Library/lib/cmake/librawConfig.cmake",
+    "Library/lib/cmake/librawConfigVersion.cmake",
+    "Library/lib/cmake/librawTargets-release.cmake",
+    "Library/lib/cmake/librawTargets.cmake",
+    "Library/lib/pkgconfig/libraw.pc",
+    "Library/lib/pkgconfig/libraw_r.pc",
+    "Library/lib/raw.lib",
+    "Library/lib/raw_r.lib",
+    "Library/share/cmake/libraw/FindLibRaw.cmake"
+  ],
+  "fn": "libraw-0.21.5-h345c428_0.conda",
+  "license": "LGPL-2.1-only",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libraw-0.21.5-h345c428_0",
+    "type": 1
+  },
+  "md5": "b2764534789b92698a0aa2d3f7b3e9e7",
+  "name": "libraw",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libraw-0.21.5-h345c428_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/4channels.exe",
+        "path_type": "hardlink",
+        "sha256": "987a4ec7cf7d6c48c300c7dbb8a93fc274979ec3ea9499a56b2c2d71376f8797",
+        "sha256_in_prefix": "987a4ec7cf7d6c48c300c7dbb8a93fc274979ec3ea9499a56b2c2d71376f8797",
+        "size_in_bytes": 15360
+      },
+      {
+        "_path": "Library/bin/dcraw_emu.exe",
+        "path_type": "hardlink",
+        "sha256": "70450f391866a58d7775474016ca3aaeb93e051fe83654be63273abbbebf309b",
+        "sha256_in_prefix": "70450f391866a58d7775474016ca3aaeb93e051fe83654be63273abbbebf309b",
+        "size_in_bytes": 26112
+      },
+      {
+        "_path": "Library/bin/mem_image_sample.exe",
+        "path_type": "hardlink",
+        "sha256": "f4a270148516a4b6e70178c16cb6409e192bf8ae49d673b5d8aaf4f9141ffb1f",
+        "sha256_in_prefix": "f4a270148516a4b6e70178c16cb6409e192bf8ae49d673b5d8aaf4f9141ffb1f",
+        "size_in_bytes": 15872
+      },
+      {
+        "_path": "Library/bin/multirender_test.exe",
+        "path_type": "hardlink",
+        "sha256": "ffff9ae050803e8db5b67d1ec4f5f979d208eb75c0f1b4d22e10915937489958",
+        "sha256_in_prefix": "ffff9ae050803e8db5b67d1ec4f5f979d208eb75c0f1b4d22e10915937489958",
+        "size_in_bytes": 13824
+      },
+      {
+        "_path": "Library/bin/postprocessing_benchmark.exe",
+        "path_type": "hardlink",
+        "sha256": "1d3e1c8a7d2c52c0ea36900475bf5f40196d68de4d362991ddb81e31dcf9a548",
+        "sha256_in_prefix": "1d3e1c8a7d2c52c0ea36900475bf5f40196d68de4d362991ddb81e31dcf9a548",
+        "size_in_bytes": 15360
+      },
+      {
+        "_path": "Library/bin/raw-identify.exe",
+        "path_type": "hardlink",
+        "sha256": "477363d5f3eca17f2f898089603e41b8acc585ed799c2f42cabae3abf7b9eefc",
+        "sha256_in_prefix": "477363d5f3eca17f2f898089603e41b8acc585ed799c2f42cabae3abf7b9eefc",
+        "size_in_bytes": 34816
+      },
+      {
+        "_path": "Library/bin/raw.dll",
+        "path_type": "hardlink",
+        "sha256": "f6f86f952aa115f6e81a3dbc63c3d79f22e3b5d3ed56c3d61a6c9b5858c7e1a4",
+        "sha256_in_prefix": "f6f86f952aa115f6e81a3dbc63c3d79f22e3b5d3ed56c3d61a6c9b5858c7e1a4",
+        "size_in_bytes": 1132544
+      },
+      {
+        "_path": "Library/bin/raw_r.dll",
+        "path_type": "hardlink",
+        "sha256": "c4dacb0270871d04491b153b0c4088b16556e2b43380d24e37ad6c0b541d4797",
+        "sha256_in_prefix": "c4dacb0270871d04491b153b0c4088b16556e2b43380d24e37ad6c0b541d4797",
+        "size_in_bytes": 1131008
+      },
+      {
+        "_path": "Library/bin/simple_dcraw.exe",
+        "path_type": "hardlink",
+        "sha256": "6a9829ec16f46691203a636c5f245aa4c9699d95eb354aee5365f102a4ecf2e9",
+        "sha256_in_prefix": "6a9829ec16f46691203a636c5f245aa4c9699d95eb354aee5365f102a4ecf2e9",
+        "size_in_bytes": 19456
+      },
+      {
+        "_path": "Library/bin/unprocessed_raw.exe",
+        "path_type": "hardlink",
+        "sha256": "370f061993049125e662134207161098a6c09e8eaddb00cb411e528d064f36ff",
+        "sha256_in_prefix": "370f061993049125e662134207161098a6c09e8eaddb00cb411e528d064f36ff",
+        "size_in_bytes": 15872
+      },
+      {
+        "_path": "Library/include/libraw/libraw.h",
+        "path_type": "hardlink",
+        "sha256": "3e1c191f1b2feeb58c50de668c2a10fa62631ac49db3fafc3501e5c9aff7ceab",
+        "sha256_in_prefix": "3e1c191f1b2feeb58c50de668c2a10fa62631ac49db3fafc3501e5c9aff7ceab",
+        "size_in_bytes": 18208
+      },
+      {
+        "_path": "Library/include/libraw/libraw_alloc.h",
+        "path_type": "hardlink",
+        "sha256": "37bd73b2a133ac7df778e0a02ed87aa20c86f85299f5ff0474521d2d29bdeb5a",
+        "sha256_in_prefix": "37bd73b2a133ac7df778e0a02ed87aa20c86f85299f5ff0474521d2d29bdeb5a",
+        "size_in_bytes": 3131
+      },
+      {
+        "_path": "Library/include/libraw/libraw_config.h",
+        "path_type": "hardlink",
+        "sha256": "065683a8ffe12ca071044dce862b6e38a855d033048d7a1d3514c518b9b21724",
+        "sha256_in_prefix": "065683a8ffe12ca071044dce862b6e38a855d033048d7a1d3514c518b9b21724",
+        "size_in_bytes": 1637
+      },
+      {
+        "_path": "Library/include/libraw/libraw_const.h",
+        "path_type": "hardlink",
+        "sha256": "00ad97e07ce41da9a1fbff19bc901cb9ecbdfe0c40478262dc946813841193d6",
+        "sha256_in_prefix": "00ad97e07ce41da9a1fbff19bc901cb9ecbdfe0c40478262dc946813841193d6",
+        "size_in_bytes": 24915
+      },
+      {
+        "_path": "Library/include/libraw/libraw_datastream.h",
+        "path_type": "hardlink",
+        "sha256": "79fb4f9fb4aca08cac0fc36899b3eb89ad3bb807d76c72949951e28dcd5fa1f8",
+        "sha256_in_prefix": "79fb4f9fb4aca08cac0fc36899b3eb89ad3bb807d76c72949951e28dcd5fa1f8",
+        "size_in_bytes": 10832
+      },
+      {
+        "_path": "Library/include/libraw/libraw_internal.h",
+        "path_type": "hardlink",
+        "sha256": "7c7d8a6abd51642868903f4567475ca97d5bb876259a2e1643ff9f0bcc706b11",
+        "sha256_in_prefix": "7c7d8a6abd51642868903f4567475ca97d5bb876259a2e1643ff9f0bcc706b11",
+        "size_in_bytes": 10718
+      },
+      {
+        "_path": "Library/include/libraw/libraw_types.h",
+        "path_type": "hardlink",
+        "sha256": "0787e9ef85d902d369fc4a1296a07d72171576a4ae6e4df0f39f53eaea123498",
+        "sha256_in_prefix": "0787e9ef85d902d369fc4a1296a07d72171576a4ae6e4df0f39f53eaea123498",
+        "size_in_bytes": 33274
+      },
+      {
+        "_path": "Library/include/libraw/libraw_version.h",
+        "path_type": "hardlink",
+        "sha256": "127605ac384d47896bf4675d52d70b8183f55a0294fdb2a9187523172dbb01f4",
+        "sha256_in_prefix": "127605ac384d47896bf4675d52d70b8183f55a0294fdb2a9187523172dbb01f4",
+        "size_in_bytes": 2467
+      },
+      {
+        "_path": "Library/lib/cmake/librawConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "1e590c18ee2d5303d82fc729b4a4ddfa9bef8b1ad57bad1eb7f2b172ea5b64a1",
+        "sha256_in_prefix": "1e590c18ee2d5303d82fc729b4a4ddfa9bef8b1ad57bad1eb7f2b172ea5b64a1",
+        "size_in_bytes": 1439
+      },
+      {
+        "_path": "Library/lib/cmake/librawConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "0b0e880c286688a59b92ff679a3338daacb0395f1a4f24d2669dbb41a79aee6b",
+        "sha256_in_prefix": "0b0e880c286688a59b92ff679a3338daacb0395f1a4f24d2669dbb41a79aee6b",
+        "size_in_bytes": 1905
+      },
+      {
+        "_path": "Library/lib/cmake/librawTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "b730d6855a2f3edd240c8f2a6eb42d545ecd37c8f87b0067836c5ca944161eaf",
+        "sha256_in_prefix": "b730d6855a2f3edd240c8f2a6eb42d545ecd37c8f87b0067836c5ca944161eaf",
+        "size_in_bytes": 1389
+      },
+      {
+        "_path": "Library/lib/cmake/librawTargets.cmake",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_libraw_1768379172/h_env",
+        "sha256": "1aaa337019facdce523cc2422ae8ceee90ef645aee5d777c171123d9464be032",
+        "sha256_in_prefix": "04f9686091bb6d5fae8a5828bba47df89d843dfbf8f750e0bd718a4701b8da6b",
+        "size_in_bytes": 4958
+      },
+      {
+        "_path": "Library/lib/pkgconfig/libraw.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_libraw_1768379172/h_env",
+        "sha256": "2b81f481df1c8dd0d5e304d48b951854c072e9a255b91379d95bd47d01da05a7",
+        "sha256_in_prefix": "8096b2f930483b4269e6b0daedef79170ead45fd51d3fb30c37cbd207bf4ca4e",
+        "size_in_bytes": 410
+      },
+      {
+        "_path": "Library/lib/pkgconfig/libraw_r.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_libraw_1768379172/h_env",
+        "sha256": "b4faec2feb618ef025131b6715fdff4ab94a73b4675bf6ce192fa6906693660b",
+        "sha256_in_prefix": "c8629e8a03be25148493c0d5abd949b58bb2bc7c3d830e3a2516e969ab06aa0a",
+        "size_in_bytes": 408
+      },
+      {
+        "_path": "Library/lib/raw.lib",
+        "path_type": "hardlink",
+        "sha256": "e64caf5f9c653720da26c36a37d632b7c6eec604717116b17d23189141148a71",
+        "sha256_in_prefix": "e64caf5f9c653720da26c36a37d632b7c6eec604717116b17d23189141148a71",
+        "size_in_bytes": 174466
+      },
+      {
+        "_path": "Library/lib/raw_r.lib",
+        "path_type": "hardlink",
+        "sha256": "1ef2db33a5252487e6eb4687bb66617dc091ffc1c1769b3b32da541a59f5632b",
+        "sha256_in_prefix": "1ef2db33a5252487e6eb4687bb66617dc091ffc1c1769b3b32da541a59f5632b",
+        "size_in_bytes": 175634
+      },
+      {
+        "_path": "Library/share/cmake/libraw/FindLibRaw.cmake",
+        "path_type": "hardlink",
+        "sha256": "445faa6ddb21f823716ea8628699924d461b34749c8ebb308c5166ec1cdf8ee6",
+        "sha256_in_prefix": "445faa6ddb21f823716ea8628699924d461b34749c8ebb308c5166ec1cdf8ee6",
+        "size_in_bytes": 3405
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "e8deadcca9dc9371e36778638bb3b3869dc79576a3d2ddfc40b5d92efbf49dbc",
+  "size": 558269,
+  "subdir": "win-64",
+  "timestamp": 1768379172000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libraw-0.21.5-h345c428_0.conda",
+  "version": "0.21.5"
+}

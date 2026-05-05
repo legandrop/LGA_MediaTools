@@ -1,0 +1,14 @@
+prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+exec_prefix=${prefix}
+libdir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib
+includedir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/include
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 61.19.101
+Requires: 
+Requires.private: libswresample >= 5.3.100, libavutil >= 59.39.100
+Conflicts:
+Libs: -L${libdir}  -lavcodec 
+Libs.private: iconv.lib lzma.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib dav1d.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib rsvg-2.0.lib cairo.lib gdk_pixbuf-2.0.lib intl.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/libpng.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/z.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/jpeg.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/tiff.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/libpng.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/z.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/jpeg.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/tiff.lib gio-2.0.lib iconv.lib shlwapi.lib dnsapi.lib iphlpapi.lib ws2_32.lib gmodule-2.0.lib iconv.lib gobject-2.0.lib iconv.lib ffi.lib glib-2.0.lib iconv.lib ws2_32.lib winmm.lib pcre2-8.lib cairo.lib gdi32.lib msimg32.lib dwrite.lib d2d1.lib windowscodecs.lib fontconfig.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/expat.lib freetype.lib png16.lib zlib.lib pixman-1.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib aom.lib mp3lame.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib opus.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib SvtAv1Enc.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib vorbis.lib ogg.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib vorbisenc.lib vorbis.lib ogg.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib libx264.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib x265.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib openh264.lib mfuuid.lib ole32.lib strmiids.lib ole32.lib user32.lib -LC:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib zlib.lib
+Cflags: -I${includedir}

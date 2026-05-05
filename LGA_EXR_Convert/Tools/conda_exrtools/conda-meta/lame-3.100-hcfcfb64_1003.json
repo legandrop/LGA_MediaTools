@@ -1,0 +1,69 @@
+{
+  "build": "hcfcfb64_1003",
+  "build_number": 1003,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "ucrt >=10.0.20348.0",
+    "vc >=14.2,<15",
+    "vs2015_runtime >=14.29.30139"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\lame-3.100-hcfcfb64_1003",
+  "features": "",
+  "files": [
+    "Library/bin/lame.exe",
+    "Library/bin/libmp3lame.dll",
+    "Library/include/lame/lame.h",
+    "Library/lib/libmp3lame.lib"
+  ],
+  "fn": "lame-3.100-hcfcfb64_1003.tar.bz2",
+  "license": "LGPL-2.0-only",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\lame-3.100-hcfcfb64_1003",
+    "type": 1
+  },
+  "md5": "d92e64077c44c9e32c72d4b5799d47e4",
+  "name": "lame",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\lame-3.100-hcfcfb64_1003.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/lame.exe",
+        "path_type": "hardlink",
+        "sha256": "fe7440ce10995d101d70c6fb4f2e5b7f700e1b42a7414fb6d2cdf7c04806d2f0",
+        "sha256_in_prefix": "fe7440ce10995d101d70c6fb4f2e5b7f700e1b42a7414fb6d2cdf7c04806d2f0",
+        "size_in_bytes": 681472
+      },
+      {
+        "_path": "Library/bin/libmp3lame.dll",
+        "path_type": "hardlink",
+        "sha256": "af486cff2a070d7d101d4c2c4ec41d2b4fbc45df9453efbf76019054404d4663",
+        "sha256_in_prefix": "af486cff2a070d7d101d4c2c4ec41d2b4fbc45df9453efbf76019054404d4663",
+        "size_in_bytes": 529920
+      },
+      {
+        "_path": "Library/include/lame/lame.h",
+        "path_type": "hardlink",
+        "sha256": "b30e4d3f5bb247bad2781758d90604f29cc44dd5bd79fee130aaef7c7d25bcf0",
+        "sha256_in_prefix": "b30e4d3f5bb247bad2781758d90604f29cc44dd5bd79fee130aaef7c7d25bcf0",
+        "size_in_bytes": 50053
+      },
+      {
+        "_path": "Library/lib/libmp3lame.lib",
+        "path_type": "hardlink",
+        "sha256": "ad40bc989d09a4f9cbe49daa0beb1e3fb20e3ef28aba535b7d1230bea77492bb",
+        "sha256_in_prefix": "ad40bc989d09a4f9cbe49daa0beb1e3fb20e3ef28aba535b7d1230bea77492bb",
+        "size_in_bytes": 52020
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "824988a396b97bb9138823a1b3aabd8326e06da5834b3011253d72bb45fd3a88",
+  "size": 570583,
+  "subdir": "win-64",
+  "timestamp": 1664996824000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/lame-3.100-hcfcfb64_1003.tar.bz2",
+  "version": "3.100"
+}

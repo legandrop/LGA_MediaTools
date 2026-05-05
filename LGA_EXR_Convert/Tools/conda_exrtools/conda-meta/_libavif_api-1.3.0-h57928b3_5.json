@@ -1,0 +1,31 @@
+{
+  "build": "h57928b3_5",
+  "build_number": 5,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\_libavif_api-1.3.0-h57928b3_5",
+  "features": "",
+  "files": [],
+  "fn": "_libavif_api-1.3.0-h57928b3_5.conda",
+  "license": "",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\_libavif_api-1.3.0-h57928b3_5",
+    "type": 1
+  },
+  "md5": "862e2cf358029c0b0a4c83929e44a617",
+  "name": "_libavif_api",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\_libavif_api-1.3.0-h57928b3_5.conda",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "317a140edcf748edd37440f352bbf114a88dc2a323c69694b0eafded3317f72a",
+  "size": 10597,
+  "subdir": "win-64",
+  "timestamp": 1772628421000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/_libavif_api-1.3.0-h57928b3_5.conda",
+  "version": "1.3.0"
+}

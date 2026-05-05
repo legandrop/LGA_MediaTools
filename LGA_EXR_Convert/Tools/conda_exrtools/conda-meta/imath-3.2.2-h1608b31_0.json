@@ -1,0 +1,376 @@
+{
+  "build": "h1608b31_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "libzlib >=1.3.1,<2.0a0",
+    "ucrt >=10.0.20348.0",
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\imath-3.2.2-h1608b31_0",
+  "features": "",
+  "files": [
+    "Library/bin/Imath.dll",
+    "Library/include/Imath/ImathBox.h",
+    "Library/include/Imath/ImathBoxAlgo.h",
+    "Library/include/Imath/ImathColor.h",
+    "Library/include/Imath/ImathColorAlgo.h",
+    "Library/include/Imath/ImathConfig.h",
+    "Library/include/Imath/ImathEuler.h",
+    "Library/include/Imath/ImathExport.h",
+    "Library/include/Imath/ImathForward.h",
+    "Library/include/Imath/ImathFrame.h",
+    "Library/include/Imath/ImathFrustum.h",
+    "Library/include/Imath/ImathFrustumTest.h",
+    "Library/include/Imath/ImathFun.h",
+    "Library/include/Imath/ImathGL.h",
+    "Library/include/Imath/ImathGLU.h",
+    "Library/include/Imath/ImathInt64.h",
+    "Library/include/Imath/ImathInterval.h",
+    "Library/include/Imath/ImathLine.h",
+    "Library/include/Imath/ImathLineAlgo.h",
+    "Library/include/Imath/ImathMath.h",
+    "Library/include/Imath/ImathMatrix.h",
+    "Library/include/Imath/ImathMatrixAlgo.h",
+    "Library/include/Imath/ImathNamespace.h",
+    "Library/include/Imath/ImathPlane.h",
+    "Library/include/Imath/ImathPlatform.h",
+    "Library/include/Imath/ImathQuat.h",
+    "Library/include/Imath/ImathRandom.h",
+    "Library/include/Imath/ImathRoots.h",
+    "Library/include/Imath/ImathShear.h",
+    "Library/include/Imath/ImathSphere.h",
+    "Library/include/Imath/ImathTypeTraits.h",
+    "Library/include/Imath/ImathVec.h",
+    "Library/include/Imath/ImathVecAlgo.h",
+    "Library/include/Imath/half.h",
+    "Library/include/Imath/halfFunction.h",
+    "Library/include/Imath/halfLimits.h",
+    "Library/lib/Imath.lib",
+    "Library/lib/cmake/Imath/ImathConfig.cmake",
+    "Library/lib/cmake/Imath/ImathConfigVersion.cmake",
+    "Library/lib/cmake/Imath/ImathTargets-release.cmake",
+    "Library/lib/cmake/Imath/ImathTargets.cmake",
+    "Library/lib/pkgconfig/Imath.pc"
+  ],
+  "fn": "imath-3.2.2-h1608b31_0.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\imath-3.2.2-h1608b31_0",
+    "type": 1
+  },
+  "md5": "297d73cfad37a288459cf18286bb0e1f",
+  "name": "imath",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\imath-3.2.2-h1608b31_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/Imath.dll",
+        "path_type": "hardlink",
+        "sha256": "f2f504bcc0870ecff6e4f6f26ead22dc41e2827197ca0afa3a88d0dc86b200bc",
+        "sha256_in_prefix": "f2f504bcc0870ecff6e4f6f26ead22dc41e2827197ca0afa3a88d0dc86b200bc",
+        "size_in_bytes": 338432
+      },
+      {
+        "_path": "Library/include/Imath/ImathBox.h",
+        "path_type": "hardlink",
+        "sha256": "268c81a11d34975ba141f6308f7eb1a50005567d212436f65fef272f3cc1881c",
+        "sha256_in_prefix": "268c81a11d34975ba141f6308f7eb1a50005567d212436f65fef272f3cc1881c",
+        "size_in_bytes": 23720
+      },
+      {
+        "_path": "Library/include/Imath/ImathBoxAlgo.h",
+        "path_type": "hardlink",
+        "sha256": "895d0a174e9f502d21c46dd64103aef8b4f19e9829227a75d0909b7283608d86",
+        "sha256_in_prefix": "895d0a174e9f502d21c46dd64103aef8b4f19e9829227a75d0909b7283608d86",
+        "size_in_bytes": 23386
+      },
+      {
+        "_path": "Library/include/Imath/ImathColor.h",
+        "path_type": "hardlink",
+        "sha256": "12749fcab14cfbad2b487779f39c1974016282b0d7ee1edadb90270de3226323",
+        "sha256_in_prefix": "12749fcab14cfbad2b487779f39c1974016282b0d7ee1edadb90270de3226323",
+        "size_in_bytes": 18953
+      },
+      {
+        "_path": "Library/include/Imath/ImathColorAlgo.h",
+        "path_type": "hardlink",
+        "sha256": "41dbad31b31704b56bd731ad7e1a7b717ab7af8660039807a610189ad84851e3",
+        "sha256_in_prefix": "41dbad31b31704b56bd731ad7e1a7b717ab7af8660039807a610189ad84851e3",
+        "size_in_bytes": 7885
+      },
+      {
+        "_path": "Library/include/Imath/ImathConfig.h",
+        "path_type": "hardlink",
+        "sha256": "05c94ff0fa9cdfa0a45100022779732e51fdfb6fbde15f1969770dd2554942d1",
+        "sha256_in_prefix": "05c94ff0fa9cdfa0a45100022779732e51fdfb6fbde15f1969770dd2554942d1",
+        "size_in_bytes": 6113
+      },
+      {
+        "_path": "Library/include/Imath/ImathEuler.h",
+        "path_type": "hardlink",
+        "sha256": "054429c66d7cf68c7434be05db0159c2dc8d868203e4660a15206649a70944fc",
+        "sha256_in_prefix": "054429c66d7cf68c7434be05db0159c2dc8d868203e4660a15206649a70944fc",
+        "size_in_bytes": 27713
+      },
+      {
+        "_path": "Library/include/Imath/ImathExport.h",
+        "path_type": "hardlink",
+        "sha256": "5c2f253b5639f87e1156c355fb92f860b2f6bccefd25d6d36f432aec20b556f9",
+        "sha256_in_prefix": "5c2f253b5639f87e1156c355fb92f860b2f6bccefd25d6d36f432aec20b556f9",
+        "size_in_bytes": 2261
+      },
+      {
+        "_path": "Library/include/Imath/ImathForward.h",
+        "path_type": "hardlink",
+        "sha256": "a8aa97a86d722f1edfb151d127d3648c75e159fcdc1bb50bd4e2f5915b2f6f81",
+        "sha256_in_prefix": "a8aa97a86d722f1edfb151d127d3648c75e159fcdc1bb50bd4e2f5915b2f6f81",
+        "size_in_bytes": 2291
+      },
+      {
+        "_path": "Library/include/Imath/ImathFrame.h",
+        "path_type": "hardlink",
+        "sha256": "96786bbc754361bb1a038c68c7b1fab1b568b416f82411ffd06928fd3d066a27",
+        "sha256_in_prefix": "96786bbc754361bb1a038c68c7b1fab1b568b416f82411ffd06928fd3d066a27",
+        "size_in_bytes": 5644
+      },
+      {
+        "_path": "Library/include/Imath/ImathFrustum.h",
+        "path_type": "hardlink",
+        "sha256": "4953e961aa7420e3e32868120bd6df1f346ef33a6d284f2cc1a420c8c5dd5867",
+        "sha256_in_prefix": "4953e961aa7420e3e32868120bd6df1f346ef33a6d284f2cc1a420c8c5dd5867",
+        "size_in_bytes": 31191
+      },
+      {
+        "_path": "Library/include/Imath/ImathFrustumTest.h",
+        "path_type": "hardlink",
+        "sha256": "6e1487d0483167740b7b8eb56dde1df9be9d169ae40dc2db13cdf291dba0d8e9",
+        "sha256_in_prefix": "6e1487d0483167740b7b8eb56dde1df9be9d169ae40dc2db13cdf291dba0d8e9",
+        "size_in_bytes": 11800
+      },
+      {
+        "_path": "Library/include/Imath/ImathFun.h",
+        "path_type": "hardlink",
+        "sha256": "0080d4b0587a46434945e8e6728a6de5da19b2b071bb9a9de26653f31068f354",
+        "sha256_in_prefix": "0080d4b0587a46434945e8e6728a6de5da19b2b071bb9a9de26653f31068f354",
+        "size_in_bytes": 5410
+      },
+      {
+        "_path": "Library/include/Imath/ImathGL.h",
+        "path_type": "hardlink",
+        "sha256": "f7131e968b4332feb6e3a356608159326a2c69e620b29e2c6b8d2f16ba732f97",
+        "sha256_in_prefix": "f7131e968b4332feb6e3a356608159326a2c69e620b29e2c6b8d2f16ba732f97",
+        "size_in_bytes": 3878
+      },
+      {
+        "_path": "Library/include/Imath/ImathGLU.h",
+        "path_type": "hardlink",
+        "sha256": "255fddb8175724db0a1740e7d3613816edf442310303d8379e884822abed16d6",
+        "sha256_in_prefix": "255fddb8175724db0a1740e7d3613816edf442310303d8379e884822abed16d6",
+        "size_in_bytes": 692
+      },
+      {
+        "_path": "Library/include/Imath/ImathInt64.h",
+        "path_type": "hardlink",
+        "sha256": "5341ed509de9856f0ac902cd8f51aaa54d4b523542ff51e2c609a02b025a78fc",
+        "sha256_in_prefix": "5341ed509de9856f0ac902cd8f51aaa54d4b523542ff51e2c609a02b025a78fc",
+        "size_in_bytes": 1113
+      },
+      {
+        "_path": "Library/include/Imath/ImathInterval.h",
+        "path_type": "hardlink",
+        "sha256": "efcac4b2d3a1edba0c7c00c98f11719f7b2f8b4adcbb5d80f8949721cb85f22f",
+        "sha256_in_prefix": "efcac4b2d3a1edba0c7c00c98f11719f7b2f8b4adcbb5d80f8949721cb85f22f",
+        "size_in_bytes": 6861
+      },
+      {
+        "_path": "Library/include/Imath/ImathLine.h",
+        "path_type": "hardlink",
+        "sha256": "af4c1267933beb07443da1f342d64eb223d7484f2c3b494bc73ac7e404d30c29",
+        "sha256_in_prefix": "af4c1267933beb07443da1f342d64eb223d7484f2c3b494bc73ac7e404d30c29",
+        "size_in_bytes": 4446
+      },
+      {
+        "_path": "Library/include/Imath/ImathLineAlgo.h",
+        "path_type": "hardlink",
+        "sha256": "074d1f6dd1492b475d9108ab174621f2671e8a2df3650194691a165b5f8f5c5c",
+        "sha256_in_prefix": "074d1f6dd1492b475d9108ab174621f2671e8a2df3650194691a165b5f8f5c5c",
+        "size_in_bytes": 5793
+      },
+      {
+        "_path": "Library/include/Imath/ImathMath.h",
+        "path_type": "hardlink",
+        "sha256": "881df04b109c123015ebc64844fba871a132609d155b75c5c1c21ff977f8efd8",
+        "sha256_in_prefix": "881df04b109c123015ebc64844fba871a132609d155b75c5c1c21ff977f8efd8",
+        "size_in_bytes": 4894
+      },
+      {
+        "_path": "Library/include/Imath/ImathMatrix.h",
+        "path_type": "hardlink",
+        "sha256": "8f7eeb43f782f600f05675a07a1be0553aa66a22d02bddf0b5f6ea197bae6598",
+        "sha256_in_prefix": "8f7eeb43f782f600f05675a07a1be0553aa66a22d02bddf0b5f6ea197bae6598",
+        "size_in_bytes": 135634
+      },
+      {
+        "_path": "Library/include/Imath/ImathMatrixAlgo.h",
+        "path_type": "hardlink",
+        "sha256": "46fe1e2d8697e9b23fd894e6d1b9162d554e3a8b08d8d6d831cb4837d375d489",
+        "sha256_in_prefix": "46fe1e2d8697e9b23fd894e6d1b9162d554e3a8b08d8d6d831cb4837d375d489",
+        "size_in_bytes": 46900
+      },
+      {
+        "_path": "Library/include/Imath/ImathNamespace.h",
+        "path_type": "hardlink",
+        "sha256": "ea425dd299fe5610c41a922c88f902c9f119dfdf1158fb8cfd069e36bee7ff38",
+        "sha256_in_prefix": "ea425dd299fe5610c41a922c88f902c9f119dfdf1158fb8cfd069e36bee7ff38",
+        "size_in_bytes": 2984
+      },
+      {
+        "_path": "Library/include/Imath/ImathPlane.h",
+        "path_type": "hardlink",
+        "sha256": "c44b26bbada5df03355f0b3c30f24226f97ab19def70e951b3d212846c2bc4a1",
+        "sha256_in_prefix": "c44b26bbada5df03355f0b3c30f24226f97ab19def70e951b3d212846c2bc4a1",
+        "size_in_bytes": 7134
+      },
+      {
+        "_path": "Library/include/Imath/ImathPlatform.h",
+        "path_type": "hardlink",
+        "sha256": "b116a009e02c9366fbdee28be81894ee1f14378533f304c7f20e095c2ceb1fd2",
+        "sha256_in_prefix": "b116a009e02c9366fbdee28be81894ee1f14378533f304c7f20e095c2ceb1fd2",
+        "size_in_bytes": 2184
+      },
+      {
+        "_path": "Library/include/Imath/ImathQuat.h",
+        "path_type": "hardlink",
+        "sha256": "f84e406744f45f386028d1a18e3cb6f6100b38cb6e3dcf65f7a506ac74765b92",
+        "sha256_in_prefix": "f84e406744f45f386028d1a18e3cb6f6100b38cb6e3dcf65f7a506ac74765b92",
+        "size_in_bytes": 27172
+      },
+      {
+        "_path": "Library/include/Imath/ImathRandom.h",
+        "path_type": "hardlink",
+        "sha256": "1c70939fc428d1fbffc93de71e43abf420b9c5e6f064afc80099662109c255bd",
+        "sha256_in_prefix": "1c70939fc428d1fbffc93de71e43abf420b9c5e6f064afc80099662109c255bd",
+        "size_in_bytes": 6837
+      },
+      {
+        "_path": "Library/include/Imath/ImathRoots.h",
+        "path_type": "hardlink",
+        "sha256": "f429515665fcc874da64b7e273d9b42e55570f3a241e1b9c9186b84ab81ff454",
+        "sha256_in_prefix": "f429515665fcc874da64b7e273d9b42e55570f3a241e1b9c9186b84ab81ff454",
+        "size_in_bytes": 5229
+      },
+      {
+        "_path": "Library/include/Imath/ImathShear.h",
+        "path_type": "hardlink",
+        "sha256": "cde14fc235b363c4b4c487181aa250c67086b11aa6bd52185c06642985da1f24",
+        "sha256_in_prefix": "cde14fc235b363c4b4c487181aa250c67086b11aa6bd52185c06642985da1f24",
+        "size_in_bytes": 18990
+      },
+      {
+        "_path": "Library/include/Imath/ImathSphere.h",
+        "path_type": "hardlink",
+        "sha256": "9928366b8d2770bfbc40863b060f565d940d4e00beda6d5788928dc674074b63",
+        "sha256_in_prefix": "9928366b8d2770bfbc40863b060f565d940d4e00beda6d5788928dc674074b63",
+        "size_in_bytes": 3641
+      },
+      {
+        "_path": "Library/include/Imath/ImathTypeTraits.h",
+        "path_type": "hardlink",
+        "sha256": "3ef121a6815e55a64a0cbace3a0c39eac4537bca1c5ee8e62b6748b8acad262d",
+        "sha256_in_prefix": "3ef121a6815e55a64a0cbace3a0c39eac4537bca1c5ee8e62b6748b8acad262d",
+        "size_in_bytes": 7922
+      },
+      {
+        "_path": "Library/include/Imath/ImathVec.h",
+        "path_type": "hardlink",
+        "sha256": "cc78798c5e834cff32da5e1ff27552ae96f4ee5324ced15aef3d7f5b9d0f88f5",
+        "sha256_in_prefix": "cc78798c5e834cff32da5e1ff27552ae96f4ee5324ced15aef3d7f5b9d0f88f5",
+        "size_in_bytes": 70621
+      },
+      {
+        "_path": "Library/include/Imath/ImathVecAlgo.h",
+        "path_type": "hardlink",
+        "sha256": "f29c8daa4649a97aab67f87a34e55a5e5bf84f773e9e1fff902a8a571f2ae740",
+        "sha256_in_prefix": "f29c8daa4649a97aab67f87a34e55a5e5bf84f773e9e1fff902a8a571f2ae740",
+        "size_in_bytes": 2581
+      },
+      {
+        "_path": "Library/include/Imath/half.h",
+        "path_type": "hardlink",
+        "sha256": "5310312fa6633fc0dfce6c9496d6de22656a10b0a69ff3becbe2067bbb21fca3",
+        "sha256_in_prefix": "5310312fa6633fc0dfce6c9496d6de22656a10b0a69ff3becbe2067bbb21fca3",
+        "size_in_bytes": 27978
+      },
+      {
+        "_path": "Library/include/Imath/halfFunction.h",
+        "path_type": "hardlink",
+        "sha256": "34e69b7ae713e126505575e471df4055f07d6b8d223eed9f8be67d24abc1e742",
+        "sha256_in_prefix": "34e69b7ae713e126505575e471df4055f07d6b8d223eed9f8be67d24abc1e742",
+        "size_in_bytes": 3485
+      },
+      {
+        "_path": "Library/include/Imath/halfLimits.h",
+        "path_type": "hardlink",
+        "sha256": "c0b12a6c005418f7160a016f18baacf16c8394113980f62c3baceede92dad76a",
+        "sha256_in_prefix": "c0b12a6c005418f7160a016f18baacf16c8394113980f62c3baceede92dad76a",
+        "size_in_bytes": 642
+      },
+      {
+        "_path": "Library/lib/Imath.lib",
+        "path_type": "hardlink",
+        "sha256": "e07d0f13861cbf6bb3a1576513822e47171bee81c74c84153496a66b8a8c29f7",
+        "sha256_in_prefix": "e07d0f13861cbf6bb3a1576513822e47171bee81c74c84153496a66b8a8c29f7",
+        "size_in_bytes": 21362
+      },
+      {
+        "_path": "Library/lib/cmake/Imath/ImathConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "2113f55dac33cbd0703b814184f372c2879548a0b04bf061993feeec662e592b",
+        "sha256_in_prefix": "2113f55dac33cbd0703b814184f372c2879548a0b04bf061993feeec662e592b",
+        "size_in_bytes": 1760
+      },
+      {
+        "_path": "Library/lib/cmake/Imath/ImathConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "b2b007e35815b770d5907502d97a25e3e9fea6da5998d2dc32f138624b8ca90d",
+        "sha256_in_prefix": "b2b007e35815b770d5907502d97a25e3e9fea6da5998d2dc32f138624b8ca90d",
+        "size_in_bytes": 2827
+      },
+      {
+        "_path": "Library/lib/cmake/Imath/ImathTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "4470731031831712013273e64181fb5a70186f23ecaa7a0335008c56d1457f19",
+        "sha256_in_prefix": "4470731031831712013273e64181fb5a70186f23ecaa7a0335008c56d1457f19",
+        "size_in_bytes": 892
+      },
+      {
+        "_path": "Library/lib/cmake/Imath/ImathTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "9e1e91c099d50c6e3c6769d17657fc23a17d348486b39f5c1d6b3e9a64af0b45",
+        "sha256_in_prefix": "9e1e91c099d50c6e3c6769d17657fc23a17d348486b39f5c1d6b3e9a64af0b45",
+        "size_in_bytes": 4619
+      },
+      {
+        "_path": "Library/lib/pkgconfig/Imath.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/imath_1759983101091/_h_env",
+        "sha256": "f70504555233ca84b47de974e7b5d038fd154328bd3e2617c1b6dc5d2793d3c1",
+        "sha256_in_prefix": "5a45614298c7f47f33147f77b73179b99427929d1c03c443c0d9f9acf2bc1ee5",
+        "size_in_bytes": 467
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "2aa57a5ed668ab34cc061b61082e3cee893d2e45ebc33f9432d13f7f292a990e",
+  "size": 162099,
+  "subdir": "win-64",
+  "timestamp": 1759983547000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/imath-3.2.2-h1608b31_0.conda",
+  "version": "3.2.2"
+}

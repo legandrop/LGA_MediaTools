@@ -1,0 +1,150 @@
+{
+  "build": "gpl_h2684147_100",
+  "build_number": 100,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "aom >=3.9.1,<3.10.0a0",
+    "dav1d >=1.2.1,<1.2.2.0a0",
+    "libavif16 >=1.2.0,<2.0a0",
+    "libde265 >=1.0.15,<1.0.16.0a0",
+    "ucrt >=10.0.20348.0",
+    "vc >=14.2,<15",
+    "vc14_runtime >=14.29.30139",
+    "x265 >=3.5,<3.6.0a0"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libheif-1.19.7-gpl_h2684147_100",
+  "features": "",
+  "files": [
+    "Library/bin/heif.dll",
+    "Library/include/libheif/heif.h",
+    "Library/include/libheif/heif_cxx.h",
+    "Library/include/libheif/heif_items.h",
+    "Library/include/libheif/heif_plugin.h",
+    "Library/include/libheif/heif_properties.h",
+    "Library/include/libheif/heif_regions.h",
+    "Library/include/libheif/heif_version.h",
+    "Library/lib/cmake/libheif/libheif-config-release.cmake",
+    "Library/lib/cmake/libheif/libheif-config-version.cmake",
+    "Library/lib/cmake/libheif/libheif-config.cmake",
+    "Library/lib/heif.lib",
+    "Library/lib/pkgconfig/libheif.pc"
+  ],
+  "fn": "libheif-1.19.7-gpl_h2684147_100.conda",
+  "license": "LGPL-3.0-or-later",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libheif-1.19.7-gpl_h2684147_100",
+    "type": 1
+  },
+  "md5": "d7a6c3df36c3281b38164ce518d45528",
+  "name": "libheif",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libheif-1.19.7-gpl_h2684147_100.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/heif.dll",
+        "path_type": "hardlink",
+        "sha256": "1dd94577b226ec91e27176d2487aebce1d52ad3a5dc77041094fb74ca1bf454d",
+        "sha256_in_prefix": "1dd94577b226ec91e27176d2487aebce1d52ad3a5dc77041094fb74ca1bf454d",
+        "size_in_bytes": 954368
+      },
+      {
+        "_path": "Library/include/libheif/heif.h",
+        "path_type": "hardlink",
+        "sha256": "0bf0f116ff40785834934839a9d5ab1d33ff7d314efe324101d2328665217e2e",
+        "sha256_in_prefix": "0bf0f116ff40785834934839a9d5ab1d33ff7d314efe324101d2328665217e2e",
+        "size_in_bytes": 104362
+      },
+      {
+        "_path": "Library/include/libheif/heif_cxx.h",
+        "path_type": "hardlink",
+        "sha256": "f63e6e7b079175b6bd850d291891d08b4f662a7324715b3e6001398844c27214",
+        "sha256_in_prefix": "f63e6e7b079175b6bd850d291891d08b4f662a7324715b3e6001398844c27214",
+        "size_in_bytes": 40342
+      },
+      {
+        "_path": "Library/include/libheif/heif_items.h",
+        "path_type": "hardlink",
+        "sha256": "92314b745dc578526fa8b312297ab414559e985f713798f7d938c14a39c0b362",
+        "sha256_in_prefix": "92314b745dc578526fa8b312297ab414559e985f713798f7d938c14a39c0b362",
+        "size_in_bytes": 9195
+      },
+      {
+        "_path": "Library/include/libheif/heif_plugin.h",
+        "path_type": "hardlink",
+        "sha256": "dc9c6ade03a382003d16873ec6863279d3880c59f882a2d08b2e4a20153e5cec",
+        "sha256_in_prefix": "dc9c6ade03a382003d16873ec6863279d3880c59f882a2d08b2e4a20153e5cec",
+        "size_in_bytes": 10296
+      },
+      {
+        "_path": "Library/include/libheif/heif_properties.h",
+        "path_type": "hardlink",
+        "sha256": "47b36511e6321668a8d20b7ab0dc0e7253372dbdf51e91c9ba7deaed7fb43710",
+        "sha256_in_prefix": "47b36511e6321668a8d20b7ab0dc0e7253372dbdf51e91c9ba7deaed7fb43710",
+        "size_in_bytes": 9374
+      },
+      {
+        "_path": "Library/include/libheif/heif_regions.h",
+        "path_type": "hardlink",
+        "sha256": "5ac38724c0e68245e58f4c3da2dea48e767de2b22d424e828300ec5db5478ff2",
+        "sha256_in_prefix": "5ac38724c0e68245e58f4c3da2dea48e767de2b22d424e828300ec5db5478ff2",
+        "size_in_bytes": 39566
+      },
+      {
+        "_path": "Library/include/libheif/heif_version.h",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/libheif_1741306584081/_h_env",
+        "sha256": "c570dd6b1e9f3935e8af7aacce66a46caa0a5bd542459782abb3685e16a683c6",
+        "sha256_in_prefix": "7edca6cf85e03872eb1acd5caf6226f901b6dcf92a6517a77622c1ab8aad2bab",
+        "size_in_bytes": 1282
+      },
+      {
+        "_path": "Library/lib/cmake/libheif/libheif-config-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "418eff5c959eb754e20a30c43d1cc3069360800257d13cf0392a7114f08788ae",
+        "sha256_in_prefix": "418eff5c959eb754e20a30c43d1cc3069360800257d13cf0392a7114f08788ae",
+        "size_in_bytes": 848
+      },
+      {
+        "_path": "Library/lib/cmake/libheif/libheif-config-version.cmake",
+        "path_type": "hardlink",
+        "sha256": "f1bdf561fb51edd4057dc334c6f5deded18812aad1f01f359420be1c3606db5f",
+        "sha256_in_prefix": "f1bdf561fb51edd4057dc334c6f5deded18812aad1f01f359420be1c3606db5f",
+        "size_in_bytes": 3335
+      },
+      {
+        "_path": "Library/lib/cmake/libheif/libheif-config.cmake",
+        "path_type": "hardlink",
+        "sha256": "cb990993d12ed8befcdc10e87e31d8350276410dd7d1bb0b247cb8f4f8ceb82f",
+        "sha256_in_prefix": "cb990993d12ed8befcdc10e87e31d8350276410dd7d1bb0b247cb8f4f8ceb82f",
+        "size_in_bytes": 4250
+      },
+      {
+        "_path": "Library/lib/heif.lib",
+        "path_type": "hardlink",
+        "sha256": "c04dd5815426e7c766efe9011ab35de5a32ce9dc284489c60ebe49ab5f69f285",
+        "sha256_in_prefix": "c04dd5815426e7c766efe9011ab35de5a32ce9dc284489c60ebe49ab5f69f285",
+        "size_in_bytes": 78870
+      },
+      {
+        "_path": "Library/lib/pkgconfig/libheif.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/libheif_1741306584081/_h_env",
+        "sha256": "a5db047070aa29782da9e8fad160e097f82ed7fda739b32667ffcabbb458eaaf",
+        "sha256_in_prefix": "01336d1be1530b321e489e89948e234bd440b4399e26b865210c82025ebf91a9",
+        "size_in_bytes": 405
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "55965154b428c22cf0fcf1bd53844c1c4c59f0301ece36782b082a92a51e52af",
+  "size": 391084,
+  "subdir": "win-64",
+  "timestamp": 1741307167000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libheif-1.19.7-gpl_h2684147_100.conda",
+  "version": "1.19.7"
+}

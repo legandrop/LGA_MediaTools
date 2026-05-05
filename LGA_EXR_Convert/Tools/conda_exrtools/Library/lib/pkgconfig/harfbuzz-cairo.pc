@@ -1,0 +1,12 @@
+prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: harfbuzz-cairo
+Description: HarfBuzz cairo support
+Version: 14.2.0
+Requires: harfbuzz =  14.2.0
+Requires.private: freetype2 >=  12.0.6, glib-2.0 >=  2.30.0, graphite2 >=  1.2.0, cairo >=  1.10.0
+Libs: -L${libdir} -lharfbuzz-cairo
+Libs.private: -L${libdir} -lharfbuzz -lusp10 -lgdi32 -lrpcrt4 -luser32
+Cflags: -I${includedir}/harfbuzz

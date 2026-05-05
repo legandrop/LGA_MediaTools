@@ -156,3 +156,39 @@ LGA_EXR_Convert/
   - con resize: `8 workers`;
   - siempre configurable.
 - Siguiente etapa: decidir si probar filtros de resize/calidad o pasar a implementar la tool final inicial.
+
+## Investigacion Externa - Metodos Pendientes
+
+- OIIO >= 2.5.1 agrega `oiiotool --parallel-frames`; la version local 2.4.11 no lo tiene. Candidato real para probar si se actualiza OIIO.
+- OpenEXR `exrmetrics` moderno soporta `-m` y `-t n` para multithreading/thread pool; la version local no expone esas opciones. Candidato secundario para recompression pura, sin resize/OCIO.
+- RVIO puede convertir secuencias desde linea de comando. Queda como candidato de baja prioridad porque no esta incluido en este repo y habria que validar DWAA + metadata.
+- Nuke CLI permite control fuerte de metadata y DWAA, pero no parece buen objetivo para esta tool portable por dependencia/licencia y overhead.
+- FFmpeg no es buen candidato para DWAA EXR: el soporte DWA/DWAA es limitado/no recomendado para este flujo.
+- GPU/OCIO puede servir para acelerar color transforms, pero no elimina el cuello de encode DWAA, que sigue siendo CPU/I/O.
+
+## Tools Instaladas Para Nuevas Pruebas
+
+- `Tools/conda_exrtools`: entorno local con OpenEXR 3.4.11, OpenImageIO 2.5.18 y `py-openimageio`.
+- OpenEXR 3.4.11 verificado:
+  - `exrmetrics.exe --version` OK.
+  - `exrmetrics.exe --help` incluye `-m`, `-t n` y `--convert`.
+  - prueba real de conversion a DWAA OK.
+- OpenImageIO 2.5.18 verificado via Python:
+  - `import OpenImageIO as oiio` OK.
+  - lectura de EXR de prueba OK.
+  - limitacion: conda-forge Windows no instala `oiiotool.exe`, solo libreria/bindings.
+- `Tools/OpenImageIO_pitvfx`: prebuilt Windows probado; funciona pero es OIIO 2.4.11.1, no sirve para `--parallel-frames`.
+
+## Estado Despues De Probar Tools Nuevas
+
+- Nuevo ganador para recompress puro sin resize: OpenEXR `exrmetrics` 3.4.11.
+- Comando base ganador:
+  - `exrmetrics --convert -m -t 6 -z dwaa -l 60 input.exr -o output.exr`
+- Orquestado desde Python con `6 workers`, cada proceso usando `-t 6`.
+- Resultado en secuencia completa de prueba:
+  - `181` frames en `10.494s`
+  - `17.25 fps`
+  - metadata OK
+  - output/input size ratio `0.249`
+- Python + `oiiotool` paralelo sigue siendo necesario para resize y probablemente para OCIO.
+- OIIO 2.5.18 via Python bindings probado y descartado por performance.

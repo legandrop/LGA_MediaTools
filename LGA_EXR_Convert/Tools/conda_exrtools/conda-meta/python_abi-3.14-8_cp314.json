@@ -1,0 +1,35 @@
+{
+  "build": "8_cp314",
+  "build_number": 8,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [
+    "python 3.14.* *_cp314"
+  ],
+  "depends": [],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\python_abi-3.14-8_cp314",
+  "features": "",
+  "files": [],
+  "fn": "python_abi-3.14-8_cp314.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\python_abi-3.14-8_cp314",
+    "type": 1
+  },
+  "md5": "0539938c55b6b1a59b560e843ad864a4",
+  "name": "python_abi",
+  "noarch": "generic",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\python_abi-3.14-8_cp314.conda",
+  "package_type": "noarch_generic",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "ad6d2e9ac39751cc0529dd1566a26751a0bf2542adb0c232533d32e176e21db5",
+  "size": 6989,
+  "subdir": "noarch",
+  "timestamp": 1752805904000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/noarch/python_abi-3.14-8_cp314.conda",
+  "version": "3.14"
+}

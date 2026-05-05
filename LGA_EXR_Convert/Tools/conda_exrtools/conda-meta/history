@@ -1,0 +1,104 @@
+==> 2026-05-04 23:01:11 <==
+# cmd: C:\Users\leg4-pc\miniconda3\Scripts\conda-script.py create --yes --prefix .\LGA_EXR_Convert\Tools\conda_exrtools --channel conda-forge --override-channels openimageio openexr
+# conda version: 25.1.1
++conda-forge/noarch::ca-certificates-2026.4.22-h4c7d964_0
++conda-forge/noarch::font-ttf-dejavu-sans-mono-2.37-hab24e00_0
++conda-forge/noarch::font-ttf-inconsolata-3.000-h77eed37_0
++conda-forge/noarch::font-ttf-source-code-pro-2.038-h77eed37_0
++conda-forge/noarch::font-ttf-ubuntu-0.83-h77eed37_3
++conda-forge/noarch::fonts-conda-ecosystem-1-0
++conda-forge/noarch::fonts-conda-forge-1-hc364b38_1
++conda-forge/win-64::_libavif_api-1.3.0-h57928b3_5
++conda-forge/win-64::aom-3.9.1-he0c23c2_0
++conda-forge/win-64::bzip2-1.0.8-h0ad9c76_9
++conda-forge/win-64::cairo-1.18.4-h477c42c_1
++conda-forge/win-64::dav1d-1.2.1-hcfcfb64_0
++conda-forge/win-64::ffmpeg-7.1.1-gpl_he3062b8_911
++conda-forge/win-64::fontconfig-2.17.1-hd47e2ca_0
++conda-forge/win-64::freeglut-3.2.2-hac47afa_4
++conda-forge/win-64::fribidi-1.0.16-hfd05255_0
++conda-forge/win-64::gdk-pixbuf-2.44.6-h1f5b9c4_0
++conda-forge/win-64::giflib-5.2.2-h64bf75a_0
++conda-forge/win-64::graphite2-1.3.14-hac47afa_2
++conda-forge/win-64::harfbuzz-14.2.0-h5a1b470_0
++conda-forge/win-64::icu-78.3-h637d24d_0
++conda-forge/win-64::imath-3.2.2-h1608b31_0
++conda-forge/win-64::jasper-4.2.9-h8ad263b_1
++conda-forge/win-64::lame-3.100-hcfcfb64_1003
++conda-forge/win-64::lcms2-2.19-hf2c6c5f_0
++conda-forge/win-64::lerc-4.1.0-hd936e49_0
++conda-forge/win-64::libavif16-1.3.0-he916da2_2
++conda-forge/win-64::libboost-1.90.0-h9dfe17d_1
++conda-forge/win-64::libde265-1.0.15-h91493d7_0
++conda-forge/win-64::libdeflate-1.25-h51727cc_0
++conda-forge/win-64::libexpat-2.8.0-hac47afa_0
++conda-forge/win-64::libffi-3.5.2-h3d046cb_0
++conda-forge/win-64::libfreetype-2.14.3-h57928b3_0
++conda-forge/win-64::libfreetype6-2.14.3-hdbac1cb_0
++conda-forge/win-64::libglib-2.88.1-h7ce1215_1
++conda-forge/win-64::libheif-1.19.7-gpl_h2684147_100
++conda-forge/win-64::libhwloc-2.13.0-default_h049141e_1000
++conda-forge/win-64::libiconv-1.18-hc1393d2_2
++conda-forge/win-64::libintl-0.22.5-h5728263_3
++conda-forge/win-64::libjpeg-turbo-3.1.4.1-hfd05255_0
++conda-forge/win-64::liblzma-5.8.3-hfd05255_0
++conda-forge/win-64::libogg-1.3.5-h2466b09_1
++conda-forge/win-64::libopus-1.6.1-h6a83c73_0
++conda-forge/win-64::libpng-1.6.58-h7351971_0
++conda-forge/win-64::libraw-0.21.5-h345c428_0
++conda-forge/win-64::librsvg-2.62.1-h15cfe45_0
++conda-forge/win-64::libtiff-4.7.1-h8f73337_1
++conda-forge/win-64::libusb-1.0.29-h1839187_0
++conda-forge/win-64::libvorbis-1.3.7-h5112557_2
++conda-forge/win-64::libvulkan-loader-1.4.341.0-h477610d_0
++conda-forge/win-64::libwebp-base-1.6.0-h4d5522a_0
++conda-forge/win-64::libwinpthread-12.0.0.r4.gg4f2fc60ca-h57928b3_10
++conda-forge/win-64::libxml2-16-2.15.3-h3cfd58e_0
++conda-forge/win-64::libxml2-2.15.3-h8ef44ab_0
++conda-forge/win-64::libzlib-1.3.2-hfd05255_2
++conda-forge/win-64::openexr-3.4.11-h7faf11f_0
++conda-forge/win-64::openh264-2.6.0-hb17fa0b_0
++conda-forge/win-64::openimageio-2.5.18.0-haa1b8b9_13
++conda-forge/win-64::openjpeg-2.5.4-h0e57b4f_0
++conda-forge/win-64::openjph-0.27.0-hf13a347_0
++conda-forge/win-64::openssl-3.6.2-hf411b9b_0
++conda-forge/win-64::pango-1.56.4-h13911b6_1
++conda-forge/win-64::pcre2-10.47-hd2b5f0e_0
++conda-forge/win-64::pixman-0.46.4-h5112557_1
++conda-forge/win-64::rav1e-0.7.1-ha073cba_3
++conda-forge/win-64::sdl2-2.32.56-h5112557_0
++conda-forge/win-64::sdl3-3.4.8-h5112557_0
++conda-forge/win-64::svt-av1-3.1.2-hac47afa_0
++conda-forge/win-64::tbb-2023.0.0-h3155e25_0
++conda-forge/win-64::ucrt-10.0.26100.0-h57928b3_0
++conda-forge/win-64::vc-14.3-h41ae7f8_34
++conda-forge/win-64::vc14_runtime-14.44.35208-h818238b_34
++conda-forge/win-64::vcomp14-14.44.35208-h818238b_34
++conda-forge/win-64::vs2015_runtime-14.44.35208-h38c0c73_34
++conda-forge/win-64::x264-1!164.3095-h8ffe710_2
++conda-forge/win-64::x265-3.5-h2d74725_3
++conda-forge/win-64::zstd-1.5.7-h534d264_6
+# update specs: ['openimageio', 'openexr']
+==> 2026-05-04 23:03:59 <==
+# cmd: C:\Users\leg4-pc\miniconda3\Scripts\conda-script.py install --yes --prefix .\LGA_EXR_Convert\Tools\conda_exrtools --channel conda-forge --override-channels py-openimageio
+# conda version: 25.1.1
++conda-forge/noarch::pip-26.1.1-pyh145f28c_0
++conda-forge/noarch::python_abi-3.14-8_cp314
++conda-forge/noarch::tzdata-2025c-hc9c84f9_1
++conda-forge/win-64::libmpdec-4.0.0-hfd05255_1
++conda-forge/win-64::libsqlite-3.53.0-hf5d6505_0
++conda-forge/win-64::py-openimageio-2.5.18.0-py314_h446acf7_13
++conda-forge/win-64::python-3.14.4-h4b44e0e_100_cp314
++conda-forge/win-64::tk-8.6.13-h6ed50ae_3
+# update specs: ['py-openimageio']
+==> 2026-05-04 23:14:37 <==
+# cmd: C:\Users\leg4-pc\miniconda3\Scripts\conda-script.py install --yes --prefix .\LGA_EXR_Convert\Tools\conda_exrtools --channel conda-forge --override-channels numpy
+# conda version: 25.1.1
++conda-forge/win-64::libblas-3.11.0-6_hf2e6a31_mkl
++conda-forge/win-64::libcblas-3.11.0-6_h2a3cdd5_mkl
++conda-forge/win-64::liblapack-3.11.0-6_hf9ab0e9_mkl
++conda-forge/win-64::llvm-openmp-22.1.4-h4fa8253_0
++conda-forge/win-64::mkl-2025.3.1-hac47afa_12
++conda-forge/win-64::numpy-2.4.3-py314h02f10f6_0
++conda-forge/win-64::onemkl-license-2025.3.1-h57928b3_12
+# update specs: ['numpy']

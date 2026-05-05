@@ -1,0 +1,93 @@
+{
+  "build": "hc1393d2_2",
+  "build_number": 2,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "ucrt >=10.0.20348.0",
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libiconv-1.18-hc1393d2_2",
+  "features": "",
+  "files": [
+    "Library/bin/charset.dll",
+    "Library/bin/iconv.dll",
+    "Library/include/iconv.h",
+    "Library/include/libcharset.h",
+    "Library/include/localcharset.h",
+    "Library/lib/charset.lib",
+    "Library/lib/iconv.lib"
+  ],
+  "fn": "libiconv-1.18-hc1393d2_2.conda",
+  "license": "LGPL-2.1-only",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libiconv-1.18-hc1393d2_2",
+    "type": 1
+  },
+  "md5": "64571d1dd6cdcfa25d0664a5950fdaa2",
+  "name": "libiconv",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libiconv-1.18-hc1393d2_2.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/charset.dll",
+        "path_type": "hardlink",
+        "sha256": "c2e0e0c3746cd0adea79cd97ca45d5ae0a4b1cf4ee13d638606d93541964d71c",
+        "sha256_in_prefix": "c2e0e0c3746cd0adea79cd97ca45d5ae0a4b1cf4ee13d638606d93541964d71c",
+        "size_in_bytes": 12800
+      },
+      {
+        "_path": "Library/bin/iconv.dll",
+        "path_type": "hardlink",
+        "sha256": "772ed247d3d4a6d5625b737dfd1c1d238f74d1c48e560b2d551edfe734a34a1d",
+        "sha256_in_prefix": "772ed247d3d4a6d5625b737dfd1c1d238f74d1c48e560b2d551edfe734a34a1d",
+        "size_in_bytes": 1086464
+      },
+      {
+        "_path": "Library/include/iconv.h",
+        "path_type": "hardlink",
+        "sha256": "5810fa81950fb47985c370189757e5fa5cd66786e56cf5e39f1ab6fcd7994ff4",
+        "sha256_in_prefix": "5810fa81950fb47985c370189757e5fa5cd66786e56cf5e39f1ab6fcd7994ff4",
+        "size_in_bytes": 11090
+      },
+      {
+        "_path": "Library/include/libcharset.h",
+        "path_type": "hardlink",
+        "sha256": "aab0e57b8673744bc61ef02c60db3d71ae4cbe783519be39d65caa965b44b5cd",
+        "sha256_in_prefix": "aab0e57b8673744bc61ef02c60db3d71ae4cbe783519be39d65caa965b44b5cd",
+        "size_in_bytes": 2561
+      },
+      {
+        "_path": "Library/include/localcharset.h",
+        "path_type": "hardlink",
+        "sha256": "e280315203ca4bf48deb6517b0a904e80569bbeee72a9d169cbd30b91d4496f2",
+        "sha256_in_prefix": "e280315203ca4bf48deb6517b0a904e80569bbeee72a9d169cbd30b91d4496f2",
+        "size_in_bytes": 6270
+      },
+      {
+        "_path": "Library/lib/charset.lib",
+        "path_type": "hardlink",
+        "sha256": "9235ec56287b1b55208a292a7bc5b1bd06fba2454b4eef89de61dfc41ad5f8c1",
+        "sha256_in_prefix": "9235ec56287b1b55208a292a7bc5b1bd06fba2454b4eef89de61dfc41ad5f8c1",
+        "size_in_bytes": 2810
+      },
+      {
+        "_path": "Library/lib/iconv.lib",
+        "path_type": "hardlink",
+        "sha256": "7e4c8107f73c07d3bca589d49c6aa792ab809cb1243dd0ec8259c56a62010baf",
+        "sha256_in_prefix": "7e4c8107f73c07d3bca589d49c6aa792ab809cb1243dd0ec8259c56a62010baf",
+        "size_in_bytes": 3480
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "0dcdb1a5f01863ac4e8ba006a8b0dc1a02d2221ec3319b5915a1863254d7efa7",
+  "size": 696926,
+  "subdir": "win-64",
+  "timestamp": 1754909290000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libiconv-1.18-hc1393d2_2.conda",
+  "version": "1.18"
+}

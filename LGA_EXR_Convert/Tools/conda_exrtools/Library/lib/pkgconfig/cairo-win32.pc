@@ -1,0 +1,10 @@
+prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: cairo-win32
+Description: Microsoft Windows surface backend for cairo graphics library
+Version: 1.18.4
+Requires: cairo
+Libs: -lgdi32 -lmsimg32
+Cflags: -I${includedir}

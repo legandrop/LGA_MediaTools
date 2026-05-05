@@ -1,0 +1,97 @@
+{
+  "build": "h57928b3_12",
+  "build_number": 12,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\onemkl-license-2025.3.1-h57928b3_12",
+  "features": "",
+  "files": [
+    "share/doc/mkl/licensing/third-party-programs-IntelMPI.txt",
+    "share/doc/mkl/licensing/third-party-programs-benchmarks.txt",
+    "share/doc/mkl/licensing/third-party-programs-level-zero.txt",
+    "share/doc/mkl/licensing/third-party-programs-oneMath.txt",
+    "share/doc/mkl/licensing/third-party-programs-oneTBB.txt",
+    "share/doc/mkl/licensing/third-party-programs-openmp.txt",
+    "share/doc/mkl/licensing/third-party-programs-safestring.txt",
+    "share/doc/mkl/licensing/third-party-programs.txt"
+  ],
+  "fn": "onemkl-license-2025.3.1-h57928b3_12.conda",
+  "license": "LicenseRef-IntelSimplifiedSoftwareOct2022",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\onemkl-license-2025.3.1-h57928b3_12",
+    "type": 1
+  },
+  "md5": "29ad104e60faa7ed1dc549ec029764bb",
+  "name": "onemkl-license",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\onemkl-license-2025.3.1-h57928b3_12.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-IntelMPI.txt",
+        "path_type": "hardlink",
+        "sha256": "82fa46762c37662a52ab9df58781813c1dc6c268ae2b6f9cf2d83183e706aa09",
+        "sha256_in_prefix": "82fa46762c37662a52ab9df58781813c1dc6c268ae2b6f9cf2d83183e706aa09",
+        "size_in_bytes": 77510
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-benchmarks.txt",
+        "path_type": "hardlink",
+        "sha256": "1f1224af12a7d3e51150ce6f762e32472076a31f6e44db41d3b651a7fa20f2f5",
+        "sha256_in_prefix": "1f1224af12a7d3e51150ce6f762e32472076a31f6e44db41d3b651a7fa20f2f5",
+        "size_in_bytes": 5234
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-level-zero.txt",
+        "path_type": "hardlink",
+        "sha256": "cfe7d2ba4b4cd53271c7f91937e906256c0f14ea62ba33ffb556664b8d39aa59",
+        "sha256_in_prefix": "cfe7d2ba4b4cd53271c7f91937e906256c0f14ea62ba33ffb556664b8d39aa59",
+        "size_in_bytes": 1124
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-oneMath.txt",
+        "path_type": "hardlink",
+        "sha256": "2ba4e9858c253331691370f4e8e3899ca6a5baa20907f189f5970635870b860d",
+        "sha256_in_prefix": "2ba4e9858c253331691370f4e8e3899ca6a5baa20907f189f5970635870b860d",
+        "size_in_bytes": 6777
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-oneTBB.txt",
+        "path_type": "hardlink",
+        "sha256": "d507da4fffae647ebc1bbb7e12cc5cca8087d36b0d78cc75caa96cae37688cb1",
+        "sha256_in_prefix": "d507da4fffae647ebc1bbb7e12cc5cca8087d36b0d78cc75caa96cae37688cb1",
+        "size_in_bytes": 19504
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-openmp.txt",
+        "path_type": "hardlink",
+        "sha256": "8fdfbbdfed13bca3641da35182e7ee1bb92a99f302ce8b0deb981ac1f18adee2",
+        "sha256_in_prefix": "8fdfbbdfed13bca3641da35182e7ee1bb92a99f302ce8b0deb981ac1f18adee2",
+        "size_in_bytes": 31028
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs-safestring.txt",
+        "path_type": "hardlink",
+        "sha256": "415000d1887939ffc6826e0ed3f099cebcab6aaeda2da0acb017110a456b3d42",
+        "sha256_in_prefix": "415000d1887939ffc6826e0ed3f099cebcab6aaeda2da0acb017110a456b3d42",
+        "size_in_bytes": 2448
+      },
+      {
+        "_path": "share/doc/mkl/licensing/third-party-programs.txt",
+        "path_type": "hardlink",
+        "sha256": "6fb57367c2107b8b3347e0e9db10d368c7b9ea898a08132b2f841b24b86f076f",
+        "sha256_in_prefix": "6fb57367c2107b8b3347e0e9db10d368c7b9ea898a08132b2f841b24b86f076f",
+        "size_in_bytes": 65770
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "03eac4174077397a5bc480021e62412e73e80f34072d81053899f65dfe1045c7",
+  "size": 40890,
+  "subdir": "win-64",
+  "timestamp": 1776904134000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/onemkl-license-2025.3.1-h57928b3_12.conda",
+  "version": "2025.3.1"
+}

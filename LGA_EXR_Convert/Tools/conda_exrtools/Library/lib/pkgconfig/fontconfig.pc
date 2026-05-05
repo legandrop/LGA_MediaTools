@@ -1,0 +1,16 @@
+prefix=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+sysconfdir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/etc
+localstatedir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/var
+confdir=C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/etc/fonts
+cachedir=LOCAL_APPDATA_FONTCONFIG_CACHE
+
+Name: Fontconfig
+Description: Font configuration and customization library
+Version: 2.17.1
+Requires.private: freetype2 >=  21.0.15
+Libs: -L${libdir} -lfontconfig
+Libs.private: C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/expat.lib C:/Portable/LGA_MediaTools/LGA_EXR_Convert/Tools/conda_exrtools/Library/lib/expat.lib
+Cflags: -I${includedir}

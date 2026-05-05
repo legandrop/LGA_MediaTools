@@ -1,0 +1,50 @@
+{
+  "build": "he916da2_2",
+  "build_number": 2,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "_libavif_api >=1.3.0,<1.3.1.0a0",
+    "aom >=3.9.1,<3.10.0a0",
+    "dav1d >=1.2.1,<1.2.2.0a0",
+    "rav1e >=0.7.1,<0.8.0a0",
+    "svt-av1 >=3.1.2,<3.1.3.0a0",
+    "ucrt >=10.0.20348.0",
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libavif16-1.3.0-he916da2_2",
+  "features": "",
+  "files": [
+    "Library/bin/avif.dll"
+  ],
+  "fn": "libavif16-1.3.0-he916da2_2.conda",
+  "license": "BSD-2-Clause",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libavif16-1.3.0-he916da2_2",
+    "type": 1
+  },
+  "md5": "9782ce5bf5a3b41f29533c2c08f6b360",
+  "name": "libavif16",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libavif16-1.3.0-he916da2_2.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/avif.dll",
+        "path_type": "hardlink",
+        "sha256": "6bb7e793010cf6f3e66b690635bddc714bab4319938d758786c3575e5859fbb7",
+        "sha256_in_prefix": "6bb7e793010cf6f3e66b690635bddc714bab4319938d758786c3575e5859fbb7",
+        "size_in_bytes": 207872
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "dbb3f21282eccba6e4bd70c9db371e081bf09c55f1de7ca90f1106cc199d4a8b",
+  "size": 116744,
+  "subdir": "win-64",
+  "timestamp": 1756125168000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libavif16-1.3.0-he916da2_2.conda",
+  "version": "1.3.0"
+}

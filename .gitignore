@@ -15,3 +15,6 @@ ENV/
 
 # Ignorar todas las carpetas o subcarpetas llamadas +OLD
 LGA_MediaTools*.zip
+LGA_EXR_Convert/tools/temp/
+LGA_EXR_Convert/+Building_Blocks/benchmark_output/
+LGA_EXR_Convert/+building_blocks/_benchmark_output/

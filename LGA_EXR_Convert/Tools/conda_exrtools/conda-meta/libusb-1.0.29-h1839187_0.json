@@ -1,0 +1,71 @@
+{
+  "build": "h1839187_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "vc >=14.2,<15",
+    "vc14_runtime >=14.29.30139",
+    "ucrt >=10.0.20348.0"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libusb-1.0.29-h1839187_0",
+  "features": "",
+  "files": [
+    "Library/bin/libusb-1.0.dll",
+    "Library/include/libusb-1.0/libusb.h",
+    "Library/lib/libusb-1.0.lib",
+    "Library/lib/pkgconfig/libusb-1.0.pc"
+  ],
+  "fn": "libusb-1.0.29-h1839187_0.conda",
+  "license": "LGPL-2.1-or-later",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libusb-1.0.29-h1839187_0",
+    "type": 1
+  },
+  "md5": "a656b2c367405cd24988cf67ff2675aa",
+  "name": "libusb",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libusb-1.0.29-h1839187_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/libusb-1.0.dll",
+        "path_type": "hardlink",
+        "sha256": "662123a3c5be757040b14b8919959b91944e0c6226781b48c8e7427911c31078",
+        "sha256_in_prefix": "662123a3c5be757040b14b8919959b91944e0c6226781b48c8e7427911c31078",
+        "size_in_bytes": 157696
+      },
+      {
+        "_path": "Library/include/libusb-1.0/libusb.h",
+        "path_type": "hardlink",
+        "sha256": "8c77e192d53960966c42d5f6ef204e3be88c9ff3ca431acdd5c6039689b3fe0b",
+        "sha256_in_prefix": "8c77e192d53960966c42d5f6ef204e3be88c9ff3ca431acdd5c6039689b3fe0b",
+        "size_in_bytes": 86294
+      },
+      {
+        "_path": "Library/lib/libusb-1.0.lib",
+        "path_type": "hardlink",
+        "sha256": "67c6bc6b2baa64695b1f18f1b8ae8368893fdf6cbbe6a6b3394636fe9b115115",
+        "sha256_in_prefix": "67c6bc6b2baa64695b1f18f1b8ae8368893fdf6cbbe6a6b3394636fe9b115115",
+        "size_in_bytes": 53890
+      },
+      {
+        "_path": "Library/lib/pkgconfig/libusb-1.0.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_libusb_1748856290/h_env",
+        "sha256": "985ea319c7b21c751ff110f1269f6283efc177626f23fcd910be3a1e2e367378",
+        "sha256_in_prefix": "cddc696c07205c5cc275f9b68a7893ad137c45dfffa4e43b825ef613ba9a1ee0",
+        "size_in_bytes": 345
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "9837f8e8de20b6c9c033561cd33b4554cd551b217e3b8d2862b353ed2c23d8b8",
+  "size": 118204,
+  "subdir": "win-64",
+  "timestamp": 1748856290000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libusb-1.0.29-h1839187_0.conda",
+  "version": "1.0.29"
+}

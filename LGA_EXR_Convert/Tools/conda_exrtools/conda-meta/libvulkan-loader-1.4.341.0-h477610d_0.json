@@ -1,0 +1,89 @@
+{
+  "build": "h477610d_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [
+    "libvulkan-headers 1.4.341.0.*"
+  ],
+  "depends": [
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208",
+    "ucrt >=10.0.20348.0"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libvulkan-loader-1.4.341.0-h477610d_0",
+  "features": "",
+  "files": [
+    "Library/bin/vulkan-1.dll",
+    "Library/lib/cmake/VulkanLoader/VulkanLoaderConfig-release.cmake",
+    "Library/lib/cmake/VulkanLoader/VulkanLoaderConfig.cmake",
+    "Library/lib/cmake/VulkanLoader/VulkanLoaderConfigVersion.cmake",
+    "Library/lib/pkgconfig/vulkan.pc",
+    "Library/lib/vulkan-1.lib"
+  ],
+  "fn": "libvulkan-loader-1.4.341.0-h477610d_0.conda",
+  "license": "Apache-2.0",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libvulkan-loader-1.4.341.0-h477610d_0",
+    "type": 1
+  },
+  "md5": "804880b2674119b84277d6c16b01677d",
+  "name": "libvulkan-loader",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libvulkan-loader-1.4.341.0-h477610d_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/vulkan-1.dll",
+        "path_type": "hardlink",
+        "sha256": "6122357f8b5790389e5b7abd50cb3fce15224145762277c8dca2bde472a8f919",
+        "sha256_in_prefix": "6122357f8b5790389e5b7abd50cb3fce15224145762277c8dca2bde472a8f919",
+        "size_in_bytes": 772096
+      },
+      {
+        "_path": "Library/lib/cmake/VulkanLoader/VulkanLoaderConfig-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "d5a3ec13d713efa34a36e4299ee34f9f0dbe533427799a4ef68943b97c2bfd9d",
+        "sha256_in_prefix": "d5a3ec13d713efa34a36e4299ee34f9f0dbe533427799a4ef68943b97c2bfd9d",
+        "size_in_bytes": 914
+      },
+      {
+        "_path": "Library/lib/cmake/VulkanLoader/VulkanLoaderConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "8ffe9089da2fe72e4c764443514e20f0479566341da90cd231b488635e80736e",
+        "sha256_in_prefix": "8ffe9089da2fe72e4c764443514e20f0479566341da90cd231b488635e80736e",
+        "size_in_bytes": 4111
+      },
+      {
+        "_path": "Library/lib/cmake/VulkanLoader/VulkanLoaderConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "8e91632d18bba1258ba33afae226e4bdeb3d212f264ca787c787af04fed31f93",
+        "sha256_in_prefix": "8e91632d18bba1258ba33afae226e4bdeb3d212f264ca787c787af04fed31f93",
+        "size_in_bytes": 2833
+      },
+      {
+        "_path": "Library/lib/pkgconfig/vulkan.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_libvulkan-loader_1770077165/h_env",
+        "sha256": "2f775a1574c419911e2058952b2852b046756f7c5a3a0829d9b4b33df1351b63",
+        "sha256_in_prefix": "4de42cc15eda14c254f50764adc34322e469df1a9fabaaabb10bc83eba305676",
+        "size_in_bytes": 279
+      },
+      {
+        "_path": "Library/lib/vulkan-1.lib",
+        "path_type": "hardlink",
+        "sha256": "75793a45e02d5831594742e2e76a0a1b4e82fe4cced086925e2e15343a67fbef",
+        "sha256_in_prefix": "75793a45e02d5831594742e2e76a0a1b4e82fe4cced086925e2e15343a67fbef",
+        "size_in_bytes": 66154
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "0f0965edca8b255187604fc7712c53fe9064b31a1845a7dfb2b63bf660de84a7",
+  "size": 282251,
+  "subdir": "win-64",
+  "timestamp": 1770077165000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libvulkan-loader-1.4.341.0-h477610d_0.conda",
+  "version": "1.4.341.0"
+}

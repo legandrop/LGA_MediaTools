@@ -1,0 +1,135 @@
+{
+  "build": "h6a83c73_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [],
+  "depends": [
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208",
+    "ucrt >=10.0.20348.0"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libopus-1.6.1-h6a83c73_0",
+  "features": "",
+  "files": [
+    "Library/bin/opus.dll",
+    "Library/include/opus/opus.h",
+    "Library/include/opus/opus_defines.h",
+    "Library/include/opus/opus_multistream.h",
+    "Library/include/opus/opus_projection.h",
+    "Library/include/opus/opus_types.h",
+    "Library/lib/cmake/Opus/OpusConfig.cmake",
+    "Library/lib/cmake/Opus/OpusConfigVersion.cmake",
+    "Library/lib/cmake/Opus/OpusTargets-release.cmake",
+    "Library/lib/cmake/Opus/OpusTargets.cmake",
+    "Library/lib/opus.lib",
+    "Library/lib/pkgconfig/opus.pc"
+  ],
+  "fn": "libopus-1.6.1-h6a83c73_0.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libopus-1.6.1-h6a83c73_0",
+    "type": 1
+  },
+  "md5": "0ed21da5b6e3a0393e05762b3cce2878",
+  "name": "libopus",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libopus-1.6.1-h6a83c73_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/opus.dll",
+        "path_type": "hardlink",
+        "sha256": "995e23c399522546397f9059f10365702dec3ceadbaf34b8ecd4c5e977822603",
+        "sha256_in_prefix": "995e23c399522546397f9059f10365702dec3ceadbaf34b8ecd4c5e977822603",
+        "size_in_bytes": 474624
+      },
+      {
+        "_path": "Library/include/opus/opus.h",
+        "path_type": "hardlink",
+        "sha256": "036f6a6e83a20e943505743e113e90d6278cbe8240f7d5bb90b3f86261e783e3",
+        "sha256_in_prefix": "036f6a6e83a20e943505743e113e90d6278cbe8240f7d5bb90b3f86261e783e3",
+        "size_in_bytes": 59505
+      },
+      {
+        "_path": "Library/include/opus/opus_defines.h",
+        "path_type": "hardlink",
+        "sha256": "bbd4d4e3ba99f6982b1c8d8f5541814ad77d8e8babf3cc788cf23d517b2ca9d6",
+        "sha256_in_prefix": "bbd4d4e3ba99f6982b1c8d8f5541814ad77d8e8babf3cc788cf23d517b2ca9d6",
+        "size_in_bytes": 38558
+      },
+      {
+        "_path": "Library/include/opus/opus_multistream.h",
+        "path_type": "hardlink",
+        "sha256": "fd99c4594b4b57e406e9cab45a777895dd1b4c8de067088aa54ed7ae100b13f0",
+        "sha256_in_prefix": "fd99c4594b4b57e406e9cab45a777895dd1b4c8de067088aa54ed7ae100b13f0",
+        "size_in_bytes": 38267
+      },
+      {
+        "_path": "Library/include/opus/opus_projection.h",
+        "path_type": "hardlink",
+        "sha256": "11b3427e9ca342308a93adc9a081e2479685e5b7811a3a53540609f1bbc488ad",
+        "sha256_in_prefix": "11b3427e9ca342308a93adc9a081e2479685e5b7811a3a53540609f1bbc488ad",
+        "size_in_bytes": 32998
+      },
+      {
+        "_path": "Library/include/opus/opus_types.h",
+        "path_type": "hardlink",
+        "sha256": "19cb301ea1eedbcbdbb5049363de061893bf11c20e505a657b69ce6ffa5b11fa",
+        "sha256_in_prefix": "19cb301ea1eedbcbdbb5049363de061893bf11c20e505a657b69ce6ffa5b11fa",
+        "size_in_bytes": 5157
+      },
+      {
+        "_path": "Library/lib/cmake/Opus/OpusConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "8480e74b526e8c1c15c431e8024451a12dc9e6e3eb004fb3bee278ae1631c837",
+        "sha256_in_prefix": "8480e74b526e8c1c15c431e8024451a12dc9e6e3eb004fb3bee278ae1631c837",
+        "size_in_bytes": 1444
+      },
+      {
+        "_path": "Library/lib/cmake/Opus/OpusConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "4e10d17025da93e1a2e34e9a671b94f43f28cf79d13ce4fd1d123270086f9780",
+        "sha256_in_prefix": "4e10d17025da93e1a2e34e9a671b94f43f28cf79d13ce4fd1d123270086f9780",
+        "size_in_bytes": 2827
+      },
+      {
+        "_path": "Library/lib/cmake/Opus/OpusTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "536bd36fb9cdb7e5c485b727996117fa74ec2648cac3f098c49de7bd6eb888e0",
+        "sha256_in_prefix": "536bd36fb9cdb7e5c485b727996117fa74ec2648cac3f098c49de7bd6eb888e0",
+        "size_in_bytes": 878
+      },
+      {
+        "_path": "Library/lib/cmake/Opus/OpusTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "c14d6320e3b950a35d9a5d2e1e51db65303037d87e1e3cc2eb1d35973668b005",
+        "sha256_in_prefix": "c14d6320e3b950a35d9a5d2e1e51db65303037d87e1e3cc2eb1d35973668b005",
+        "size_in_bytes": 4235
+      },
+      {
+        "_path": "Library/lib/opus.lib",
+        "path_type": "hardlink",
+        "sha256": "853aed22334abfccdff2a61c58473b350c1d76244dc175d4e962ab50e22a30a0",
+        "sha256_in_prefix": "853aed22334abfccdff2a61c58473b350c1d76244dc175d4e962ab50e22a30a0",
+        "size_in_bytes": 22876
+      },
+      {
+        "_path": "Library/lib/pkgconfig/opus.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/bld/rattler-build_libopus_1768497136/h_env",
+        "sha256": "5749c67c23cfcf21acf037c79fbeaab515edda74af968c9ecfbbc48f734ce7cf",
+        "sha256_in_prefix": "2a9c8196b4de6bff3aee0e9247d992c0b2fe04684d86446a2fdba48215ccc800",
+        "size_in_bytes": 647
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "c3678f111866235b44fa65265966abae7d90b6387178f1459afaedcee8b4a997",
+  "size": 307373,
+  "subdir": "win-64",
+  "timestamp": 1768497136000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libopus-1.6.1-h6a83c73_0.conda",
+  "version": "1.6.1"
+}

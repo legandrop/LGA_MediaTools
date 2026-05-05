@@ -1,0 +1,75 @@
+{
+  "build": "h3cfd58e_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge",
+  "constrains": [
+    "libxml2 2.15.3"
+  ],
+  "depends": [
+    "icu >=78.3,<79.0a0",
+    "libiconv >=1.18,<2.0a0",
+    "liblzma >=5.8.3,<6.0a0",
+    "libzlib >=1.3.2,<2.0a0",
+    "ucrt >=10.0.20348.0",
+    "vc >=14.3,<15",
+    "vc14_runtime >=14.44.35208"
+  ],
+  "extracted_package_dir": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libxml2-16-2.15.3-h3cfd58e_0",
+  "features": "",
+  "files": [
+    "Library/bin/libxml2.dll",
+    "etc/conda/activate.d/libxml2-split_activate.bat",
+    "etc/conda/activate.d/libxml2-split_activate.ps1",
+    "etc/conda/activate.d/libxml2-split_activate.sh"
+  ],
+  "fn": "libxml2-16-2.15.3-h3cfd58e_0.conda",
+  "license": "MIT",
+  "link": {
+    "source": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libxml2-16-2.15.3-h3cfd58e_0",
+    "type": 1
+  },
+  "md5": "9e8dd0d90ed830107b2c36801035b7db",
+  "name": "libxml2-16",
+  "package_tarball_full_path": "C:\\Users\\leg4-pc\\miniconda3\\pkgs\\libxml2-16-2.15.3-h3cfd58e_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/libxml2.dll",
+        "path_type": "hardlink",
+        "sha256": "141127bd37f1211b5365f2571e1b0316b05dae8c6423ef8baa96c4e720bc56d2",
+        "sha256_in_prefix": "141127bd37f1211b5365f2571e1b0316b05dae8c6423ef8baa96c4e720bc56d2",
+        "size_in_bytes": 1237504
+      },
+      {
+        "_path": "etc/conda/activate.d/libxml2-split_activate.bat",
+        "path_type": "hardlink",
+        "sha256": "3690e84ed1db2ff745b53b5f05f9be7cebe9a945bbaeb493384dc08603195526",
+        "sha256_in_prefix": "3690e84ed1db2ff745b53b5f05f9be7cebe9a945bbaeb493384dc08603195526",
+        "size_in_bytes": 384
+      },
+      {
+        "_path": "etc/conda/activate.d/libxml2-split_activate.ps1",
+        "path_type": "hardlink",
+        "sha256": "2913d21e0de18d672e1ac6ae7012fc018836beee623970f71a4b1d735f246441",
+        "sha256_in_prefix": "2913d21e0de18d672e1ac6ae7012fc018836beee623970f71a4b1d735f246441",
+        "size_in_bytes": 383
+      },
+      {
+        "_path": "etc/conda/activate.d/libxml2-split_activate.sh",
+        "path_type": "hardlink",
+        "sha256": "3474f8848d4b08389f7da9a5ac0fba93dd9947df1aea5d1e98371a13e71cdaf6",
+        "sha256_in_prefix": "3474f8848d4b08389f7da9a5ac0fba93dd9947df1aea5d1e98371a13e71cdaf6",
+        "size_in_bytes": 903
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "3b61ee3caba702d2ff432fa3920835db963026e5c99c4e6fdca0c6114f59e7ce",
+  "size": 519871,
+  "subdir": "win-64",
+  "timestamp": 1776376969000,
+  "track_features": "",
+  "url": "https://conda.anaconda.org/conda-forge/win-64/libxml2-16-2.15.3-h3cfd58e_0.conda",
+  "version": "2.15.3"
+}
