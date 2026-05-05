@@ -145,4 +145,14 @@ LGA_EXR_Convert/
 - Descartados para performance: `oiiotool` secuencial, `exrmetrics` secuencial y `oiiotool --frames` single-process.
 - Mejor enfoque actual sin resize: Python orquestando `oiiotool` en paralelo por frame.
 - Default inicial recomendado: `6 workers`, configurable por usuario.
-- Siguiente etapa: benchmark de resize usando solo el enfoque paralelo.
+- Resize probado con el enfoque paralelo:
+  - `3840x2160`: correcto, metadata OK, mas lento por procesar casi resolucion completa.
+  - `1920x1080`: correcto, metadata OK, mas rapido por menor salida.
+- Resize con mas workers:
+  - `3840x2160`: mejor resultado observado con `12 workers`.
+  - `1920x1080`: mejor resultado observado con `8 workers`, practicamente empatado con `12 workers`.
+- Defaults tentativos:
+  - sin resize: `6 workers`;
+  - con resize: `8 workers`;
+  - siempre configurable.
+- Siguiente etapa: decidir si probar filtros de resize/calidad o pasar a implementar la tool final inicial.

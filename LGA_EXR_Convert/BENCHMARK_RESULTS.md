@@ -115,4 +115,83 @@ Proximo paso sugerido: empezar benchmarks con resize usando solo el metodo paral
 
 ## Resize
 
-Resize queda explicitamente fuera de esta primera etapa. Se benchmarkea despues de elegir los mejores candidatos sin resize.
+Resize se empezo a benchmarkear despues de descartar los metodos lentos y elegir el camino paralelo.
+
+## Run 04 - Resize 3840x2160, Primeros 100 Frames
+
+- Fecha: `2026-05-04_22-42-41`
+- Frames: `1001-1100`
+- Resize: `3840x2160`
+- OCIO/color conversion: no
+- Workers: `6`
+- Raw output: `LGA_EXR_Convert/+building_blocks/_benchmark_output/2026-05-04_22-42-41/`
+- Validacion: output confirmado con `iinfo` como `3840 x 2160, 3 channel, half openexr`
+
+| Method | Workers | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `oiiotool_parallel_6w_resize_3840x2160` | 6 | 14.306 | 6.99 | 100/100 | 0.290 | 0 |
+
+## Run 05 - Resize 1920x1080, Primeros 100 Frames
+
+- Fecha: `2026-05-04_22-43-20`
+- Frames: `1001-1100`
+- Resize: `1920x1080`
+- OCIO/color conversion: no
+- Workers: `6`
+- Raw output: `LGA_EXR_Convert/+building_blocks/_benchmark_output/2026-05-04_22-43-20/`
+- Validacion: output confirmado con `iinfo` como `1920 x 1080, 3 channel, half openexr`
+
+| Method | Workers | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `oiiotool_parallel_6w_resize_1920x1080` | 6 | 9.626 | 10.39 | 100/100 | 0.092 | 0 |
+
+## Observaciones Resize
+
+- Resize cambia mucho el costo: sin resize la secuencia completa dio ~`15.48 fps`; con resize a `3840x2160` baja a `6.99 fps`.
+- Downscale a `1920x1080` es mas rapido que `3840x2160`, probablemente por menor escritura/compresion final, aunque igual agrega costo de resampling.
+- La metadata se mantiene OK segun `iinfo -v`; se ignoran solo cambios esperados de compresion/DWA y ventanas de imagen por resize.
+- `3840x2160` es un caso importante para normalizar el ancho raro `3841`, pero es caro porque sigue procesando casi toda la resolucion original.
+
+## Estado Resize
+
+Mejor candidato con resize sigue siendo Python + `oiiotool` paralelo.
+
+## Run 06 - Resize 3840x2160, Workers Comparison
+
+- Fecha: `2026-05-04_22-46-26`
+- Frames: `1001-1100`
+- Resize: `3840x2160`
+- OCIO/color conversion: no
+- Raw output: `LGA_EXR_Convert/+building_blocks/_benchmark_output/2026-05-04_22-46-26/`
+
+| Method | Workers | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `oiiotool_parallel_4w_resize_3840x2160` | 4 | 15.483 | 6.46 | 100/100 | 0.290 | 0 |
+| `oiiotool_parallel_6w_resize_3840x2160` | 6 | 14.783 | 6.76 | 100/100 | 0.290 | 0 |
+| `oiiotool_parallel_8w_resize_3840x2160` | 8 | 14.529 | 6.88 | 100/100 | 0.290 | 0 |
+| `oiiotool_parallel_10w_resize_3840x2160` | 10 | 14.487 | 6.90 | 100/100 | 0.290 | 0 |
+| `oiiotool_parallel_12w_resize_3840x2160` | 12 | 14.260 | 7.01 | 100/100 | 0.290 | 0 |
+
+## Run 07 - Resize 1920x1080, Workers Comparison
+
+- Fecha: `2026-05-04_22-48-26`
+- Frames: `1001-1100`
+- Resize: `1920x1080`
+- OCIO/color conversion: no
+- Raw output: `LGA_EXR_Convert/+building_blocks/_benchmark_output/2026-05-04_22-48-26/`
+
+| Method | Workers | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `oiiotool_parallel_4w_resize_1920x1080` | 4 | 10.796 | 9.26 | 100/100 | 0.092 | 0 |
+| `oiiotool_parallel_6w_resize_1920x1080` | 6 | 10.052 | 9.95 | 100/100 | 0.092 | 0 |
+| `oiiotool_parallel_8w_resize_1920x1080` | 8 | 9.925 | 10.08 | 100/100 | 0.092 | 0 |
+| `oiiotool_parallel_10w_resize_1920x1080` | 10 | 10.017 | 9.98 | 100/100 | 0.092 | 0 |
+| `oiiotool_parallel_12w_resize_1920x1080` | 12 | 9.934 | 10.07 | 100/100 | 0.092 | 0 |
+
+## Observaciones Workers Con Resize
+
+- Con resize, mas workers ayudan mas que en el caso sin resize, pero la curva sigue bastante plana.
+- Para `3840x2160`, `12 workers` fue mejor (`7.01 fps`), con una mejora moderada contra `6 workers` (`6.76 fps`).
+- Para `1920x1080`, `8 workers` fue apenas mejor (`10.08 fps`), practicamente empatado con `12 workers` (`10.07 fps`).
+- Todos los casos preservaron metadata segun `iinfo -v`.
+- Recomendacion: default general `6 workers` sin resize; para resize, permitir override y considerar default `8 workers`.

@@ -36,6 +36,7 @@ EXPECTED_METADATA_DIFF_PREFIXES = (
 class FrameJob:
     source: Path
     output: Path
+    resize: str | None = None
 
 
 def run_command(args: list[str], timeout: int | None = 60) -> subprocess.CompletedProcess:
@@ -76,8 +77,8 @@ def output_name_for(source: Path) -> str:
     return source.stem + "_dwaa.exr"
 
 
-def make_jobs(frames: Iterable[Path], method_dir: Path) -> list[FrameJob]:
-    return [FrameJob(frame, method_dir / output_name_for(frame)) for frame in frames]
+def make_jobs(frames: Iterable[Path], method_dir: Path, resize: str | None = None) -> list[FrameJob]:
+    return [FrameJob(frame, method_dir / output_name_for(frame), resize) for frame in frames]
 
 
 def convert_oiiotool(job: FrameJob, compression_arg: str = "dwaa:quality=60") -> dict:
@@ -85,12 +86,16 @@ def convert_oiiotool(job: FrameJob, compression_arg: str = "dwaa:quality=60") ->
     args = [
         str(OIIO_TOOL),
         str(job.source),
+    ]
+    if job.resize:
+        args.extend(["--resize", job.resize])
+    args.extend([
         "--compression",
         compression_arg,
         "--nosoftwareattrib",
         "-o",
         str(job.output),
-    ]
+    ])
     proc = run_command(args)
     elapsed = time.perf_counter() - started
     return {
@@ -274,6 +279,8 @@ def normalize_metadata_lines(text: str) -> list[str]:
             continue
         if re.match(r"^.* : \d+ x \d+,", line):
             continue
+        if line.startswith(("dataWindow:", "displayWindow:")):
+            continue
         if re.match(r"^\d+ x \d+,", line):
             lines.append(line)
             continue
@@ -343,7 +350,7 @@ def write_summary_markdown(results_path: Path, payload: dict) -> None:
         f"- Date: {payload['run_started']}",
         f"- Source: `{payload['source_dir']}`",
         f"- Frames: {payload['frame_count']}",
-        f"- Resize: no",
+        f"- Resize: {payload.get('resize') or 'no'}",
         f"- OCIO/color conversion: no",
         "",
         "## Methods",
@@ -379,8 +386,8 @@ def write_summary_markdown(results_path: Path, payload: dict) -> None:
             "",
             "## Notes",
             "",
-            "- This benchmark is intentionally limited to the first frames and does not test resize yet.",
             "- Expected metadata differences currently include EXR compression and DWA compression level attributes.",
+            "- For resize runs, data/display window dimension changes are expected and ignored by metadata validation.",
             "- Full raw data is stored next to this file as JSON.",
             "",
         ]
@@ -398,6 +405,11 @@ def main() -> int:
         action="store_true",
         help="Run only Python-orchestrated parallel oiiotool methods.",
     )
+    parser.add_argument(
+        "--resize",
+        default=None,
+        help="Optional oiiotool resize geometry, for example 3840x2160 or 1920x1080.",
+    )
     args = parser.parse_args()
 
     for tool in (OIIO_TOOL, IINFO, EXRHEADER, EXRMETRICS):
@@ -413,19 +425,22 @@ def main() -> int:
 
     if not args.parallel_only:
         sequential_dir = prepare_method_dir(run_dir, "oiiotool_sequential")
-        results.append(benchmark_sequential("oiiotool_sequential", make_jobs(frames, sequential_dir), convert_oiiotool))
+        results.append(
+            benchmark_sequential("oiiotool_sequential", make_jobs(frames, sequential_dir, args.resize), convert_oiiotool)
+        )
 
     for workers in args.workers:
         if workers < 1:
             continue
-        method = f"oiiotool_parallel_{workers}w"
+        resize_suffix = f"_resize_{args.resize}" if args.resize else ""
+        method = f"oiiotool_parallel_{workers}w{resize_suffix}"
         method_dir = prepare_method_dir(run_dir, method)
-        results.append(benchmark_parallel(method, make_jobs(frames, method_dir), convert_oiiotool, workers))
+        results.append(benchmark_parallel(method, make_jobs(frames, method_dir, args.resize), convert_oiiotool, workers))
 
     if not args.parallel_only:
         exrmetrics_dir = prepare_method_dir(run_dir, "exrmetrics_sequential")
         results.append(
-            benchmark_sequential("exrmetrics_sequential", make_jobs(frames, exrmetrics_dir), convert_exrmetrics)
+            benchmark_sequential("exrmetrics_sequential", make_jobs(frames, exrmetrics_dir, args.resize), convert_exrmetrics)
         )
         results.append(benchmark_oiiotool_frames(run_dir, frames))
 
@@ -439,6 +454,7 @@ def main() -> int:
         "frames": [str(frame) for frame in frames],
         "cpu_count": os.cpu_count(),
         "parallel_only": args.parallel_only,
+        "resize": args.resize,
         "tools": {
             "oiiotool": str(OIIO_TOOL),
             "iinfo": str(IINFO),
