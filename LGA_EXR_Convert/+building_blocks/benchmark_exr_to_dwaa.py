@@ -252,7 +252,13 @@ def summarize_method(name: str, jobs: list[FrameJob], frame_results: list[dict],
 
 
 def iinfo_metadata(path: Path) -> list[str]:
-    proc = run_command([str(IINFO), "-v", str(path)], timeout=10)
+    proc = None
+    for attempt in range(3):
+        proc = run_command([str(IINFO), "-v", str(path)], timeout=10)
+        if proc.returncode != 124:
+            break
+        time.sleep(0.2 * (attempt + 1))
+    assert proc is not None
     if proc.returncode != 0:
         return [f"__IINFO_ERROR__ {proc.stderr.strip()}"]
     return normalize_metadata_lines(proc.stdout)

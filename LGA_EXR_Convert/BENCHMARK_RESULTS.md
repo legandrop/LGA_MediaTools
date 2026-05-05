@@ -41,7 +41,41 @@ Secuencia de prueba:
 
 Mejor candidato inicial: Python orquestando `oiiotool` en paralelo por frame.
 
-Proximo paso sugerido: repetir sobre una muestra mas grande, por ejemplo 50 o 100 frames, con workers `4`, `8`, `12`, `16` y quizas `24`, para encontrar el punto real de saturacion CPU/disco.
+## Run 02 - Primeros 100 Frames
+
+- Fecha: `2026-05-04_22-22-09`
+- Frames: `1001-1100`
+- Resize: no
+- OCIO/color conversion: no
+- CPU logica reportada por Python: `32`
+- Raw output: `LGA_EXR_Convert/+building_blocks/_benchmark_output/2026-05-04_22-22-09/`
+- Nota: se agregaron retries al validador de metadata porque `iinfo -v` tuvo timeouts espurios en la corrida anterior, sin diferencias reales de metadata.
+
+| Method | Workers | Seconds | FPS | OK | Output/Input Size | Metadata unexpected diffs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `oiiotool_sequential` | - | 17.613 | 5.68 | 100/100 | 0.295 | 0 |
+| `oiiotool_parallel_4w` | 4 | 7.124 | 14.04 | 100/100 | 0.295 | 0 |
+| `oiiotool_parallel_8w` | 8 | 6.506 | 15.37 | 100/100 | 0.295 | 0 |
+| `oiiotool_parallel_12w` | 12 | 6.755 | 14.80 | 100/100 | 0.295 | 0 |
+| `oiiotool_parallel_16w` | 16 | 7.025 | 14.24 | 100/100 | 0.295 | 0 |
+| `oiiotool_parallel_24w` | 24 | 6.741 | 14.84 | 100/100 | 0.295 | 0 |
+| `exrmetrics_sequential` | - | 63.017 | 1.59 | 100/100 | 0.249 | 0 |
+| `oiiotool_frames_single_process` | - | 13.127 | 7.62 | 100/100 | 0.295 | 0 |
+
+## Observaciones Run 02
+
+- `8 workers` es el mejor resultado claro en 100 frames: `15.37 fps`.
+- Subir a `12`, `16` o `24` workers no mejora; parece que se satura CPU/I/O alrededor de `8 workers`.
+- Contra el baseline secuencial, `8 workers` mejora de `17.613s` a `6.506s`, aprox. `2.7x`.
+- `oiiotool --frames` sigue funcionando, pero no compite con el paralelo desde Python en esta version instalada.
+- `exrmetrics` comprime mas chico (`0.249` vs `0.295`), pero es demasiado lento para este objetivo.
+- Todas las variantes preservaron metadata segun `iinfo -v`, ignorando solo diferencias esperadas de compresion/DWA.
+
+## Estado
+
+Mejor candidato actual: Python orquestando `oiiotool` en paralelo por frame con default inicial de `8 workers`.
+
+Proximo paso sugerido: probar la secuencia completa con `8 workers` y quizas `6/10 workers` para afinar el default. Despues de eso, pasar a benchmarks con resize.
 
 ## Resize
 
